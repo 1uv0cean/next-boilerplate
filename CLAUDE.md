@@ -129,6 +129,51 @@ export { Component, componentVariants };
 4. Main interactive element with variants applied
 5. Optional helper/error text below
 
+### Enhanced Component Features
+
+**Required Field Indicator:**
+```tsx
+// Add required prop to interface
+interface ComponentProps {
+  required?: boolean;
+}
+
+// In label rendering
+{label && (
+  <label className="text-sm leading-none font-medium">
+    {label}
+    {required && <span className="text-destructive ml-1">*</span>}
+  </label>
+)}
+```
+
+**Enhanced Disabled Styling:**
+- Base variants: `disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted disabled:text-muted-foreground disabled:border-muted`
+- Icons in disabled state: `text-muted-foreground/50`
+- Focus rings disabled when component is disabled
+
+**Select Component Specific:**
+- Click outside to close dropdown functionality
+- Searchable option with filtered results
+- Keyboard navigation support (Enter/Space)
+- Maximum height with scrolling (`max-h-60 overflow-auto`)
+- Option states: disabled options, selected indication
+
+**Common Props Pattern:**
+```tsx
+interface ComponentProps {
+  label?: string;
+  error?: string;
+  helperText?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  required?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  success?: boolean;
+}
+```
+
 ---
 
 📌 Examples of instructions that should be routed to `/components/ui`:

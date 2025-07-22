@@ -1,6 +1,7 @@
 'use client';
 
 import { InputDemo } from '@/components/demo/InputDemo';
+import { SelectDemo } from '@/components/demo/SelectDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const DemoPage = () => {
@@ -17,10 +18,16 @@ const DemoPage = () => {
             <TabsTrigger value="input" className="px-6 py-2">
               Input Components
             </TabsTrigger>
+            <TabsTrigger value="select" className="px-6 py-2">
+              Select Components
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="input" className="rounded-xl bg-gray-50 p-8">
           <InputDemo />
+        </TabsContent>
+        <TabsContent value="select" className="rounded-xl bg-gray-50 p-8">
+          <SelectDemo />
         </TabsContent>
       </Tabs>
     </div>

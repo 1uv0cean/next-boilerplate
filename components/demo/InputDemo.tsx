@@ -59,10 +59,11 @@ export const InputDemo = () => {
               onChange={handleChange('basic')}
             />
           </DemoItem>
-          <DemoItem label="Labeled Input">
+          <DemoItem label="Required Input">
             <Input
               label="Username"
               placeholder="Enter name"
+              required
               value={values.withLabel}
               onChange={handleChange('withLabel')}
             />

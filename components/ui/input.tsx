@@ -4,7 +4,7 @@ import { AlertCircle, Check, Eye, EyeOff } from 'lucide-react';
 import { forwardRef, useState } from 'react';
 
 const inputVariants = cva(
-  'flex w-full rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted disabled:text-muted-foreground disabled:border-muted',
   {
     variants: {
       size: {
@@ -37,6 +37,7 @@ export interface InputProps
   clearable?: boolean;
   loading?: boolean;
   success?: boolean;
+  required?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -55,6 +56,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       clearable,
       loading,
       success,
+      required,
       value,
       onChange,
       disabled,
@@ -98,12 +100,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {label}
+            {required && <span className="text-destructive ml-1">*</span>}
           </label>
         )}
 
         <div className="relative">
           {leftIcon && (
-            <div className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2">
+            <div className={cn(
+              "absolute top-1/2 left-3 -translate-y-1/2",
+              disabled ? "text-muted-foreground/50" : "text-muted-foreground"
+            )}>
               {leftIcon}
             </div>
           )}
