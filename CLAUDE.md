@@ -11,6 +11,8 @@ Follow modern best practices in:
 - Separation of concerns (UI, logic, state)
 - Minimal and meaningful abstractions
 - SOLID principles and scalable folder structure
+- Use pnpm package manager
+- Use Arrow Function
 
 Avoid shortcuts or naive implementations.  
 Always prioritize clarity, maintainability, extensibility, and testability in your code.
