@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js UI Component Boilerplate
+
+A modern Next.js boilerplate featuring a comprehensive UI component library with shadcn/ui integration, TypeScript support, and interactive demo pages.
+
+## Features
+
+- ⚡ **Next.js 14** with App Router
+- 🎨 **Tailwind CSS** for styling
+- 📦 **shadcn/ui** components
+- 🔧 **TypeScript** for type safety
+- 🎯 **ESLint & Prettier** for code formatting
+- 📱 **Responsive Design** with mobile-first approach
+- 🧪 **Interactive Demo Pages** for component testing
+- 🎭 **Clean Architecture** following SOLID principles
+
+## UI Components
+
+### Input Component
+
+- Multiple size variants (small, medium, large)
+- State variants (default, error, success)
+- Special features (password toggle, clear button)
+- Icon support (left, right, or both)
+- Various input types (email, phone, number, etc.)
+- Loading and disabled states
+- Built-in validation and error handling
+
+## Demo Page
+
+Visit `/demo` to test all component features interactively. The demo page includes:
+
+- **Basic Examples** - Simple input variations
+- **Size Variants** - Different input sizes
+- **State Variants** - Error and success states
+- **Special Features** - Password toggle, clear functionality
+- **Icons** - Left and right icon placement
+- **Input Types** - Email, phone, number inputs
+- **States** - Loading, disabled conditions
+- **Complex Examples** - Advanced search, security codes
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended)
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd next-boilerplate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run the development server:
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Visit [http://localhost:3000/demo](http://localhost:3000/demo) to explore component demos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Scripts
 
-## Deploy on Vercel
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint
+- `pnpm format` - Format code with Prettier
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+├── app/                    # Next.js App Router
+│   ├── demo/              # Demo pages
+│   ├── globals.css        # Global styles
+│   └── layout.tsx         # Root layout
+├── components/
+│   ├── ui/                # Reusable UI components
+│   └── demo/              # Demo-specific components
+├── lib/                   # Utility functions
+└── CLAUDE.md             # Development guidelines
+```
+
+## Tech Stack
+
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Library**: shadcn/ui
+- **Icons**: Lucide React
+- **Package Manager**: pnpm
+- **Code Quality**: ESLint, Prettier
