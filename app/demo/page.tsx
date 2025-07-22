@@ -2,6 +2,7 @@
 
 import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
+import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const DemoPage = () => {
@@ -21,6 +22,9 @@ const DemoPage = () => {
             <TabsTrigger value="select" className="px-6 py-2">
               Select Components
             </TabsTrigger>
+            <TabsTrigger value="button" className="px-6 py-2">
+              Button Components
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="input" className="rounded-xl bg-gray-50 p-8">
@@ -28,6 +32,9 @@ const DemoPage = () => {
         </TabsContent>
         <TabsContent value="select" className="rounded-xl bg-gray-50 p-8">
           <SelectDemo />
+        </TabsContent>
+        <TabsContent value="button" className="rounded-xl bg-gray-50 p-8">
+          <ButtonDemo />
         </TabsContent>
       </Tabs>
     </div>
