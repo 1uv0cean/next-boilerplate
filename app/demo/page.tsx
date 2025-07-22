@@ -4,6 +4,7 @@ import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
+import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const DemoPage = () => {
@@ -29,6 +30,9 @@ const DemoPage = () => {
             <TabsTrigger value="datepicker" className="px-6 py-2">
               Date Components
             </TabsTrigger>
+            <TabsTrigger value="daterange" className="px-6 py-2">
+              DateRange Components
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="input" className="rounded-xl bg-gray-50 p-8">
@@ -42,6 +46,9 @@ const DemoPage = () => {
         </TabsContent>
         <TabsContent value="datepicker" className="rounded-xl bg-gray-50 p-8">
           <DatePickerDemo />
+        </TabsContent>
+        <TabsContent value="daterange" className="rounded-xl bg-gray-50 p-8">
+          <DateRangePickerDemo />
         </TabsContent>
       </Tabs>
     </div>
