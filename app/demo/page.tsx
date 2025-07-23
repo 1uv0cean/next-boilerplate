@@ -3,6 +3,7 @@
 import { AccordionDemo } from '@/components/demo/AccordionDemo';
 import { BreadcrumbDemo } from '@/components/demo/BreadcrumbDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
+import { CardDemo } from '@/components/demo/CardDemo';
 import { CheckboxDemo } from '@/components/demo/CheckboxDemo';
 import { DataTableDemo } from '@/components/demo/DataTableDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
@@ -23,6 +24,7 @@ const componentTabs = [
   { id: 'accordion', label: 'Accordion', component: AccordionDemo },
   { id: 'breadcrumb', label: 'Breadcrumb', component: BreadcrumbDemo },
   { id: 'button', label: 'Button', component: ButtonDemo },
+  { id: 'card', label: 'Card', component: CardDemo },
   { id: 'checkbox', label: 'Checkbox', component: CheckboxDemo },
   { id: 'datatable', label: 'Data Table', component: DataTableDemo },
   { id: 'datepicker', label: 'Date Picker', component: DatePickerDemo },
