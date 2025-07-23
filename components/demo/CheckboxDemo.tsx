@@ -88,12 +88,21 @@ export const CheckboxDemo = () => {
   const [largeText, setLargeText] = useState(true);
   const [screenReader, setScreenReader] = useState(true);
 
-  // Custom colors
+  // Custom colors - Basic examples
   const [customColor1, setCustomColor1] = useState(true);
   const [customColor2, setCustomColor2] = useState(false);
   const [customColor3, setCustomColor3] = useState(true);
   const [customColor4, setCustomColor4] = useState(false);
   const [customColor5, setCustomColor5] = useState(true);
+
+  // Custom colors - Size variants
+  const [customSizeSmall, setCustomSizeSmall] = useState(false);
+  const [customSizeMedium, setCustomSizeMedium] = useState(true);
+  const [customSizeLarge, setCustomSizeLarge] = useState(false);
+
+  // Custom colors - Required fields
+  const [customRequired1, setCustomRequired1] = useState(false);
+  const [customRequired2, setCustomRequired2] = useState(true);
 
   const handleFeatureChange = (key: keyof typeof features) => (checked: boolean) => {
     setFeatures(prev => ({ ...prev, [key]: checked }));
@@ -481,22 +490,22 @@ export const CheckboxDemo = () => {
               size="sm"
               customColor="#e91e63"
               label="Small pink"
-              checked={customColor1}
-              onCheckedChange={setCustomColor1}
+              checked={customSizeSmall}
+              onCheckedChange={setCustomSizeSmall}
             />
             <Checkbox 
               size="md"
               customColor="#9c27b0"
               label="Medium purple"
-              checked={customColor2}
-              onCheckedChange={setCustomColor2}
+              checked={customSizeMedium}
+              onCheckedChange={setCustomSizeMedium}
             />
             <Checkbox 
               size="lg"
               customColor="#607d8b"
               label="Large blue-grey"
-              checked={customColor3}
-              onCheckedChange={setCustomColor3}
+              checked={customSizeLarge}
+              onCheckedChange={setCustomSizeLarge}
             />
           </DemoItem>
 
@@ -506,16 +515,16 @@ export const CheckboxDemo = () => {
               label="Accept orange terms"
               description="Please accept our special terms"
               required
-              checked={customColor4}
-              onCheckedChange={setCustomColor4}
+              checked={customRequired1}
+              onCheckedChange={setCustomRequired1}
             />
             <Checkbox 
               customColor="#4caf50"
               label="Green agreement"
               description="Eco-friendly options enabled"
               required
-              checked={customColor5}
-              onCheckedChange={setCustomColor5}
+              checked={customRequired2}
+              onCheckedChange={setCustomRequired2}
             />
           </DemoItem>
         </div>
