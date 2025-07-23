@@ -12,6 +12,8 @@ import { SelectDemo } from '@/components/demo/SelectDemo';
 import { SwitchDemo } from '@/components/demo/SwitchDemo';
 import { TableDemo } from '@/components/demo/TableDemo';
 import { TextareaDemo } from '@/components/demo/TextareaDemo';
+import { ToastDemo } from '@/components/demo/ToastDemo';
+import { ToastProvider } from '@/components/ui/toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Component configuration for easy management and extensibility
@@ -28,49 +30,52 @@ const componentTabs = [
   { id: 'switch', label: 'Switch', component: SwitchDemo },
   { id: 'table', label: 'Table', component: TableDemo },
   { id: 'textarea', label: 'Textarea', component: TextareaDemo },
+  { id: 'toast', label: 'Toast', component: ToastDemo },
 ] as const;
 
 const DemoPage = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 text-center">
-        <h1 className="mb-2 text-4xl font-bold tracking-tight">Component Library</h1>
-        <p className="text-muted-foreground text-lg">
-          Explore our comprehensive collection of UI components
-        </p>
-      </div>
-
-      <Tabs defaultValue="accordion" className="space-y-6">
-        {/* Responsive Tab Navigation */}
-        <div className="w-full">
-          <div className="mx-auto max-w-fit">
-            <TabsList className="bg-muted/50 inline-grid h-auto grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-4 lg:flex lg:h-12">
-              {componentTabs.map(({ id, label }) => (
-                <TabsTrigger
-                  key={id}
-                  value={id}
-                  className="data-[state=active]:bg-background flex-1 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition-all data-[state=active]:shadow-sm lg:px-6"
-                >
-                  {label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
+    <ToastProvider>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold tracking-tight">Component Library</h1>
+          <p className="text-muted-foreground text-lg">
+            Explore our comprehensive collection of UI components
+          </p>
         </div>
-        {/* Dynamic Tab Content */}
-        {componentTabs.map(({ id, component: Component }) => (
-          <TabsContent
-            key={id}
-            value={id}
-            className="from-background to-muted/20 rounded-2xl border bg-gradient-to-br p-6 shadow-sm md:p-8"
-          >
-            <div className="mx-auto flex max-w-6xl justify-center">
-              <Component />
+
+        <Tabs defaultValue="accordion" className="space-y-6">
+          {/* Responsive Tab Navigation */}
+          <div className="w-full">
+            <div className="mx-auto max-w-fit">
+              <TabsList className="bg-muted/50 inline-grid h-auto grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-4 lg:flex lg:h-12">
+                {componentTabs.map(({ id, label }) => (
+                  <TabsTrigger
+                    key={id}
+                    value={id}
+                    className="data-[state=active]:bg-background flex-1 rounded-lg px-3 py-2 text-sm font-medium whitespace-nowrap transition-all data-[state=active]:shadow-sm lg:px-6"
+                  >
+                    {label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
             </div>
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
+          </div>
+          {/* Dynamic Tab Content */}
+          {componentTabs.map(({ id, component: Component }) => (
+            <TabsContent
+              key={id}
+              value={id}
+              className="from-background to-muted/20 rounded-2xl border bg-gradient-to-br p-6 shadow-sm md:p-8"
+            >
+              <div className="mx-auto flex max-w-6xl justify-center">
+                <Component />
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+    </ToastProvider>
   );
 };
 
