@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
 import { AlertCircle, Calendar, Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { forwardRef, useState, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
 const dateRangePickerVariants = cva(
   'flex w-full rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted disabled:text-muted-foreground disabled:border-muted',
@@ -33,7 +33,7 @@ export interface DateRange {
 }
 
 export interface DateRangePickerProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'size'>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'size' | 'defaultValue'>,
     VariantProps<typeof dateRangePickerVariants> {
   label?: string;
   error?: string;
@@ -77,11 +77,9 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
   ) => {
     const [isOpen, setIsOpen] = useState(false);
     const [internalValue, setInternalValue] = useState<DateRange>(
-      value || defaultValue || { startDate: null, endDate: null }
+      value || defaultValue || { startDate: null, endDate: null },
     );
-    const [currentMonth, setCurrentMonth] = useState(
-      internalValue.startDate || new Date()
-    );
+    const [currentMonth, setCurrentMonth] = useState(internalValue.startDate || new Date());
     const [selectingStart, setSelectingStart] = useState(true);
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
 
@@ -90,16 +88,18 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     const effectiveVariant = hasError ? 'error' : hasSuccess ? 'success' : variant;
 
     const selectedRange = value !== undefined ? value : internalValue;
-    
+
     const formatDateRange = (range: DateRange) => {
       if (!range.startDate && !range.endDate) return placeholder;
-      
-      const formatDate = (date: Date | null) => 
-        date ? date.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        }) : '';
+
+      const formatDate = (date: Date | null) =>
+        date
+          ? date.toLocaleDateString('ko-KR', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+          : '';
 
       if (range.startDate && range.endDate) {
         return `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`;
@@ -114,7 +114,7 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
 
     const handleDateSelect = (date: Date) => {
       if (disabled) return;
-      
+
       // Check min/max date constraints
       if (minDate && date < minDate) return;
       if (maxDate && date > maxDate) return;
@@ -133,10 +133,12 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
         if (!newRange.startDate || date >= newRange.startDate) {
           // Check maxDays constraint
           if (maxDays && newRange.startDate) {
-            const daysDiff = Math.ceil((date.getTime() - newRange.startDate.getTime()) / (1000 * 60 * 60 * 24));
+            const daysDiff = Math.ceil(
+              (date.getTime() - newRange.startDate.getTime()) / (1000 * 60 * 60 * 24),
+            );
             if (daysDiff > maxDays) return;
           }
-          
+
           newRange.endDate = date;
           setIsOpen(false);
           setSelectingStart(true);
@@ -163,7 +165,7 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     const handleClear = () => {
       if (disabled) return;
       const clearedRange = { startDate: null, endDate: null };
-      
+
       if (value === undefined) {
         setInternalValue(clearedRange);
       }
@@ -174,7 +176,10 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     // Close dropdown when clicking outside
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (dateRangePickerRef.current && !dateRangePickerRef.current.contains(event.target as Node)) {
+        if (
+          dateRangePickerRef.current &&
+          !dateRangePickerRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
           setSelectingStart(true);
         }
@@ -200,13 +205,15 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     const isDateDisabled = (date: Date) => {
       if (minDate && date < minDate) return true;
       if (maxDate && date > maxDate) return true;
-      
+
       // If selecting end date and maxDays is set
       if (!selectingStart && maxDays && selectedRange.startDate) {
-        const daysDiff = Math.ceil((date.getTime() - selectedRange.startDate.getTime()) / (1000 * 60 * 60 * 24));
+        const daysDiff = Math.ceil(
+          (date.getTime() - selectedRange.startDate.getTime()) / (1000 * 60 * 60 * 24),
+        );
         if (daysDiff > maxDays) return true;
       }
-      
+
       return false;
     };
 
@@ -233,7 +240,7 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
     };
 
     const navigateMonth = (direction: 'prev' | 'next') => {
-      setCurrentMonth(prev => {
+      setCurrentMonth((prev) => {
         const newMonth = new Date(prev);
         if (direction === 'prev') {
           newMonth.setMonth(prev.getMonth() - 1);
@@ -270,18 +277,18 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
             type="button"
             onClick={() => !isDisabled && handleDateSelect(date)}
             className={cn(
-              'h-8 w-8 text-sm rounded hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring relative',
+              'hover:bg-accent hover:text-accent-foreground focus:ring-ring relative h-8 w-8 rounded text-sm focus:ring-1 focus:outline-none',
               isSelected && 'bg-primary text-primary-foreground hover:bg-primary/90 z-10',
               isInRange && !isSelected && 'bg-primary/20 text-primary',
               isStart && 'rounded-r-none',
               isEnd && 'rounded-l-none',
-              isToday && !isSelected && !isInRange && 'font-semibold text-primary',
-              isDisabled && 'opacity-50 cursor-not-allowed hover:bg-transparent hover:text-current'
+              isToday && !isSelected && !isInRange && 'text-primary font-semibold',
+              isDisabled && 'cursor-not-allowed opacity-50 hover:bg-transparent hover:text-current',
             )}
             disabled={isDisabled}
           >
             {day}
-          </button>
+          </button>,
         );
       }
 
@@ -303,7 +310,7 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
             className={cn(
               dateRangePickerVariants({ size, variant: effectiveVariant }),
               leftIcon && 'pl-10',
-              'pr-3 justify-between items-center min-w-0',
+              'min-w-0 items-center justify-between pr-3',
               isOpen && !disabled && 'ring-ring ring-2 ring-offset-2',
               className,
             )}
@@ -319,90 +326,98 @@ const DateRangePicker = forwardRef<HTMLDivElement, DateRangePickerProps>(
             }}
             {...props}
           >
-            <span className={cn('truncate flex-1', !selectedRange.startDate && !selectedRange.endDate && 'text-muted-foreground')}>
+            <span
+              className={cn(
+                'flex-1 truncate',
+                !selectedRange.startDate && !selectedRange.endDate && 'text-muted-foreground',
+              )}
+            >
               {displayText}
             </span>
 
-            <div className="flex items-center space-x-1 flex-shrink-0">
-              {hasError && <AlertCircle className="h-4 w-4 text-destructive" />}
+            <div className="flex flex-shrink-0 items-center space-x-1">
+              {hasError && <AlertCircle className="text-destructive h-4 w-4" />}
               {hasSuccess && <Check className="h-4 w-4 text-green-500" />}
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <Calendar className="text-muted-foreground h-4 w-4" />
             </div>
           </div>
 
           {leftIcon && (
-            <div className={cn(
-              "absolute left-3 top-1/2 -translate-y-1/2",
-              disabled ? "text-muted-foreground/50" : "text-muted-foreground"
-            )}>
+            <div
+              className={cn(
+                'absolute top-1/2 left-3 -translate-y-1/2',
+                disabled ? 'text-muted-foreground/50' : 'text-muted-foreground',
+              )}
+            >
               {leftIcon}
             </div>
           )}
 
           {isOpen && !disabled && (
-            <div className="absolute top-full z-50 mt-1 w-80 rounded-md border border-input bg-background shadow-lg p-3">
+            <div className="border-input bg-background absolute top-full z-50 mt-1 w-80 rounded-md border p-3 shadow-lg">
               {/* Selection Status */}
-              <div className="mb-3 p-2 bg-muted rounded text-xs text-muted-foreground">
+              <div className="bg-muted text-muted-foreground mb-3 rounded p-2 text-xs">
                 {selectingStart ? '시작일을 선택해주세요' : '종료일을 선택해주세요'}
                 {maxDays && ` (최대 ${maxDays}일)`}
               </div>
 
               {/* Calendar Header */}
-              <div className="flex items-center justify-between mb-4">
+              <div className="mb-4 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => navigateMonth('prev')}
-                  className="p-1 hover:bg-accent rounded"
+                  className="hover:bg-accent rounded p-1"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
-                
+
                 <div className="font-semibold">
                   {currentMonth.toLocaleDateString('ko-KR', {
                     year: 'numeric',
                     month: 'long',
                   })}
                 </div>
-                
+
                 <button
                   type="button"
                   onClick={() => navigateMonth('next')}
-                  className="p-1 hover:bg-accent rounded"
+                  className="hover:bg-accent rounded p-1"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
 
               {/* Days of week header */}
-              <div className="grid grid-cols-7 mb-2">
-                {['일', '월', '화', '수', '목', '금', '토'].map(day => (
-                  <div key={day} className="h-8 w-8 text-xs font-medium text-muted-foreground flex items-center justify-center">
+              <div className="mb-2 grid grid-cols-7">
+                {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
+                  <div
+                    key={day}
+                    className="text-muted-foreground flex h-8 w-8 items-center justify-center text-xs font-medium"
+                  >
                     {day}
                   </div>
                 ))}
               </div>
 
               {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-0">
-                {renderCalendar()}
-              </div>
+              <div className="grid grid-cols-7 gap-0">{renderCalendar()}</div>
 
               {/* Action buttons */}
-              <div className="mt-3 pt-3 border-t border-border flex justify-between">
+              <div className="border-border mt-3 flex justify-between border-t pt-3">
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="text-sm text-muted-foreground hover:text-foreground flex items-center"
+                  className="text-muted-foreground hover:text-foreground flex items-center text-sm"
                 >
-                  <X className="h-3 w-3 mr-1" />
+                  <X className="mr-1 h-3 w-3" />
                   Clear
                 </button>
-                
+
                 {selectedRange.startDate && (
                   <button
                     type="button"
                     onClick={() => setSelectingStart(true)}
-                    className="text-sm text-primary hover:text-primary/80"
+                    className="text-primary hover:text-primary/80 text-sm"
                   >
                     Select start date
                   </button>

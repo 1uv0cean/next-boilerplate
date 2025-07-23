@@ -5,27 +5,24 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { ChevronRight, Home, MoreHorizontal } from 'lucide-react';
 import { forwardRef } from 'react';
 
-const breadcrumbVariants = cva(
-  'flex items-center space-x-1 text-sm text-muted-foreground',
-  {
-    variants: {
-      size: {
-        sm: 'text-xs',
-        md: 'text-sm',
-        lg: 'text-base',
-      },
-      variant: {
-        default: '',
-        ghost: 'bg-transparent',
-        outline: 'border border-border rounded-md px-3 py-2',
-      },
+const breadcrumbVariants = cva('flex items-center space-x-1 text-sm text-muted-foreground', {
+  variants: {
+    size: {
+      sm: 'text-xs',
+      md: 'text-sm',
+      lg: 'text-base',
     },
-    defaultVariants: {
-      size: 'md',
-      variant: 'default',
+    variant: {
+      default: '',
+      ghost: 'bg-transparent',
+      outline: 'border border-border rounded-md px-3 py-2',
     },
-  }
-);
+  },
+  defaultVariants: {
+    size: 'md',
+    variant: 'default',
+  },
+});
 
 const breadcrumbItemVariants = cva(
   'inline-flex items-center gap-1.5 transition-colors hover:text-foreground',
@@ -39,7 +36,7 @@ const breadcrumbItemVariants = cva(
     defaultVariants: {
       active: false,
     },
-  }
+  },
 );
 
 const breadcrumbLinkVariants = cva(
@@ -54,7 +51,7 @@ const breadcrumbLinkVariants = cva(
     defaultVariants: {
       active: false,
     },
-  }
+  },
 );
 
 export interface BreadcrumbItem {
@@ -65,7 +62,7 @@ export interface BreadcrumbItem {
 }
 
 export interface BreadcrumbProps
-  extends React.HTMLAttributes<HTMLNavElement>,
+  extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof breadcrumbVariants> {
   items: BreadcrumbItem[];
   separator?: React.ReactNode;
@@ -94,13 +91,14 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
     ref,
   ) => {
     // Handle item collapse when maxItems is set
-    const processedItems = maxItems && items.length > maxItems
-      ? [
-          ...items.slice(0, 1),
-          { label: '...', icon: <MoreHorizontal className="h-4 w-4" /> },
-          ...items.slice(items.length - (maxItems - 2)),
-        ]
-      : items;
+    const processedItems =
+      maxItems && items.length > maxItems
+        ? [
+            ...items.slice(0, 1),
+            { label: '...', icon: <MoreHorizontal className="h-4 w-4" /> },
+            ...items.slice(items.length - (maxItems - 2)),
+          ]
+        : items;
 
     const handleItemClick = (item: BreadcrumbItem, index: number) => {
       if (item.onClick) {
@@ -110,13 +108,11 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
 
     const renderBreadcrumbItem = (item: BreadcrumbItem, index: number, isLast: boolean) => {
       const isCollapsed = item.label === '...';
-      
+
       if (isCollapsed) {
         return (
           <div key={`collapsed-${index}`} className="flex items-center gap-1.5">
-            <span className={cn(breadcrumbItemVariants({ active: false }))}>
-              {item.icon}
-            </span>
+            <span className={cn(breadcrumbItemVariants({ active: false }))}>{item.icon}</span>
           </div>
         );
       }
@@ -219,7 +215,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
                   </span>
                 )}
               </li>
-              {processedItems.length > 0 && <li>{renderSeparator('home')}</li>}
+              {processedItems.length > 0 && <li>{renderSeparator(0)}</li>}
             </>
           )}
 
@@ -236,7 +232,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
         </ol>
       </nav>
     );
-  }
+  },
 );
 
 Breadcrumb.displayName = 'Breadcrumb';
