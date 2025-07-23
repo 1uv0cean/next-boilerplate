@@ -1,6 +1,7 @@
 'use client';
 
 import { AccordionDemo } from '@/components/demo/AccordionDemo';
+import { BreadcrumbDemo } from '@/components/demo/BreadcrumbDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { CheckboxDemo } from '@/components/demo/CheckboxDemo';
 import { DataTableDemo } from '@/components/demo/DataTableDemo';
@@ -19,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 // Component configuration for easy management and extensibility
 const componentTabs = [
   { id: 'accordion', label: 'Accordion', component: AccordionDemo },
+  { id: 'breadcrumb', label: 'Breadcrumb', component: BreadcrumbDemo },
   { id: 'button', label: 'Button', component: ButtonDemo },
   { id: 'checkbox', label: 'Checkbox', component: CheckboxDemo },
   { id: 'datatable', label: 'Data Table', component: DataTableDemo },
