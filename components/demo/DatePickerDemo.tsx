@@ -12,8 +12,10 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section
+      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+    >
+      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -27,7 +29,7 @@ interface DemoItemProps {
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div>{children}</div>
     </div>
   );
@@ -45,14 +47,14 @@ export const DatePickerDemo = () => {
   });
 
   const handleChange = (key: string) => (date: Date | null) => {
-    setValues(prev => ({ ...prev, [key]: date }));
+    setValues((prev) => ({ ...prev, [key]: date }));
   };
 
   // Date constraints
   const today = new Date();
   const nextWeek = new Date();
   nextWeek.setDate(today.getDate() + 7);
-  
+
   const nextMonth = new Date();
   nextMonth.setMonth(today.getMonth() + 1);
 
@@ -62,7 +64,7 @@ export const DatePickerDemo = () => {
   return (
     <div className="max-w-5xl space-y-8">
       <DemoSection title="Basic Examples">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <DemoItem label="Basic DatePicker">
             <DatePicker
               placeholder="Select date"
@@ -83,30 +85,21 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <DemoItem label="Small">
-            <DatePicker
-              size="sm"
-              placeholder="Small date picker"
-            />
+            <DatePicker size="sm" placeholder="Small date picker" />
           </DemoItem>
           <DemoItem label="Medium">
-            <DatePicker
-              size="md"
-              placeholder="Medium date picker"
-            />
+            <DatePicker size="md" placeholder="Medium date picker" />
           </DemoItem>
           <DemoItem label="Large">
-            <DatePicker
-              size="lg"
-              placeholder="Large date picker"
-            />
+            <DatePicker size="lg" placeholder="Large date picker" />
           </DemoItem>
         </div>
       </DemoSection>
 
       <DemoSection title="State Variants">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <DemoItem label="Error State">
             <DatePicker
               variant="error"
@@ -131,7 +124,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="With Icons">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <DemoItem label="Calendar Icon">
             <DatePicker
               label="Schedule Date"
@@ -152,7 +145,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Date Constraints">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <DemoItem label="Future Dates Only">
             <DatePicker
               label="Appointment Date"
@@ -174,13 +167,9 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <DemoItem label="Disabled">
-            <DatePicker
-              label="Disabled Date"
-              placeholder="Cannot select date"
-              disabled
-            />
+            <DatePicker label="Disabled Date" placeholder="Cannot select date" disabled />
           </DemoItem>
           <DemoItem label="With Default Value">
             <DatePicker
@@ -196,7 +185,7 @@ export const DatePickerDemo = () => {
       <DemoSection title="Business Use Cases">
         <div className="space-y-8">
           <DemoItem label="Shipping Schedule">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <DatePicker
                 label="Departure Date"
                 placeholder="Select departure date"
@@ -213,7 +202,9 @@ export const DatePickerDemo = () => {
                 minDate={values.departure || today}
                 value={values.arrival}
                 onDateChange={handleChange('arrival')}
-                helperText={values.departure ? "Must be after departure date" : "Select departure date first"}
+                helperText={
+                  values.departure ? 'Must be after departure date' : 'Select departure date first'
+                }
               />
             </div>
           </DemoItem>
