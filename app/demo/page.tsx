@@ -11,6 +11,7 @@ import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
 import { SwitchDemo } from '@/components/demo/SwitchDemo';
 import { TableDemo } from '@/components/demo/TableDemo';
+import { TextareaDemo } from '@/components/demo/TextareaDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Component configuration for easy management and extensibility
@@ -26,6 +27,7 @@ const componentTabs = [
   { id: 'select', label: 'Select', component: SelectDemo },
   { id: 'switch', label: 'Switch', component: SwitchDemo },
   { id: 'table', label: 'Table', component: TableDemo },
+  { id: 'textarea', label: 'Textarea', component: TextareaDemo },
 ] as const;
 
 const DemoPage = () => {
