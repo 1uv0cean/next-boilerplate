@@ -1,5 +1,6 @@
 'use client';
 
+import { AccordionDemo } from '@/components/demo/AccordionDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { CheckboxDemo } from '@/components/demo/CheckboxDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
@@ -8,10 +9,12 @@ import { DialogDemo } from '@/components/demo/DialogDemo';
 import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
 import { SwitchDemo } from '@/components/demo/SwitchDemo';
+import { TableDemo } from '@/components/demo/TableDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Component configuration for easy management and extensibility
 const componentTabs = [
+  { id: 'accordion', label: 'Accordion', component: AccordionDemo },
   { id: 'button', label: 'Button', component: ButtonDemo },
   { id: 'checkbox', label: 'Checkbox', component: CheckboxDemo },
   { id: 'datepicker', label: 'Date Picker', component: DatePickerDemo },
@@ -20,6 +23,7 @@ const componentTabs = [
   { id: 'input', label: 'Input', component: InputDemo },
   { id: 'select', label: 'Select', component: SelectDemo },
   { id: 'switch', label: 'Switch', component: SwitchDemo },
+  { id: 'table', label: 'Table', component: TableDemo },
 ] as const;
 
 const DemoPage = () => {
@@ -32,7 +36,7 @@ const DemoPage = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="button" className="space-y-6">
+      <Tabs defaultValue="accordion" className="space-y-6">
         {/* Responsive Tab Navigation */}
         <div className="w-full">
           <div className="mx-auto max-w-fit">
