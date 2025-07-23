@@ -3,6 +3,7 @@
 import { AccordionDemo } from '@/components/demo/AccordionDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { CheckboxDemo } from '@/components/demo/CheckboxDemo';
+import { DataTableDemo } from '@/components/demo/DataTableDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
 import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
 import { DialogDemo } from '@/components/demo/DialogDemo';
@@ -17,6 +18,7 @@ const componentTabs = [
   { id: 'accordion', label: 'Accordion', component: AccordionDemo },
   { id: 'button', label: 'Button', component: ButtonDemo },
   { id: 'checkbox', label: 'Checkbox', component: CheckboxDemo },
+  { id: 'datatable', label: 'Data Table', component: DataTableDemo },
   { id: 'datepicker', label: 'Date Picker', component: DatePickerDemo },
   { id: 'daterange', label: 'Date Range', component: DateRangePickerDemo },
   { id: 'dialog', label: 'Dialog', component: DialogDemo },
