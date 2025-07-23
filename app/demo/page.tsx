@@ -5,6 +5,7 @@ import { SelectDemo } from '@/components/demo/SelectDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
 import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
+import { DialogDemo } from '@/components/demo/DialogDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const DemoPage = () => {
@@ -33,6 +34,9 @@ const DemoPage = () => {
             <TabsTrigger value="daterange" className="px-6 py-2">
               DateRange Components
             </TabsTrigger>
+            <TabsTrigger value="dialog" className="px-6 py-2">
+              Dialog Components
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="input" className="rounded-xl bg-gray-50 p-8">
@@ -49,6 +53,9 @@ const DemoPage = () => {
         </TabsContent>
         <TabsContent value="daterange" className="rounded-xl bg-gray-50 p-8">
           <DateRangePickerDemo />
+        </TabsContent>
+        <TabsContent value="dialog" className="rounded-xl bg-gray-50 p-8">
+          <DialogDemo />
         </TabsContent>
       </Tabs>
     </div>
