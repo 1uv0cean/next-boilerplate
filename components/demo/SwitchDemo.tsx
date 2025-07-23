@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
 import { useState } from 'react';
 
 interface DemoSectionProps {
@@ -32,29 +32,26 @@ const DemoItem = ({ label, children }: DemoItemProps) => {
   );
 };
 
-export const CheckboxDemo = () => {
-  const [basicChecked, setBasicChecked] = useState(false);
-  const [newsletter, setNewsletter] = useState(true);
-  const [notifications, setNotifications] = useState(false);
-  const [terms, setTerms] = useState(false);
-  const [privacy, setPrivacy] = useState(false);
-  const [indeterminate, setIndeterminate] = useState(true);
-  const [features, setFeatures] = useState({
-    feature1: true,
-    feature2: false,
-    feature3: true,
-  });
-
-  // Simple checkbox states
+export const SwitchDemo = () => {
+  // Basic examples
   const [simple1, setSimple1] = useState(false);
   const [simple2, setSimple2] = useState(true);
-  const [simple3, setSimple3] = useState(true);
+  const [simple3, setSimple3] = useState(false);
+
+  // With labels
+  const [basicSwitch, setBasicSwitch] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
 
   // Variant states
   const [defaultVariant, setDefaultVariant] = useState(true);
   const [successVariant, setSuccessVariant] = useState(true);
-  const [errorVariant, setErrorVariant] = useState(true);
+  const [errorVariant, setErrorVariant] = useState(false);
+
+  // Error states
+  const [terms, setTerms] = useState(false);
+  const [privacy, setPrivacy] = useState(false);
 
   // Account settings
   const [emailNotif, setEmailNotif] = useState(true);
@@ -69,17 +66,6 @@ export const CheckboxDemo = () => {
 
   // Age confirmation
   const [ageConfirm, setAgeConfirm] = useState(true);
-
-  // Subscription preferences
-  const [weeklyDigest, setWeeklyDigest] = useState(true);
-  const [productUpdates, setProductUpdates] = useState(true);
-  const [specialOffers, setSpecialOffers] = useState(false);
-  const [eventInvites, setEventInvites] = useState(false);
-
-  // Accessibility options
-  const [highContrast, setHighContrast] = useState(false);
-  const [largeText, setLargeText] = useState(true);
-  const [screenReader, setScreenReader] = useState(true);
 
   // Custom colors - Basic examples
   const [customColor1, setCustomColor1] = useState(true);
@@ -97,50 +83,54 @@ export const CheckboxDemo = () => {
   const [customRequired1, setCustomRequired1] = useState(false);
   const [customRequired2, setCustomRequired2] = useState(true);
 
-  const handleFeatureChange = (key: keyof typeof features) => (checked: boolean) => {
-    setFeatures(prev => ({ ...prev, [key]: checked }));
-  };
+  // Advanced features
+  const [autoSave, setAutoSave] = useState(true);
+  const [offlineMode, setOfflineMode] = useState(false);
+  const [syncEnabled, setSyncEnabled] = useState(true);
+  const [backupEnabled, setBackupEnabled] = useState(false);
 
-  const allFeaturesChecked = Object.values(features).every(Boolean);
-  const someFeaturesChecked = Object.values(features).some(Boolean);
+  // Accessibility options
+  const [highContrast, setHighContrast] = useState(false);
+  const [largeText, setLargeText] = useState(true);
+  const [screenReader, setScreenReader] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   return (
     <div className="max-w-5xl space-y-8">
       <DemoSection title="Basic Examples">
         <div className="space-y-8">
-          <DemoItem label="Simple Checkbox">
-            <Checkbox 
+          <DemoItem label="Simple Switch">
+            <Switch 
               checked={simple1}
               onCheckedChange={setSimple1}
             />
-            <Checkbox 
+            <Switch 
               checked={simple2}
               onCheckedChange={setSimple2}
             />
-            <Checkbox 
-              indeterminate={simple3}
+            <Switch 
               checked={simple3}
               onCheckedChange={setSimple3}
             />
           </DemoItem>
           
           <DemoItem label="With Labels">
-            <Checkbox 
-              label="Basic checkbox" 
-              checked={basicChecked}
-              onCheckedChange={setBasicChecked}
+            <Switch 
+              label="Basic switch" 
+              checked={basicSwitch}
+              onCheckedChange={setBasicSwitch}
             />
-            <Checkbox 
-              label="Newsletter subscription" 
-              description="Receive weekly updates about new features"
-              checked={newsletter}
-              onCheckedChange={setNewsletter}
-            />
-            <Checkbox 
-              label="Push notifications"
-              description="Get notified about important updates"
+            <Switch 
+              label="Push notifications" 
+              description="Receive notifications on your device"
               checked={notifications}
               onCheckedChange={setNotifications}
+            />
+            <Switch 
+              label="Dark mode"
+              description="Switch to dark theme for better night viewing"
+              checked={darkMode}
+              onCheckedChange={setDarkMode}
             />
           </DemoItem>
         </div>
@@ -150,19 +140,19 @@ export const CheckboxDemo = () => {
       <DemoSection title="Variant Types">
         <div className="space-y-8">
           <DemoItem label="All Variants">
-            <Checkbox 
+            <Switch 
               variant="default" 
               label="Default variant" 
               checked={defaultVariant}
               onCheckedChange={setDefaultVariant}
             />
-            <Checkbox 
+            <Switch 
               variant="success" 
               label="Success variant" 
               checked={successVariant}
               onCheckedChange={setSuccessVariant}
             />
-            <Checkbox 
+            <Switch 
               variant="error" 
               label="Error variant" 
               checked={errorVariant}
@@ -171,18 +161,18 @@ export const CheckboxDemo = () => {
           </DemoItem>
           
           <DemoItem label="Error States">
-            <Checkbox 
+            <Switch 
               variant={!terms ? "error" : "default"}
-              label="Terms and conditions" 
+              label="Accept terms and conditions" 
               description="Please accept our terms to continue"
               error={!terms ? "You must accept the terms and conditions" : undefined}
               checked={terms}
               onCheckedChange={setTerms}
               required
             />
-            <Checkbox 
+            <Switch 
               variant={!privacy ? "error" : "default"}
-              label="Privacy policy" 
+              label="Accept privacy policy" 
               error={!privacy ? "This field is required" : undefined}
               checked={privacy}
               onCheckedChange={setPrivacy}
@@ -195,71 +185,39 @@ export const CheckboxDemo = () => {
       <DemoSection title="Interactive States">
         <div className="space-y-8">
           <DemoItem label="Disabled States">
-            <Checkbox disabled label="Disabled unchecked" />
-            <Checkbox disabled checked label="Disabled checked" />
-            <Checkbox disabled indeterminate label="Disabled indeterminate" />
-          </DemoItem>
-          
-          <DemoItem label="Indeterminate State">
-            <Checkbox 
-              checked={allFeaturesChecked}
-              indeterminate={!allFeaturesChecked && someFeaturesChecked}
-              onCheckedChange={(checked) => {
-                setFeatures({
-                  feature1: checked,
-                  feature2: checked,
-                  feature3: checked,
-                });
-              }}
-              label="Select all features"
-              description="Toggle all feature options"
+            <Switch disabled label="Disabled off" />
+            <Switch disabled checked label="Disabled on" />
+            <Switch 
+              disabled 
+              label="Disabled with description"
+              description="This switch cannot be toggled"
             />
-            <div className="ml-6 space-y-2">
-              <Checkbox 
-                checked={features.feature1}
-                onCheckedChange={handleFeatureChange('feature1')}
-                label="Feature 1"
-                description="Enable advanced analytics"
-              />
-              <Checkbox 
-                checked={features.feature2}
-                onCheckedChange={handleFeatureChange('feature2')}
-                label="Feature 2"
-                description="Enable real-time notifications"
-              />
-              <Checkbox 
-                checked={features.feature3}
-                onCheckedChange={handleFeatureChange('feature3')}
-                label="Feature 3"
-                description="Enable data export"
-              />
-            </div>
           </DemoItem>
         </div>
       </DemoSection>
 
-      <DemoSection title="Form Examples">
+      <DemoSection title="Settings Examples">
         <div className="space-y-8">
           <DemoItem label="Account Settings">
-            <Checkbox 
+            <Switch 
               label="Email notifications" 
               description="Receive notifications via email"
               checked={emailNotif}
               onCheckedChange={setEmailNotif}
             />
-            <Checkbox 
+            <Switch 
               label="SMS notifications" 
               description="Receive notifications via SMS"
               checked={smsNotif}
               onCheckedChange={setSmsNotif}
             />
-            <Checkbox 
+            <Switch 
               label="Marketing emails" 
               description="Receive promotional content and offers"
               checked={marketing}
               onCheckedChange={setMarketing}
             />
-            <Checkbox 
+            <Switch 
               label="Two-factor authentication" 
               description="Add an extra layer of security to your account"
               variant="success"
@@ -269,14 +227,14 @@ export const CheckboxDemo = () => {
           </DemoItem>
           
           <DemoItem label="Privacy Preferences">
-            <Checkbox 
+            <Switch 
               label="Data collection" 
               description="Allow us to collect anonymous usage data"
               helperText="This helps us improve our service"
               checked={dataCollection}
               onCheckedChange={setDataCollection}
             />
-            <Checkbox 
+            <Switch 
               label="Third-party sharing" 
               description="Share data with trusted partners"
               disabled
@@ -284,7 +242,7 @@ export const CheckboxDemo = () => {
               checked={thirdParty}
               onCheckedChange={setThirdParty}
             />
-            <Checkbox 
+            <Switch 
               label="Cookies" 
               description="Accept all cookies for better experience"
               checked={cookies}
@@ -296,8 +254,8 @@ export const CheckboxDemo = () => {
 
       <DemoSection title="Required Fields">
         <div className="space-y-8">
-          <DemoItem label="Required Checkboxes">
-            <Checkbox 
+          <DemoItem label="Required Switches">
+            <Switch 
               label="I agree to the terms of service" 
               description="Please read and accept our terms"
               required
@@ -306,7 +264,7 @@ export const CheckboxDemo = () => {
               checked={terms}
               onCheckedChange={setTerms}
             />
-            <Checkbox 
+            <Switch 
               label="I agree to the privacy policy" 
               description="Please read and accept our privacy policy"
               required
@@ -315,7 +273,7 @@ export const CheckboxDemo = () => {
               checked={privacy}
               onCheckedChange={setPrivacy}
             />
-            <Checkbox 
+            <Switch 
               label="I am over 18 years old" 
               description="Confirm your age to proceed"
               required
@@ -327,103 +285,40 @@ export const CheckboxDemo = () => {
         </div>
       </DemoSection>
 
-      <DemoSection title="Complex Examples">
-        <div className="space-y-8">
-          <DemoItem label="Subscription Preferences">
-            <div className="space-y-4 p-4 border rounded-lg">
-              <h5 className="font-medium">Newsletter Subscriptions</h5>
-              <Checkbox 
-                label="Weekly digest" 
-                description="Get a summary of the week's content"
-                checked={weeklyDigest}
-                onCheckedChange={setWeeklyDigest}
-              />
-              <Checkbox 
-                label="Product updates" 
-                description="Be the first to know about new features"
-                checked={productUpdates}
-                onCheckedChange={setProductUpdates}
-              />
-              <Checkbox 
-                label="Special offers" 
-                description="Exclusive deals and promotions"
-                variant="success"
-                checked={specialOffers}
-                onCheckedChange={setSpecialOffers}
-              />
-              <Checkbox 
-                label="Event invitations" 
-                description="Get invited to webinars and events"
-                checked={eventInvites}
-                onCheckedChange={setEventInvites}
-              />
-            </div>
-          </DemoItem>
-          
-          <DemoItem label="Accessibility Options">
-            <div className="space-y-4 p-4 border rounded-lg">
-              <h5 className="font-medium">Accessibility Settings</h5>
-              <Checkbox 
-                size="lg"
-                label="High contrast mode" 
-                description="Use high contrast colors for better visibility"
-                checked={highContrast}
-                onCheckedChange={setHighContrast}
-              />
-              <Checkbox 
-                size="lg"
-                label="Large text" 
-                description="Increase text size throughout the application"
-                checked={largeText}
-                onCheckedChange={setLargeText}
-              />
-              <Checkbox 
-                size="lg"
-                label="Screen reader support" 
-                description="Optimize interface for screen readers"
-                variant="success"
-                checked={screenReader}
-                onCheckedChange={setScreenReader}
-              />
-            </div>
-          </DemoItem>
-        </div>
-      </DemoSection>
-
       <DemoSection title="Custom Colors">
         <div className="space-y-8">
           <DemoItem label="Hex Colors">
-            <Checkbox 
+            <Switch 
               customColor="#ff6b35"
-              label="Orange checkbox"
+              label="Orange switch"
               description="Custom orange color"
               checked={customColor1}
               onCheckedChange={setCustomColor1}
             />
-            <Checkbox 
+            <Switch 
               customColor="#7b68ee"
-              label="Purple checkbox"
+              label="Purple switch"
               description="Custom purple color"
               checked={customColor2}
               onCheckedChange={setCustomColor2}
             />
-            <Checkbox 
+            <Switch 
               customColor="#20b2aa"
-              label="Teal checkbox"
+              label="Teal switch"
               description="Custom teal color"
               checked={customColor3}
               onCheckedChange={setCustomColor3}
             />
-            <Checkbox 
+            <Switch 
               customColor="#ff1493"
-              label="Pink checkbox"
+              label="Pink switch"
               description="Custom pink color"
               checked={customColor4}
               onCheckedChange={setCustomColor4}
             />
-            <Checkbox 
+            <Switch 
               customColor="#32cd32"
-              label="Lime checkbox"
+              label="Lime switch"
               description="Custom lime color"
               checked={customColor5}
               onCheckedChange={setCustomColor5}
@@ -431,28 +326,28 @@ export const CheckboxDemo = () => {
           </DemoItem>
           
           <DemoItem label="Multiple Custom Colors">
-            <Checkbox 
+            <Switch 
               customColor="#e91e63"
-              label="Pink checkbox"
+              label="Pink switch"
               checked={customSizeSmall}
               onCheckedChange={setCustomSizeSmall}
             />
-            <Checkbox 
+            <Switch 
               customColor="#9c27b0"
-              label="Purple checkbox"
+              label="Purple switch"
               checked={customSizeMedium}
               onCheckedChange={setCustomSizeMedium}
             />
-            <Checkbox 
+            <Switch 
               customColor="#607d8b"
-              label="Blue-grey checkbox"
+              label="Blue-grey switch"
               checked={customSizeLarge}
               onCheckedChange={setCustomSizeLarge}
             />
           </DemoItem>
 
           <DemoItem label="Custom Colors with Required Fields">
-            <Checkbox 
+            <Switch 
               customColor="#ff9800"
               label="Accept orange terms"
               description="Please accept our special terms"
@@ -460,7 +355,7 @@ export const CheckboxDemo = () => {
               checked={customRequired1}
               onCheckedChange={setCustomRequired1}
             />
-            <Checkbox 
+            <Switch 
               customColor="#4caf50"
               label="Green agreement"
               description="Eco-friendly options enabled"
@@ -468,6 +363,76 @@ export const CheckboxDemo = () => {
               checked={customRequired2}
               onCheckedChange={setCustomRequired2}
             />
+          </DemoItem>
+        </div>
+      </DemoSection>
+
+      <DemoSection title="Advanced Features">
+        <div className="space-y-8">
+          <DemoItem label="App Features">
+            <div className="space-y-4 p-4 border rounded-lg">
+              <h5 className="font-medium">Application Settings</h5>
+              <Switch 
+                label="Auto-save" 
+                description="Automatically save your work"
+                checked={autoSave}
+                onCheckedChange={setAutoSave}
+              />
+              <Switch 
+                label="Offline mode" 
+                description="Enable offline functionality"
+                checked={offlineMode}
+                onCheckedChange={setOfflineMode}
+              />
+              <Switch 
+                label="Sync enabled" 
+                description="Sync data across devices"
+                variant="success"
+                checked={syncEnabled}
+                onCheckedChange={setSyncEnabled}
+              />
+              <Switch 
+                label="Backup enabled" 
+                description="Create automatic backups"
+                checked={backupEnabled}
+                onCheckedChange={setBackupEnabled}
+              />
+            </div>
+          </DemoItem>
+          
+          <DemoItem label="Accessibility Options">
+            <div className="space-y-4 p-4 border rounded-lg">
+              <h5 className="font-medium">Accessibility Settings</h5>
+              <Switch 
+                size="lg"
+                label="High contrast mode" 
+                description="Use high contrast colors for better visibility"
+                checked={highContrast}
+                onCheckedChange={setHighContrast}
+              />
+              <Switch 
+                size="lg"
+                label="Large text" 
+                description="Increase text size throughout the application"
+                checked={largeText}
+                onCheckedChange={setLargeText}
+              />
+              <Switch 
+                size="lg"
+                label="Screen reader support" 
+                description="Optimize interface for screen readers"
+                variant="success"
+                checked={screenReader}
+                onCheckedChange={setScreenReader}
+              />
+              <Switch 
+                size="lg"
+                label="Reduced motion" 
+                description="Minimize animations and transitions"
+                checked={reducedMotion}
+                onCheckedChange={setReducedMotion}
+              />
+            </div>
           </DemoItem>
         </div>
       </DemoSection>

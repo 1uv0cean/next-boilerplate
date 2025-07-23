@@ -39,14 +39,33 @@ Always prioritize clarity, maintainability, extensibility, and testability in yo
 
 ---
 
-## 🎨 UI Component Styling Standards
+## 🎨 UI Component Architecture Standards
 
 Follow these patterns for consistent, maintainable components:
 
-### CVA (Class Variance Authority) Structure
+### Component Type Categories
+
+**1. Input Components** (text-based, user entry)
+- Input, Select, DatePicker, DateRangePicker
+- Variable sizes: `sm`, `md`, `lg`
+- Support icons, validation states
+- Use `items-center` alignment
+
+**2. Toggle Components** (binary state)
+- Checkbox, Switch  
+- Fixed sizes for consistent label alignment
+- Use `items-center` alignment
+- Support custom colors and states
+
+**3. Action Components** (trigger actions)
+- Button, Dialog
+- Variable sizes and states
+- Support loading, icons, custom colors
+
+### CVA Pattern for Input Components
 ```typescript
-const componentVariants = cva(
-  "base-classes comprehensive-defaults focus-states disabled-states",
+const inputVariants = cva(
+  "base-classes focus-states disabled-states",
   {
     variants: {
       size: {
@@ -60,129 +79,122 @@ const componentVariants = cva(
         success: 'border-green-500 focus-visible:ring-green-500'
       }
     },
-    defaultVariants: {
-      size: 'md',
-      variant: 'default'
-    }
+    defaultVariants: { size: 'md', variant: 'default' }
   }
 );
 ```
 
-### Component Interface Pattern
+### CVA Pattern for Toggle Components
 ```typescript
-export interface ComponentProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'size'>,
-    VariantProps<typeof componentVariants> {
-  label?: string;
-  error?: string;
-  helperText?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  loading?: boolean;
-  // Feature-specific props...
-}
+const toggleVariants = cva(
+  "fixed-size base-classes focus-states disabled-states",
+  {
+    variants: {
+      variant: {
+        default: 'data-[state=checked]:bg-primary',
+        error: 'border-destructive focus-visible:ring-destructive', 
+        success: 'border-green-500 focus-visible:ring-green-500'
+      }
+    },
+    defaultVariants: { variant: 'default' }
+  }
+);
 ```
 
-### forwardRef Implementation
+### Universal Component Structure
 ```typescript
 const Component = forwardRef<HTMLElement, ComponentProps>(
-  ({ className, size, variant, ...props }, ref) => {
+  ({ className, variant, label, error, customColor, ...props }, ref) => {
+    const componentId = useId();
+    const hasError = !!error;
+    const effectiveVariant = hasError ? 'error' : variant;
+    
+    const customStyle = customColor ? {
+      // Apply custom color logic
+    } : {};
+
     return (
       <div className="space-y-1">
-        {/* Component structure */}
+        <div className="flex items-center space-x-2">
+          {/* Interactive element */}
+          <div className="relative">
+            <input
+              id={componentId}
+              className="peer..."
+              style={customStyle}
+              {...props}
+            />
+            {/* Visual representation */}
+          </div>
+          
+          {/* Labels */}
+          {(label || description) && (
+            <div className="space-y-0.5">
+              <label htmlFor={componentId} className="cursor-pointer...">
+                {label}
+                {required && <span className="text-destructive ml-1">*</span>}
+              </label>
+              {description && (
+                <label htmlFor={componentId} className="cursor-pointer text-xs...">
+                  {description}
+                </label>
+              )}
+            </div>
+          )}
+        </div>
+        
+        {/* Helper/Error text */}
+        {(error || helperText) && (
+          <p className="text-xs ml-[offset]">
+            {error || helperText}
+          </p>
+        )}
       </div>
     );
   }
 );
-
-Component.displayName = 'Component';
-export { Component, componentVariants };
 ```
 
 ### Design System Standards
 
 **Colors & States:**
-- Use semantic tokens: `border-input`, `bg-background`, `text-destructive`
-- Error states: `border-destructive focus-visible:ring-destructive` 
-- Success states: `border-green-500 focus-visible:ring-green-500`
+- Semantic tokens: `border-input`, `bg-background`, `text-destructive`
+- Error states: `border-destructive focus-visible:ring-destructive`
+- Success states: `border-green-500 focus-visible:ring-green-500` 
 - Muted elements: `text-muted-foreground`
 
-**Focus & Interaction:**
-- Standard focus: `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`
-- Transitions: `transition-colors` for hover/focus states
+**Focus & Accessibility:**
+- Focus ring: `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`
+- Transitions: `transition-colors` for smooth interactions
 - Disabled: `disabled:cursor-not-allowed disabled:opacity-50`
+- Labels clickable: `cursor-pointer` with `htmlFor` connection
 
-**Icons:**
-- Standard size: `h-4 w-4`
-- Position: `absolute top-1/2 -translate-y-1/2`
-- Left icons: `left-3` with `pl-10` input padding
-- Right icons: `right-3` with `pr-10` input padding
-- Colors: `text-muted-foreground hover:text-foreground`
-
-**Size Variants:**
-- Always use `sm`, `md`, `lg` naming
-- Progressive scaling with consistent ratios
-- Include both height and padding adjustments
-
-**Component Structure:**
-1. Wrapper with `space-y-1` for vertical spacing
-2. Optional label above main element
-3. Relative container for absolute-positioned icons  
-4. Main interactive element with variants applied
-5. Optional helper/error text below
-
-### Enhanced Component Features
-
-**Required Field Indicator:**
-```tsx
-// Add required prop to interface
-interface ComponentProps {
-  required?: boolean;
-}
-
-// In label rendering
-{label && (
-  <label className="text-sm leading-none font-medium">
-    {label}
-    {required && <span className="text-destructive ml-1">*</span>}
-  </label>
-)}
-```
-
-**Enhanced Disabled Styling:**
-- Base variants: `disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted disabled:text-muted-foreground disabled:border-muted`
-- Icons in disabled state: `text-muted-foreground/50`
-- Focus rings disabled when component is disabled
-
-**Select Component Specific:**
-- Click outside to close dropdown functionality
-- Searchable option with filtered results
-- Keyboard navigation support (Enter/Space)
-- Maximum height with scrolling (`max-h-60 overflow-auto`)
-- Option states: disabled options, selected indication
-
-**Common Props Pattern:**
+**Common Props Interface:**
 ```tsx
 interface ComponentProps {
   label?: string;
+  description?: string;
   error?: string;
   helperText?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
-  loading?: boolean;
-  success?: boolean;
-  customColor?: string;  // For brand-specific styling
+  customColor?: string;
+  onCheckedChange?: (checked: boolean) => void;
+  // Component-specific props...
 }
 ```
 
+**Fixed Size Implementation (Toggle Components):**
+- **Checkbox**: `h-4 w-4` with `h-3 w-3` icons
+- **Switch**: `h-5 w-9` with `h-4 w-4` thumb
+- **Rationale**: Consistent label alignment, no layout shifts
+- **Helper text offset**: Match component width (`ml-6` for checkbox, `ml-11` for switch)
+
 **Custom Color Support:**
-All interactive components should support `customColor` prop for brand-specific styling:
-- Applies to primary state (checked, active, focused)
-- Overrides variant-based colors when provided
-- Uses hex color values (#ff6b35, #7b68ee, etc.)
-- Maintains accessibility contrast ratios
+- Hex color values override variant colors
+- Applied to active/checked states
+- Maintains semantic meaning for accessibility
+- Example: `backgroundColor: checked ? customColor : defaultColor`
 
 ---
 
@@ -214,9 +226,9 @@ Do **not** place all components in `/components/ui`. Only shared UI elements go 
 - **Props**: leftIcon, rightIcon, loading, customColor
 
 #### Checkbox Component (`/components/ui/checkbox.tsx`)
+- **Fixed Size**: 4×4 for consistent alignment
 - **Variants**: default, error, success
-- **Sizes**: sm, md, lg
-- **Features**: indeterminate state, custom colors, label/description
+- **Features**: indeterminate state, custom colors, clickable labels
 - **Props**: label, description, error, helperText, indeterminate, required, customColor, onCheckedChange
 
 #### Select Component (`/components/ui/select.tsx`)
@@ -224,6 +236,12 @@ Do **not** place all components in `/components/ui`. Only shared UI elements go 
 - **Sizes**: sm, md, lg
 - **Features**: searchable, disabled options, loading state, icons
 - **Props**: options, placeholder, searchable, loading, leftIcon
+
+#### Switch Component (`/components/ui/switch.tsx`)
+- **Fixed Size**: 5×9 track with 4×4 thumb for consistent alignment
+- **Variants**: default, error, success
+- **Features**: smooth sliding animation, custom colors, clickable labels
+- **Props**: label, description, error, helperText, required, customColor, onCheckedChange
 
 #### Date Components
 - **DatePicker** (`/components/ui/datepicker.tsx`)
@@ -237,10 +255,11 @@ Do **not** place all components in `/components/ui`. Only shared UI elements go 
 
 ### Demo Components (`/components/demo/`)
 Each UI component has a corresponding comprehensive demo:
-- `InputDemo.tsx` - All input variations and use cases
 - `ButtonDemo.tsx` - Button variants, sizes, and states  
 - `CheckboxDemo.tsx` - Checkbox examples with interactive states
-- `SelectDemo.tsx` - Select dropdown demonstrations
 - `DatePickerDemo.tsx` - Date selection examples
 - `DateRangePickerDemo.tsx` - Date range selection
 - `DialogDemo.tsx` - Modal dialog examples
+- `InputDemo.tsx` - All input variations and use cases
+- `SelectDemo.tsx` - Select dropdown demonstrations
+- `SwitchDemo.tsx` - Switch toggle examples with settings scenarios

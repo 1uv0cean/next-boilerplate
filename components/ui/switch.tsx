@@ -2,20 +2,16 @@
 
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import { Check, Minus } from 'lucide-react';
 import { forwardRef, useId } from 'react';
 
-const checkboxVariants = cva(
-  'peer h-4 w-4 shrink-0 rounded-sm border border-input ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted disabled:text-muted-foreground disabled:border-muted',
+const switchVariants = cva(
+  'peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        default:
-          'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary',
-        error:
-          'border-destructive focus-visible:ring-destructive data-[state=checked]:bg-destructive data-[state=checked]:text-destructive-foreground data-[state=checked]:border-destructive',
-        success:
-          'border-green-500 focus-visible:ring-green-500 data-[state=checked]:bg-green-500 data-[state=checked]:text-white data-[state=checked]:border-green-500',
+        default: 'data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',
+        error: 'data-[state=checked]:bg-destructive data-[state=unchecked]:bg-input',
+        success: 'data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-input',
       },
     },
     defaultVariants: {
@@ -24,20 +20,23 @@ const checkboxVariants = cva(
   },
 );
 
-export interface CheckboxProps
+const switchThumbVariants = cva(
+  'pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0',
+);
+
+export interface SwitchProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
-    VariantProps<typeof checkboxVariants> {
+    VariantProps<typeof switchVariants> {
   label?: string;
   description?: string;
   error?: string;
   helperText?: string;
-  indeterminate?: boolean;
   required?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   customColor?: string;
 }
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   (
     {
       className,
@@ -46,7 +45,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       description,
       error,
       helperText,
-      indeterminate,
       required,
       checked,
       disabled,
@@ -59,7 +57,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     ref,
   ) => {
     const generatedId = useId();
-    const checkboxId = id || generatedId;
+    const switchId = id || generatedId;
     const hasError = !!error;
     const effectiveVariant = hasError ? 'error' : variant;
 
@@ -68,24 +66,20 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       onCheckedChange?.(e.target.checked);
     };
 
-    const checkboxStyle = customColor
+    const switchStyle = customColor
       ? {
-          borderColor: customColor,
-          backgroundColor: checked || indeterminate ? customColor : 'transparent',
+          backgroundColor: checked ? customColor : 'hsl(var(--input))',
         }
       : {};
 
     return (
       <div className="space-y-1">
         <div className="flex items-center space-x-2">
-          <div className="relative inline-flex h-[13.5px]">
+          <div className="relative inline-flex h-4">
             <input
               type="checkbox"
-              id={checkboxId}
-              className={cn(
-                'peer absolute inset-0 cursor-pointer opacity-0',
-                disabled && 'cursor-not-allowed',
-              )}
+              id={switchId}
+              className="peer absolute inset-0 cursor-pointer opacity-0"
               ref={ref}
               checked={checked}
               disabled={disabled}
@@ -94,20 +88,17 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             />
             <div
               className={cn(
-                checkboxVariants({ variant: customColor ? undefined : effectiveVariant }),
-                'flex items-center justify-center transition-colors',
-                !customColor && checked && 'border-current bg-current',
-                !customColor && indeterminate && 'border-current bg-current',
-                customColor && 'border-2',
+                switchVariants({ variant: customColor ? undefined : effectiveVariant }),
+                customColor && 'border-transparent',
                 className,
               )}
-              style={checkboxStyle}
-              data-state={indeterminate ? 'indeterminate' : checked ? 'checked' : 'unchecked'}
+              style={switchStyle}
+              data-state={checked ? 'checked' : 'unchecked'}
             >
-              {checked && !indeterminate && (
-                <Check className="h-3 w-3 text-white" strokeWidth={3} />
-              )}
-              {indeterminate && <Minus className="h-3 w-3 text-white" strokeWidth={3} />}
+              <div
+                className={cn(switchThumbVariants())}
+                data-state={checked ? 'checked' : 'unchecked'}
+              />
             </div>
           </div>
 
@@ -115,7 +106,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <div className="space-y-0.5">
               {label && (
                 <label
-                  htmlFor={checkboxId}
+                  htmlFor={switchId}
                   className={cn(
                     'cursor-pointer text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
                     disabled && 'cursor-not-allowed opacity-70',
@@ -127,7 +118,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               )}
               {description && (
                 <label
-                  htmlFor={checkboxId}
+                  htmlFor={switchId}
                   className={cn(
                     'text-muted-foreground block cursor-pointer text-xs',
                     disabled && 'cursor-not-allowed opacity-70',
@@ -141,7 +132,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </div>
 
         {(error || helperText) && (
-          <p className={cn('ml-6 text-xs', error ? 'text-destructive' : 'text-muted-foreground')}>
+          <p className={cn('ml-11 text-xs', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || helperText}
           </p>
         )}
@@ -150,6 +141,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   },
 );
 
-Checkbox.displayName = 'Checkbox';
+Switch.displayName = 'Switch';
 
-export { Checkbox, checkboxVariants };
+export { Switch, switchVariants };

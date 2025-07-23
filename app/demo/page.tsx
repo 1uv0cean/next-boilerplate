@@ -7,6 +7,7 @@ import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
 import { DialogDemo } from '@/components/demo/DialogDemo';
 import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
+import { SwitchDemo } from '@/components/demo/SwitchDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Component configuration for easy management and extensibility
@@ -18,6 +19,7 @@ const componentTabs = [
   { id: 'dialog', label: 'Dialog', component: DialogDemo },
   { id: 'input', label: 'Input', component: InputDemo },
   { id: 'select', label: 'Select', component: SelectDemo },
+  { id: 'switch', label: 'Switch', component: SwitchDemo },
 ] as const;
 
 const DemoPage = () => {
