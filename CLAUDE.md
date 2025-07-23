@@ -17,9 +17,10 @@ Follow modern best practices in:
 Avoid shortcuts or naive implementations.  
 Always prioritize clarity, maintainability, extensibility, and testability in your code.
 
-🎯 When creating shared UI components (e.g., input, select, date picker):
+🎯 When creating shared UI components (e.g., input, select, date picker, checkbox):
 
-- Use `shadcn/ui` primitives as the base
+- Build with modern React patterns (forwardRef, hooks)
+- Use CVA (Class Variance Authority) for variant management
 - Place them in `/components/ui`
 - Ensure they follow SOLID principles:
   - Single Responsibility
@@ -32,6 +33,7 @@ Always prioritize clarity, maintainability, extensibility, and testability in yo
 - Export props and types separately
 - Support accessibility and keyboard interaction
 - Be easily styled with TailwindCSS
+- Include comprehensive demo components in `/components/demo`
 
 🧪 They should be easy to test and mock in isolation
 
@@ -171,15 +173,74 @@ interface ComponentProps {
   disabled?: boolean;
   loading?: boolean;
   success?: boolean;
+  customColor?: string;  // For brand-specific styling
 }
 ```
+
+**Custom Color Support:**
+All interactive components should support `customColor` prop for brand-specific styling:
+- Applies to primary state (checked, active, focused)
+- Overrides variant-based colors when provided
+- Uses hex color values (#ff6b35, #7b68ee, etc.)
+- Maintains accessibility contrast ratios
 
 ---
 
 📌 Examples of instructions that should be routed to `/components/ui`:
 
 - "Create a reusable input component"
-- "Build a shared date range picker"
+- "Build a shared date range picker" 
 - "Make a common searchable dropdown"
+- "Create a checkbox component"
+- "Build a button component"
+- "Make a select component"
 
 Do **not** place all components in `/components/ui`. Only shared UI elements go there.
+
+## 📋 Implemented Components
+
+### Current UI Components Library
+
+#### Input Component (`/components/ui/input.tsx`)
+- **Variants**: default, error, success
+- **Sizes**: sm, md, lg
+- **Features**: password toggle, clear button, loading state, icons
+- **Props**: label, error, helperText, leftIcon, rightIcon, required, success
+
+#### Button Component (`/components/ui/button.tsx`)
+- **Variants**: default, destructive, outline, secondary, ghost, link, success, warning, info, hmm-marine, hmm-red
+- **Sizes**: sm, md, lg, icon
+- **Features**: loading state, left/right icons, custom colors
+- **Props**: leftIcon, rightIcon, loading, customColor
+
+#### Checkbox Component (`/components/ui/checkbox.tsx`)
+- **Variants**: default, error, success
+- **Sizes**: sm, md, lg
+- **Features**: indeterminate state, custom colors, label/description
+- **Props**: label, description, error, helperText, indeterminate, required, customColor, onCheckedChange
+
+#### Select Component (`/components/ui/select.tsx`)
+- **Variants**: default, error, success
+- **Sizes**: sm, md, lg
+- **Features**: searchable, disabled options, loading state, icons
+- **Props**: options, placeholder, searchable, loading, leftIcon
+
+#### Date Components
+- **DatePicker** (`/components/ui/datepicker.tsx`)
+- **DateRangePicker** (`/components/ui/daterangepicker.tsx`)
+
+#### Dialog Component (`/components/ui/dialog.tsx`)
+- Modal dialogs with overlay and animations
+
+#### Tabs Component (`/components/ui/tabs.tsx`)
+- Tab navigation for demo page organization
+
+### Demo Components (`/components/demo/`)
+Each UI component has a corresponding comprehensive demo:
+- `InputDemo.tsx` - All input variations and use cases
+- `ButtonDemo.tsx` - Button variants, sizes, and states  
+- `CheckboxDemo.tsx` - Checkbox examples with interactive states
+- `SelectDemo.tsx` - Select dropdown demonstrations
+- `DatePickerDemo.tsx` - Date selection examples
+- `DateRangePickerDemo.tsx` - Date range selection
+- `DialogDemo.tsx` - Modal dialog examples
