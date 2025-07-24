@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';
-import { Section } from '@/components/ui/section';
+import { Section } from '@/components/ui/Section';
 
 export const SectionDemo = () => {
   return (
