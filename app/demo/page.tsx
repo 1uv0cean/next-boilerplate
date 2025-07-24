@@ -18,6 +18,7 @@ import { TextareaDemo } from '@/components/demo/TextareaDemo';
 import { ToastDemo } from '@/components/demo/ToastDemo';
 import { TopNavigatorDemo } from '@/components/demo/TopNavigatorDemo';
 import { TypographyDemo } from '@/components/demo/TypographyDemo';
+import { FileUploadDemo } from '@/components/demo/FileUploadDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { ToastProvider } from '@/components/ui/Toast';
 
@@ -32,6 +33,7 @@ const componentTabs = [
   { id: 'datepicker', label: 'Date Picker', component: DatePickerDemo },
   { id: 'daterange', label: 'Date Range', component: DateRangePickerDemo },
   { id: 'dialog', label: 'Dialog', component: DialogDemo },
+  { id: 'fileupload', label: 'File Upload', component: FileUploadDemo },
   { id: 'input', label: 'Input', component: InputDemo },
   { id: 'select', label: 'Select', component: SelectDemo },
   { id: 'sidebar', label: 'Sidebar', component: SidebarDemo },

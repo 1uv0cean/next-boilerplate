@@ -57,6 +57,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       disabled,
       customColor,
+      asChild,
       children,
       ...props
     },
@@ -74,17 +75,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       '--hover-bg': `${customColor}dd`,
     } as React.CSSProperties : {};
 
-    return (
-      <button
-        className={cn(
-          buttonVariants({ variant: customColor ? undefined : variant, size, className }),
-          customColor && 'hover:opacity-90 transition-opacity'
-        )}
-        style={{...buttonStyle, ...hoverStyle}}
-        ref={ref}
-        disabled={isDisabled}
-        {...props}
-      >
+    const buttonClasses = cn(
+      buttonVariants({ variant: customColor ? undefined : variant, size }),
+      customColor && 'hover:opacity-90 transition-opacity',
+      className
+    );
+
+    const buttonContent = (
+      <>
         {loading && (
           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         )}
@@ -110,6 +108,49 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             {rightIcon}
           </span>
         )}
+      </>
+    );
+
+    // If asChild is true, render children directly with button styles
+    if (asChild) {
+      // Clone the child element and add button classes
+      const child = children as React.ReactElement;
+      if (child && typeof child === 'object' && child.type) {
+        const childProps = child.props as any;
+        const { className: childClassName, style: childStyle, ...restChildProps } = childProps || {};
+        
+        return (
+          <child.type
+            {...restChildProps}
+            className={cn(buttonClasses, childClassName)}
+            style={{ ...buttonStyle, ...hoverStyle, ...childStyle }}
+            ref={ref}
+          />
+        );
+      }
+      
+      // Fallback: render as span if child is not a valid element
+      return (
+        <span
+          className={buttonClasses}
+          style={{ ...buttonStyle, ...hoverStyle }}
+          ref={ref as any}
+          {...props}
+        >
+          {children}
+        </span>
+      );
+    }
+
+    return (
+      <button
+        className={buttonClasses}
+        style={{...buttonStyle, ...hoverStyle}}
+        ref={ref}
+        disabled={isDisabled}
+        {...props}
+      >
+        {buttonContent}
       </button>
     );
   },
