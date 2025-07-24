@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/Input';
 import { Lock, Mail, Phone, Search, User } from 'lucide-react';
 import { useState } from 'react';
 
@@ -59,10 +59,11 @@ export const InputDemo = () => {
               onChange={handleChange('basic')}
             />
           </DemoItem>
-          <DemoItem label="Labeled Input">
+          <DemoItem label="Required Input">
             <Input
               label="Username"
               placeholder="Enter name"
+              required
               value={values.withLabel}
               onChange={handleChange('withLabel')}
             />

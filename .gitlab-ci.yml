@@ -1,0 +1,50 @@
+stages:
+  - build
+  - deploy
+
+build-next-app:
+  image: node:20
+  stage: build
+  script:
+    - corepack enable
+    - corepack prepare pnpm@latest --activate
+    - pnpm install --frozen-lockfile
+    - pnpm build
+    - tar -czf next-app.tar.gz .next public package.json pnpm-lock.yaml next.config.js
+  artifacts:
+    paths:
+      - next-app.tar.gz
+    expire_in: 1 hour
+  only:
+    - develop
+
+deploy-to-ec2:
+  image: alpine
+  stage: deploy
+  needs:
+    - job: build-next-app
+      artifacts: true
+  before_script:
+    - apk add --no-cache openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+  script:
+    - scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa next-app.tar.gz ubuntu@$EC2_HOST:~/app/next/
+    - |
+      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$EC2_HOST <<EOF
+      mkdir -p ~/app/next
+      cd ~/app/next
+      tar -xzf next-app.tar.gz
+      rm next-app.tar.gz
+
+      corepack enable
+      corepack prepare pnpm@latest --activate
+      pnpm install --frozen-lockfile
+
+      pm2 delete next-app || true
+      pm2 start "pnpm start -- --port 3001" --name next-app
+      pm2 save
+      EOF
+  only:
+    - develop
