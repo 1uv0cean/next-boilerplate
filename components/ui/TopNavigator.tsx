@@ -2,9 +2,19 @@
 
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import { ChevronDown, Home, Info, Mail, Menu, Settings, ShoppingCart, Users, X } from 'lucide-react';
-import { forwardRef, useState, useEffect } from 'react';
+import {
+  ChevronDown,
+  Home,
+  Info,
+  Mail,
+  Menu,
+  Settings,
+  ShoppingCart,
+  Users,
+  X,
+} from 'lucide-react';
 import Link from 'next/link';
+import { forwardRef, useEffect, useState } from 'react';
 
 const topNavigatorVariants = cva(
   'flex items-center justify-between w-full bg-background border-b border-border transition-colors relative',
@@ -74,7 +84,7 @@ const defaultItems: NavigationItem[] = [
   },
   {
     label: 'Dashboard',
-    href: '/main',
+    href: '/dashboard',
     icon: <ShoppingCart className="h-4 w-4" />,
   },
   {
@@ -138,11 +148,11 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
 
     const handleItemClick = (item: NavigationItem) => {
       if (item.disabled) return;
-      
+
       if (item.onClick) {
         item.onClick();
       }
-      
+
       onItemClick?.(item);
       setOpenDropdown(null);
       setIsMobileMenuOpen(false); // Close mobile menu on item click
@@ -158,15 +168,13 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
 
     const renderLogo = () => {
       if (logo) return logo;
-      
+
       const [primaryText, secondaryText] = logoText.split(' ');
-      
+
       return (
         <Link href="/" className="flex items-center gap-2 text-lg font-bold">
           <span className="text-primary">{primaryText}</span>
-          {secondaryText && (
-            <span className="text-muted-foreground">{secondaryText}</span>
-          )}
+          {secondaryText && <span className="text-muted-foreground">{secondaryText}</span>}
         </Link>
       );
     };
@@ -178,12 +186,12 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
 
       if (hasChildren) {
         return (
-          <div key={`${item.label}-${index}`} className={cn("relative", isMobile && "w-full")}>
+          <div key={`${item.label}-${index}`} className={cn('relative', isMobile && 'w-full')}>
             <button
               className={cn(
                 navItemVariants({ variant: itemVariant }),
                 item.disabled && 'pointer-events-none',
-                isMobile && 'w-full justify-between'
+                isMobile && 'w-full justify-between',
               )}
               onClick={() => !item.disabled && toggleDropdown(item.label)}
               disabled={item.disabled}
@@ -192,26 +200,21 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
                 {item.icon}
                 {item.label}
               </div>
-              <ChevronDown
-                className={cn(
-                  'h-4 w-4 transition-transform',
-                  isOpen && 'rotate-180',
-                )}
-              />
+              <ChevronDown className={cn('h-4 w-4 transition-transform', isOpen && 'rotate-180')} />
             </button>
-            
+
             {isOpen && (
-              <div className={cn(
-                "bg-background border border-border rounded-md shadow-lg z-50",
-                isMobile 
-                  ? "mt-1 w-full" 
-                  : "absolute top-full left-0 mt-1 min-w-48"
-              )}>
+              <div
+                className={cn(
+                  'bg-background border-border z-50 rounded-md border shadow-lg',
+                  isMobile ? 'mt-1 w-full' : 'absolute top-full left-0 mt-1 min-w-48',
+                )}
+              >
                 <div className="py-1">
                   {item.children!.map((child, childIndex) => (
                     <button
                       key={`${child.label}-${childIndex}`}
-                      className="w-full px-4 py-2 text-left text-sm hover:bg-accent transition-colors flex items-center gap-2"
+                      className="hover:bg-accent flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors"
                       onClick={() => handleItemClick(child)}
                       disabled={child.disabled}
                     >
@@ -233,7 +236,7 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
           className={cn(
             navItemVariants({ variant: itemVariant }),
             item.disabled && 'pointer-events-none',
-            isMobile && 'w-full'
+            isMobile && 'w-full',
           )}
           onClick={() => handleItemClick(item)}
         >
@@ -245,20 +248,20 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
 
     const renderActions = () => {
       if (actions) return actions;
-      
+
       if (!showActions) return null;
-      
+
       return (
         <div className="flex items-center gap-4">
           <Link
             href="/login"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
           >
             Login
           </Link>
           <Link
-            href="/main"
-            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+            href="/dashboard"
+            className="text-primary hover:text-primary/80 text-sm font-medium transition-colors"
           >
             Dashboard
           </Link>
@@ -267,57 +270,45 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn(topNavigatorVariants({ variant, size }), className)}
-        {...props}
-      >
+      <div ref={ref} className={cn(topNavigatorVariants({ variant, size }), className)} {...props}>
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          {renderLogo()}
-        </div>
-        
+        <div className="flex items-center gap-2">{renderLogo()}</div>
+
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden items-center gap-1 md:flex">
           {items.map((item, index) => renderNavItem(item, index, false))}
         </div>
-        
+
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center">
-          {renderActions()}
-        </div>
+        <div className="hidden items-center md:flex">{renderActions()}</div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 rounded-md hover:bg-accent transition-colors"
+          className="hover:bg-accent rounded-md p-2 transition-colors md:hidden"
           onClick={toggleMobileMenu}
           aria-label="Toggle mobile menu"
         >
-          {isMobileMenuOpen ? (
-            <X className="h-5 w-5" />
-          ) : (
-            <Menu className="h-5 w-5" />
-          )}
+          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-background border-b border-border shadow-lg md:hidden z-50">
-            <div className="p-4 space-y-2">
+          <div className="bg-background border-border absolute top-full right-0 left-0 z-50 border-b shadow-lg md:hidden">
+            <div className="space-y-2 p-4">
               {items.map((item, index) => renderNavItem(item, index, true))}
-              
+
               {showActions && (
-                <div className="pt-4 border-t border-border space-y-2">
+                <div className="border-border space-y-2 border-t pt-4">
                   <Link
                     href="/login"
-                    className="block w-full px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Login
                   </Link>
                   <Link
-                    href="/main"
-                    className="block w-full px-3 py-2 text-sm font-medium text-primary hover:text-primary/80 hover:bg-accent rounded-md transition-colors"
+                    href="/dashboard"
+                    className="text-primary hover:text-primary/80 hover:bg-accent block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Dashboard

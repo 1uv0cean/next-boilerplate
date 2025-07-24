@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { TopNavigator, NavigationItem } from '@/components/ui/TopNavigator';
+import { NavigationItem, TopNavigator } from '@/components/ui/TopNavigator';
 import { Typography } from '@/components/ui/Typography';
-import { Home, LayoutDashboard, Layers, Building2 } from 'lucide-react';
+import { Building2, Home, Layers, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 
 const HomePage = () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
     },
     {
       label: 'Dashboard',
-      href: '/main',
+      href: '/dashboard',
       icon: <LayoutDashboard className="h-4 w-4" />,
     },
     {
@@ -48,7 +48,7 @@ const HomePage = () => {
               <Link href="/demo">View Components</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/main">Dashboard</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/organizations">Organization Demo</Link>

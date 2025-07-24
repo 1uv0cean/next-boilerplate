@@ -15,22 +15,20 @@ const LoginPage = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     // Redirect to main page
-    window.location.href = '/main';
+    window.location.href = '/dashboad';
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-sm">
         <Card className="shadow-sm">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-2xl font-semibold">
-              Sign In
-            </CardTitle>
+          <CardHeader className="pb-6 text-center">
+            <CardTitle className="text-2xl font-semibold">Sign In</CardTitle>
           </CardHeader>
 
           <CardContent>
