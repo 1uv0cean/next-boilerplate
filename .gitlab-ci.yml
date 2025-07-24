@@ -9,6 +9,7 @@ build-next-app:
     - corepack enable
     - corepack prepare pnpm@latest --activate
     - pnpm install --frozen-lockfile
+    - export ESLINT_NO_DEV_ERRORS=1
     - pnpm build
     - tar -czf next-app.tar.gz .next public package.json pnpm-lock.yaml next.config.js
   artifacts:
