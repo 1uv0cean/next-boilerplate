@@ -1,6 +1,7 @@
 'use client';
 
 import { AccordionDemo } from '@/components/demo/AccordionDemo';
+import { BadgeDemo } from '@/components/demo/BadgeDemo';
 import { BreadcrumbDemo } from '@/components/demo/BreadcrumbDemo';
 import { ButtonDemo } from '@/components/demo/ButtonDemo';
 import { CardDemo } from '@/components/demo/CardDemo';
@@ -25,6 +26,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 // Component configuration for easy management and extensibility
 const componentTabs = [
   { id: 'accordion', label: 'Accordion', component: AccordionDemo },
+  { id: 'badge', label: 'Badge', component: BadgeDemo },
   { id: 'breadcrumb', label: 'Breadcrumb', component: BreadcrumbDemo },
   { id: 'button', label: 'Button', component: ButtonDemo },
   { id: 'card', label: 'Card', component: CardDemo },
