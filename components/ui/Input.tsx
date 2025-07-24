@@ -123,7 +123,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               leftIcon && 'pl-10',
               (rightIcon || showPasswordToggle || clearable || hasError || hasSuccess) && 'pr-10',
               className,
-              'mt-1',
             )}
             ref={ref}
             value={inputValue}

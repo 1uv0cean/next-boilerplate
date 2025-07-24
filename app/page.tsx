@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/Button';
 import { TopNavigator, NavigationItem } from '@/components/ui/TopNavigator';
 import { Typography } from '@/components/ui/Typography';
-import { Home, LayoutDashboard, Layers } from 'lucide-react';
+import { Home, LayoutDashboard, Layers, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
 const HomePage = () => {
@@ -23,6 +23,11 @@ const HomePage = () => {
       label: 'Components',
       href: '/demo',
       icon: <Layers className="h-4 w-4" />,
+    },
+    {
+      label: 'Organizations',
+      href: '/organizations',
+      icon: <Building2 className="h-4 w-4" />,
     },
   ];
 
@@ -44,6 +49,9 @@ const HomePage = () => {
             </Button>
             <Button variant="outline" asChild>
               <Link href="/main">Dashboard</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/organizations">Organization Demo</Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/login">Login Demo</Link>

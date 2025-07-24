@@ -102,14 +102,47 @@ const SidebarProvider = ({
   children,
   defaultCollapsed = false,
   defaultActiveItem,
+  items,
 }: {
   children: React.ReactNode;
   defaultCollapsed?: boolean;
   defaultActiveItem?: string;
+  items?: SidebarItem[];
 }) => {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [activeItem, setActiveItem] = useState<string | null>(defaultActiveItem || null);
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  
+  // Auto-expand parent menus based on active item
+  const getInitialExpandedItems = () => {
+    const expandedSet = new Set<string>();
+    
+    if (defaultActiveItem && items) {
+      const findParentAndExpand = (itemList: SidebarItem[], targetId: string): boolean => {
+        for (const item of itemList) {
+          if (item.children) {
+            // Check if target is in children
+            const hasTarget = item.children.some(child => child.id === targetId);
+            if (hasTarget) {
+              expandedSet.add(item.id);
+              return true;
+            }
+            // Recursively check nested children
+            if (findParentAndExpand(item.children, targetId)) {
+              expandedSet.add(item.id);
+              return true;
+            }
+          }
+        }
+        return false;
+      };
+      
+      findParentAndExpand(items, defaultActiveItem);
+    }
+    
+    return expandedSet;
+  };
+  
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(getInitialExpandedItems());
 
   const toggleExpanded = (id: string) => {
     setExpandedItems(prev => {
@@ -288,7 +321,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     ref,
   ) => {
     return (
-      <SidebarProvider defaultCollapsed={defaultCollapsed} defaultActiveItem={defaultActiveItem}>
+      <SidebarProvider defaultCollapsed={defaultCollapsed} defaultActiveItem={defaultActiveItem} items={items}>
         <SidebarContent
           ref={ref}
           className={className}
