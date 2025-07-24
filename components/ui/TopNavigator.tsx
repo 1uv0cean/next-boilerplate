@@ -73,18 +73,13 @@ const defaultItems: NavigationItem[] = [
     icon: <Home className="h-4 w-4" />,
   },
   {
-    label: 'Products',
-    href: '/products',
+    label: 'Dashboard',
+    href: '/main',
     icon: <ShoppingCart className="h-4 w-4" />,
-    children: [
-      { label: 'Electronics', href: '/products/electronics' },
-      { label: 'Books', href: '/products/books' },
-      { label: 'Apparel', href: '/products/apparel' },
-    ],
   },
   {
-    label: 'Users',
-    href: '/users',
+    label: 'Components',
+    href: '/demo',
     icon: <Users className="h-4 w-4" />,
   },
   {
@@ -230,10 +225,10 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
             Login
           </Link>
           <Link
-            href="/signup"
+            href="/main"
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
-            Sign Up
+            Dashboard
           </Link>
         </div>
       );

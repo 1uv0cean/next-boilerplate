@@ -106,10 +106,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {leftIcon && (
-            <div className={cn(
-              "absolute top-1/2 left-3 -translate-y-1/2",
-              disabled ? "text-muted-foreground/50" : "text-muted-foreground"
-            )}>
+            <div
+              className={cn(
+                'absolute top-1/2 left-3 -translate-y-1/2',
+                disabled ? 'text-muted-foreground/50' : 'text-muted-foreground',
+              )}
+            >
               {leftIcon}
             </div>
           )}
@@ -121,6 +123,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               leftIcon && 'pl-10',
               (rightIcon || showPasswordToggle || clearable || hasError || hasSuccess) && 'pr-10',
               className,
+              'mt-1',
             )}
             ref={ref}
             value={inputValue}
