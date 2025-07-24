@@ -1,7 +1,7 @@
 'use client';
 
-import { useToast } from '@/components/ui/toast';
-import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/Toast';
+import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
 
 interface DemoSectionProps {

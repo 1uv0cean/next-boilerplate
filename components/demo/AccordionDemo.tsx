@@ -1,6 +1,6 @@
 'use client';
 
-import { Accordion, AccordionItemData } from '@/components/ui/accordion';
+import { Accordion, AccordionItemData } from '@/components/ui/Accordion';
 import { 
   Table, 
   TableBody, 
@@ -8,7 +8,7 @@ import {
   TableHead, 
   TableHeader, 
   TableRow 
-} from '@/components/ui/table';
+} from '@/components/ui/Table';
 import { useState } from 'react';
 
 interface DemoSectionProps {

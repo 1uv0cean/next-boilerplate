@@ -1,7 +1,7 @@
 'use client';
 
-import { TopNavigator, NavigationItem } from '@/components/ui/top-navigator';
-import { Button } from '@/components/ui/button';
+import { TopNavigator, NavigationItem } from '@/components/ui/TopNavigator';
+import { Button } from '@/components/ui/Button';
 import { Code2, Database, Globe, Monitor, Palette, Zap, Star, Bell } from 'lucide-react';
 import { useState } from 'react';
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { Breadcrumb, BreadcrumbItem } from '@/components/ui/breadcrumb';
-import { useToast } from '@/components/ui/toast';
+import { Breadcrumb, BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import { useToast } from '@/components/ui/Toast';
 import { 
   Home, 
   Folder, 

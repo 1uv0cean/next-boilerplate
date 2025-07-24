@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { AlertDialog, ConfirmDialog, Dialog, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/Button';
+import { AlertDialog, ConfirmDialog, Dialog, DialogFooter } from '@/components/ui/Dialog';
+import { Input } from '@/components/ui/Input';
 import {
   AlertTriangle,
   CheckCircle,

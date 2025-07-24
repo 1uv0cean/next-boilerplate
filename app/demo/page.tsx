@@ -17,8 +17,8 @@ import { TableDemo } from '@/components/demo/TableDemo';
 import { TextareaDemo } from '@/components/demo/TextareaDemo';
 import { ToastDemo } from '@/components/demo/ToastDemo';
 import { TopNavigatorDemo } from '@/components/demo/TopNavigatorDemo';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ToastProvider } from '@/components/ui/toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
+import { ToastProvider } from '@/components/ui/Toast';
 
 // Component configuration for easy management and extensibility
 const componentTabs = [

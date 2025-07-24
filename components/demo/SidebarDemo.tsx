@@ -1,7 +1,7 @@
 'use client';
 
-import { Sidebar, SidebarItem } from '@/components/ui/sidebar';
-import { useToast } from '@/components/ui/toast';
+import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
+import { useToast } from '@/components/ui/Toast';
 import {
   Home,
   Users,

@@ -1,6 +1,6 @@
 'use client';
 
-import { DatePicker } from '@/components/ui/datepicker';
+import { DatePicker } from '@/components/ui/DatePicker';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { useState } from 'react';
 

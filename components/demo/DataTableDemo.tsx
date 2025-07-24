@@ -1,6 +1,6 @@
 'use client';
 
-import { DataTable, DataTableColumn } from '@/components/ui/data-table';
+import { DataTable, DataTableColumn } from '@/components/ui/DataTable';
 import { useState } from 'react';
 
 interface DemoSectionProps {

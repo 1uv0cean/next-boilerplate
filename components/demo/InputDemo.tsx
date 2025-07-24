@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/Input';
 import { Lock, Mail, Phone, Search, User } from 'lucide-react';
 import { useState } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Select, SelectOption } from '@/components/ui/select';
+import { Select, SelectOption } from '@/components/ui/Select';
 import { Globe, MapPin, User } from 'lucide-react';
 import { useState } from 'react';
 

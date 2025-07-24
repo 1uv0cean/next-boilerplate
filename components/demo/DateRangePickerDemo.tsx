@@ -1,6 +1,6 @@
 'use client';
 
-import { DateRangePicker, DateRange } from '@/components/ui/daterangepicker';
+import { DateRangePicker, DateRange } from '@/components/ui/DateRangePicker';
 import { Calendar, Clock, MapPin, Plane, Building } from 'lucide-react';
 import { useState } from 'react';
 
