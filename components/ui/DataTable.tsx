@@ -2,32 +2,22 @@
 
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import { ChevronDown, ChevronUp, Search, Filter, ArrowLeft, ArrowRight } from 'lucide-react';
-import { forwardRef, useState, useMemo } from 'react';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from './table';
+import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Filter, Search } from 'lucide-react';
+import { forwardRef, useMemo, useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './Table';
 
-const dataTableVariants = cva(
-  'w-full space-y-4',
-  {
-    variants: {
-      variant: {
-        default: '',
-        bordered: 'border border-border rounded-lg p-4',
-        card: 'bg-card border border-border rounded-lg p-6 shadow-sm',
-      },
+const dataTableVariants = cva('w-full space-y-4', {
+  variants: {
+    variant: {
+      default: '',
+      bordered: 'border border-border rounded-lg p-4',
+      card: 'bg-card border border-border rounded-lg p-6 shadow-sm',
     },
-    defaultVariants: {
-      variant: 'default',
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+});
 
 export type SortDirection = 'asc' | 'desc' | null;
 
@@ -50,20 +40,20 @@ export interface DataTableProps<T = any>
   data: T[];
   columns: DataTableColumn<T>[];
   loading?: boolean;
-  
+
   // Filtering options
   filterMode?: FilterMode;
   searchPlaceholder?: string;
-  
+
   // Display options
   displayMode?: DisplayMode;
   pageSize?: number;
   maxHeight?: string;
-  
+
   // Messages
   emptyMessage?: string;
   loadingMessage?: string;
-  
+
   // Events
   onRowClick?: (row: T, index: number) => void;
   onSearch?: (query: string) => void;
@@ -104,20 +94,24 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
       // Apply search filter
       if (searchQuery.trim()) {
-        filtered = filtered.filter(row =>
-          columns.some(column => {
+        filtered = filtered.filter((row) =>
+          columns.some((column) => {
             const value = row[column.key];
-            return String(value || '').toLowerCase().includes(searchQuery.toLowerCase());
-          })
+            return String(value || '')
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
+          }),
         );
       }
 
       // Apply column filters
       Object.entries(columnFilters).forEach(([columnKey, filterValue]) => {
         if (filterValue.trim()) {
-          filtered = filtered.filter(row => {
+          filtered = filtered.filter((row) => {
             const value = row[columnKey];
-            return String(value || '').toLowerCase().includes(filterValue.toLowerCase());
+            return String(value || '')
+              .toLowerCase()
+              .includes(filterValue.toLowerCase());
           });
         }
       });
@@ -164,7 +158,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
     const totalPages = Math.ceil(sortedData.length / pageSize);
 
     const handleSort = (columnKey: string) => {
-      const column = columns.find(col => col.key === columnKey);
+      const column = columns.find((col) => col.key === columnKey);
       if (!column?.sortable) return;
 
       if (sortColumn === columnKey) {
@@ -223,35 +217,36 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
       return (
         <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
-            Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
+          <div className="text-muted-foreground text-sm">
+            Showing {(currentPage - 1) * pageSize + 1} to{' '}
+            {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
           </div>
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8"
+              className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
             >
               <ArrowLeft className="h-4 w-4" />
             </button>
-            {pages.map(page => (
+            {pages.map((page) => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={cn(
-                  'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 w-8',
+                  'ring-offset-background focus-visible:ring-ring inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
                   currentPage === page
                     ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
+                    : 'border-input bg-background hover:bg-accent hover:text-accent-foreground border',
                 )}
               >
                 {page}
               </button>
             ))}
             <button
-              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8"
+              className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
             >
               <ArrowRight className="h-4 w-4" />
             </button>
@@ -281,30 +276,32 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {showSearch && (
               <div className="relative max-w-sm">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder={searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-10 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </div>
             )}
             {showColumnFilters && (
               <div className="flex items-center space-x-2">
-                <Filter className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Filters active: {Object.values(columnFilters).filter(Boolean).length}</span>
+                <Filter className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground text-sm">
+                  Filters active: {Object.values(columnFilters).filter(Boolean).length}
+                </span>
               </div>
             )}
           </div>
         )}
 
         {/* Table */}
-        <div className={cn(
-          "rounded-md border",
-          displayMode === 'scroll' && "overflow-auto",
-        )} style={displayMode === 'scroll' ? { maxHeight } : undefined}>
+        <div
+          className={cn('rounded-md border', displayMode === 'scroll' && 'overflow-auto')}
+          style={displayMode === 'scroll' ? { maxHeight } : undefined}
+        >
           <Table>
             <TableHeader>
               <TableRow>
@@ -315,16 +312,14 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                     className={cn(
                       column.align === 'center' && 'text-center',
                       column.align === 'right' && 'text-right',
-                      column.sortable && 'cursor-pointer select-none hover:bg-muted/50'
+                      column.sortable && 'hover:bg-muted/50 cursor-pointer select-none',
                     )}
                     onClick={() => column.sortable && handleSort(column.key)}
                   >
                     <div className="flex items-center gap-2">
                       {column.title}
                       {column.sortable && (
-                        <div className="flex flex-col">
-                          {getSortIcon(column.key)}
-                        </div>
+                        <div className="flex flex-col">{getSortIcon(column.key)}</div>
                       )}
                     </div>
                   </TableHead>
@@ -340,7 +335,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                           placeholder={`Filter ${column.title.toLowerCase()}...`}
                           value={columnFilters[column.key] || ''}
                           onChange={(e) => handleColumnFilter(column.key, e.target.value)}
-                          className="w-full rounded border border-input bg-background px-2 py-1 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                          className="border-input bg-background placeholder:text-muted-foreground focus:ring-ring w-full rounded border px-2 py-1 text-xs focus:ring-1 focus:outline-none"
                         />
                       )}
                     </TableHead>
@@ -351,7 +346,10 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
             <TableBody>
               {displayData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="text-center py-8 text-muted-foreground">
+                  <TableCell
+                    colSpan={columns.length}
+                    className="text-muted-foreground py-8 text-center"
+                  >
                     {emptyMessage}
                   </TableCell>
                 </TableRow>
@@ -359,7 +357,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                 displayData.map((row, index) => (
                   <TableRow
                     key={index}
-                    className={cn(onRowClick && 'cursor-pointer hover:bg-muted/50')}
+                    className={cn(onRowClick && 'hover:bg-muted/50 cursor-pointer')}
                     onClick={() => onRowClick?.(row, index)}
                   >
                     {columns.map((column) => (
@@ -367,13 +365,12 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                         key={column.key}
                         className={cn(
                           column.align === 'center' && 'text-center',
-                          column.align === 'right' && 'text-right'
+                          column.align === 'right' && 'text-right',
                         )}
                       >
                         {column.render
                           ? column.render(row[column.key], row, index)
-                          : String(row[column.key] || '')
-                        }
+                          : String(row[column.key] || '')}
                       </TableCell>
                     ))}
                   </TableRow>

@@ -17,6 +17,7 @@ import { TableDemo } from '@/components/demo/TableDemo';
 import { TextareaDemo } from '@/components/demo/TextareaDemo';
 import { ToastDemo } from '@/components/demo/ToastDemo';
 import { TopNavigatorDemo } from '@/components/demo/TopNavigatorDemo';
+import { TypographyDemo } from '@/components/demo/TypographyDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { ToastProvider } from '@/components/ui/Toast';
 
@@ -39,6 +40,7 @@ const componentTabs = [
   { id: 'textarea', label: 'Textarea', component: TextareaDemo },
   { id: 'toast', label: 'Toast', component: ToastDemo },
   { id: 'topnavigation', label: 'Top Navigation', component: TopNavigatorDemo },
+  { id: 'typography', label: 'Typography', component: TypographyDemo },
 ] as const;
 
 const DemoPage = () => {
