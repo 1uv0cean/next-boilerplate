@@ -11,7 +11,7 @@ build-next-app:
     - pnpm install --frozen-lockfile
     - export ESLINT_NO_DEV_ERRORS=1
     - pnpm build
-    - tar -czf next-app.tar.gz .next public package.json pnpm-lock.yaml next.config.js
+    - tar -czf next-app.tar.gz .next public package.json pnpm-lock.yaml next.config.ts
   artifacts:
     paths:
       - next-app.tar.gz
