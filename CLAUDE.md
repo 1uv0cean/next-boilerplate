@@ -62,6 +62,11 @@ Follow these patterns for consistent, maintainable components:
 - Variable sizes and states
 - Support loading, icons, custom colors
 
+**4. Layout Components** (structure and organization)
+- Section
+- Flexible container with content organization
+- Variable padding, spacing, backgrounds, borders
+
 ### CVA Pattern for Input Components
 ```typescript
 const inputVariants = cva(
@@ -250,6 +255,12 @@ Do **not** place all components in `/components/ui`. Only shared UI elements go 
 #### Dialog Component (`/components/ui/dialog.tsx`)
 - Modal dialogs with overlay and animations
 
+#### Section Component (`/components/ui/section.tsx`)
+- **Variants**: padding (none, sm, md, lg, xl), background (none, default, muted, card, accent), border (none, default, muted, rounded, rounded-muted), spacing (none, sm, md, lg, xl)
+- **HTML Elements**: section, div, article, aside, main
+- **Features**: optional title/description header, header actions, flexible content organization
+- **Props**: title, description, headerAction, padding, spacing, background, border, as
+
 #### Tabs Component (`/components/ui/tabs.tsx`)
 - Tab navigation for demo page organization
 
@@ -261,5 +272,6 @@ Each UI component has a corresponding comprehensive demo:
 - `DateRangePickerDemo.tsx` - Date range selection
 - `DialogDemo.tsx` - Modal dialog examples
 - `InputDemo.tsx` - All input variations and use cases
+- `SectionDemo.tsx` - Layout sections with various configurations and nested examples
 - `SelectDemo.tsx` - Select dropdown demonstrations
 - `SwitchDemo.tsx` - Switch toggle examples with settings scenarios

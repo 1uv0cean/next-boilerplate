@@ -12,6 +12,7 @@ import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
 import { DialogDemo } from '@/components/demo/DialogDemo';
 import { InputDemo } from '@/components/demo/InputDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
+import { SectionDemo } from '@/components/demo/SectionDemo';
 import { SidebarDemo } from '@/components/demo/SidebarDemo';
 import { SwitchDemo } from '@/components/demo/SwitchDemo';
 import { TableDemo } from '@/components/demo/TableDemo';
@@ -38,6 +39,7 @@ const componentTabs = [
   { id: 'fileupload', label: 'File Upload', component: FileUploadDemo },
   { id: 'input', label: 'Input', component: InputDemo },
   { id: 'select', label: 'Select', component: SelectDemo },
+  { id: 'section', label: 'Section', component: SectionDemo },
   { id: 'sidebar', label: 'Sidebar', component: SidebarDemo },
   { id: 'switch', label: 'Switch', component: SwitchDemo },
   { id: 'table', label: 'Table', component: TableDemo },
