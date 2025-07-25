@@ -9,16 +9,7 @@ import { Select } from '@/components/ui/Select';
 import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
 import { Switch } from '@/components/ui/Switch';
 import { Typography } from '@/components/ui/Typography';
-import {
-  BarChart,
-  Building2,
-  FileText,
-  Filter,
-  MoreHorizontal,
-  Search,
-  Settings,
-  Users,
-} from 'lucide-react';
+import { BarChart, Building2, FileText, Settings, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -332,15 +323,17 @@ export default function OrganizationsPage() {
     },
     {
       key: 'name',
-      title: '기관명',
-      width: '150px',
+      title: '이용 (한글)',
+      width: '120px',
       sortable: true,
-      render: (value, row) => (
-        <div>
-          <div className="font-medium">{row.name}</div>
-          <div className="text-muted-foreground text-xs">{row.nameEn}</div>
-        </div>
-      ),
+      render: (value, row) => row.name,
+    },
+    {
+      key: 'nameEn',
+      title: '이용 (영문)',
+      width: '120px',
+      sortable: true,
+      render: (value, row) => row.nameEn,
     },
     {
       key: 'businessNumber',
@@ -366,71 +359,60 @@ export default function OrganizationsPage() {
     {
       key: 'industry',
       title: '업종',
-      width: '120px',
+      width: '100px',
       sortable: true,
     },
     {
       key: 'registrationDate',
-      title: '가입일자',
-      width: '100px',
-      sortable: true,
+      title: '담당기관 직원',
+      width: '120px',
+      render: (value, row) => row.industry,
     },
     {
       key: 'approved',
-      title: '승인 여부',
+      title: '검토 완료',
       width: '100px',
+      align: 'center' as const,
+      render: (value, row, index) => <div className="text-center">{value ? '승인' : '신청'}</div>,
+    },
+    {
+      key: 'withdrawn',
+      title: '승인',
+      width: '80px',
       align: 'center' as const,
       render: (value, row, index) => (
         <Switch
-          checked={value}
+          checked={row.approved}
           onCheckedChange={(checked) => {
             // Handle approval toggle
             console.log(`Toggle approval for ${row.id}:`, checked);
           }}
-          customColor={value ? '#22c55e' : undefined}
-        />
-      ),
-    },
-    {
-      key: 'withdrawn',
-      title: '탈퇴 여부',
-      width: '100px',
-      align: 'center' as const,
-      render: (value, row, index) => (
-        <Switch
-          checked={value}
-          onCheckedChange={(checked) => {
-            // Handle withdrawal toggle
-            console.log(`Toggle withdrawal for ${row.id}:`, checked);
-          }}
-          customColor={value ? '#ef4444' : undefined}
         />
       ),
     },
     {
       key: 'manager',
-      title: '담당자',
-      width: '120px',
+      title: '탈퇴',
+      width: '80px',
+      align: 'center' as const,
       render: (value, row, index) => (
-        <Select
-          value={value}
-          options={managerOptions.filter((opt) => opt.value !== 'all')}
-          onValueChange={(newValue) => {
-            // Handle manager change
-            console.log(`Change manager for ${row.id}:`, newValue);
+        <Switch
+          checked={row.withdrawn}
+          onCheckedChange={(checked) => {
+            // Handle withdrawal toggle
+            console.log(`Toggle withdrawal for ${row.id}:`, checked);
           }}
-          size="sm"
         />
       ),
     },
     {
       key: 'actions',
-      title: '액션',
+      title: '상세',
       width: '80px',
       align: 'center' as const,
       render: (value, row, index) => (
-        <Button variant="ghost" size="sm">
-          <MoreHorizontal className="h-4 w-4" />
+        <Button variant="link" size="sm" className="text-blue-600">
+          상세
         </Button>
       ),
     },
@@ -519,55 +501,36 @@ export default function OrganizationsPage() {
 
             {/* Filters */}
             <div className="bg-card border-border rounded-lg border p-4">
-              <div className="mb-4 flex items-center space-x-2">
-                <Filter className="h-4 w-4" />
-                <h3 className="font-medium">필터</h3>
-              </div>
+              <div className="grid grid-cols-5 items-end gap-4">
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium">가입일자 </label>
+                  <DateRangePicker
+                    value={dateRange}
+                    onDateRangeChange={setDateRange}
+                    placeholder="연도-월-일"
+                    size="sm"
+                  />
+                </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <DateRangePicker
-                  label="가입일자"
-                  value={dateRange}
-                  onDateRangeChange={setDateRange}
-                  placeholder="기간 선택"
-                />
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium">한글/영문 이름</label>
+                  <Input
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                    placeholder="한글 또는 영문 이름을 입력하세요"
+                    size="sm"
+                  />
+                </div>
 
-                <Input
-                  label="한글/영문 이름"
-                  value={searchName}
-                  onChange={(e) => setSearchName(e.target.value)}
-                  placeholder="기관명 검색"
-                  leftIcon={<Search className="h-4 w-4" />}
-                  clearable
-                />
-
-                <Select
-                  label="승인 여부"
-                  value={approvalFilter}
-                  options={approvalOptions}
-                  onValueChange={setApprovalFilter}
-                />
-
-                <Select
-                  label="담당자"
-                  value={managerFilter}
-                  options={managerOptions}
-                  onValueChange={setManagerFilter}
-                />
-              </div>
-
-              <div className="mt-4 flex justify-end">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setDateRange({ startDate: null, endDate: null });
-                    setSearchName('');
-                    setApprovalFilter('all');
-                    setManagerFilter('all');
-                  }}
-                >
-                  필터 초기화
-                </Button>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium">승인 여부</label>
+                  <Select
+                    value={approvalFilter}
+                    options={approvalOptions}
+                    onValueChange={setApprovalFilter}
+                    size="sm"
+                  />
+                </div>
               </div>
             </div>
 
