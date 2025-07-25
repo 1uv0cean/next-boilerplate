@@ -1,21 +1,24 @@
-🧠 Coding Guidelines
+# 🧠 CLAUDELWP Boilerplate Development Guidelines
 
-You must always write code as if you are a senior software engineer building a production-grade application.
+> **Mission**: Enable rapid development of production-grade web applications through proven patterns, reusable components, and enterprise architecture.
 
-Follow modern best practices in:
+## 🎯 Development Philosophy
 
-- Clean architecture and reusable design patterns
-- TypeScript strict typing
-- Functional components (no `FC` type)
-- Composition over inheritance
-- Separation of concerns (UI, logic, state)
-- Minimal and meaningful abstractions
-- SOLID principles and scalable folder structure
-- Use pnpm package manager
-- Use Arrow Function
+**Build for Production from Day One**
+Every component, pattern, and architectural decision should be made with production scalability in mind. This boilerplate accelerates development while maintaining enterprise-grade code quality.
 
-Avoid shortcuts or naive implementations.  
-Always prioritize clarity, maintainability, extensibility, and testability in your code.
+### Core Development Principles
+
+- **🏗️ Clean Architecture**: Separation of concerns, dependency inversion, testable code
+- **📐 TypeScript Strict**: Zero tolerance for `any` types, full type safety
+- **⚛️ Modern React**: Functional components, hooks, no legacy patterns
+- **🧩 Composition > Inheritance**: Build through composition patterns
+- **🎨 Design System**: Consistent UI patterns with variant management
+- **⚡ Performance First**: Code splitting, lazy loading, optimized bundles
+- **🔧 Developer Experience**: Hot reloading, type checking, linting automation
+- **📦 pnpm**: Lightning-fast package management
+
+**Golden Rule**: Write code as if the next developer maintaining it is a violent psychopath who knows where you live.
 
 🎯 When creating shared UI components (e.g., input, select, date picker, checkbox):
 
@@ -27,15 +30,41 @@ Always prioritize clarity, maintainability, extensibility, and testability in yo
   - Open/Closed
   - Composition-friendly
 
-📦 Reusable UI components must:
+## 🚀 Rapid Development Patterns
 
-- Accept `className`, `...props`, and type-safe inputs
-- Export props and types separately
-- Support accessibility and keyboard interaction
-- Be easily styled with TailwindCSS
-- Include comprehensive demo components in `/components/demo`
+### 📦 Component Development Checklist
 
-🧪 They should be easy to test and mock in isolation
+Every reusable UI component MUST:
+
+- ✅ **Props Interface**: Accept `className`, `...props`, and type-safe inputs
+- ✅ **Type Exports**: Export props and types separately for reusability
+- ✅ **Accessibility**: WCAG 2.1 compliant with proper ARIA attributes
+- ✅ **Keyboard Navigation**: Full keyboard interaction support
+- ✅ **TailwindCSS**: Easily customizable with utility classes
+- ✅ **Demo Component**: Comprehensive examples in `/components/demo`
+- ✅ **Testability**: Isolated, mockable, and unit-testable
+- ✅ **forwardRef**: Proper ref forwarding for form libraries
+- ✅ **Error Handling**: Graceful error states and validation
+- ✅ **Loading States**: Proper loading/pending state management
+
+### 🎨 Design System Integration
+
+```tsx
+// Every component follows this pattern
+export interface ComponentProps {
+  variant?: 'default' | 'error' | 'success'
+  size?: 'sm' | 'md' | 'lg'
+  customColor?: string
+  className?: string
+  // ... component-specific props
+}
+
+// CVA for consistent styling
+const componentVariants = cva(baseClasses, {
+  variants: { /* ... */ },
+  defaultVariants: { /* ... */ }
+})
+```
 
 ---
 
@@ -203,16 +232,60 @@ interface ComponentProps {
 
 ---
 
-📌 Examples of instructions that should be routed to `/components/ui`:
+## 📁 Project Structure & Organization
 
-- "Create a reusable input component"
-- "Build a shared date range picker" 
-- "Make a common searchable dropdown"
-- "Create a checkbox component"
-- "Build a button component"
-- "Make a select component"
+### Component Placement Rules
 
-Do **not** place all components in `/components/ui`. Only shared UI elements go there.
+**`/components/ui/`** - Shared UI Components Only
+- ✅ Input, Button, Select, Checkbox, Switch
+- ✅ DatePicker, Dialog, Card, Table
+- ✅ Layout components (Section, Grid)
+- ❌ Business logic components
+- ❌ Page-specific components
+- ❌ Feature-specific components
+
+**`/components/demo/`** - Component Demonstrations
+- ✅ Interactive examples for each UI component
+- ✅ Copy-paste code examples
+- ✅ Multiple usage scenarios
+
+**`/components/features/`** - Feature-Specific Components
+- ✅ Business logic components
+- ✅ Complex feature implementations
+- ✅ Data-fetching components
+
+### 🏗️ Folder Structure Best Practices
+
+```
+components/
+├── ui/                 # Shared UI library
+│   ├── button.tsx      # <Button /> component
+│   ├── input.tsx       # <Input /> component
+│   └── index.ts        # Barrel exports
+├── demo/               # Component demonstrations
+│   ├── ButtonDemo.tsx  # Button usage examples
+│   └── InputDemo.tsx   # Input usage examples
+├── features/           # Business logic
+│   ├── auth/          # Authentication components
+│   ├── dashboard/     # Dashboard-specific components
+│   └── profile/       # User profile components
+├── forms/             # Form compositions
+├── layout/            # Layout components
+└── providers/         # Context providers
+```
+
+### 🎯 Rapid Development Instructions
+
+**Component Creation Keywords** → Route to `/components/ui/`:
+- "Create a reusable [component]"
+- "Build a shared [component]"
+- "Make a common [component]"
+- "Design system [component]"
+
+**Feature Keywords** → Route to `/components/features/`:
+- "Build [feature name] functionality"
+- "Create [business logic]"
+- "Implement [user workflow]"
 
 ## 📋 Implemented Components
 
@@ -264,14 +337,186 @@ Do **not** place all components in `/components/ui`. Only shared UI elements go 
 #### Tabs Component (`/components/ui/tabs.tsx`)
 - Tab navigation for demo page organization
 
-### Demo Components (`/components/demo/`)
-Each UI component has a corresponding comprehensive demo:
-- `ButtonDemo.tsx` - Button variants, sizes, and states  
-- `CheckboxDemo.tsx` - Checkbox examples with interactive states
-- `DatePickerDemo.tsx` - Date selection examples
+## 🎮 Interactive Demo System
+
+### Demo Component Standards
+
+Each UI component MUST have a comprehensive demo showing:
+
+- **All Variants**: default, error, success states
+- **All Sizes**: sm, md, lg where applicable
+- **Interactive Examples**: Real form submissions, state changes
+- **Copy-Paste Code**: Ready-to-use code snippets
+- **Accessibility Features**: Keyboard navigation, screen reader support
+- **Edge Cases**: Loading states, disabled states, error handling
+
+### Current Demo Components
+
+#### 📝 Form & Input Demos
+- `InputDemo.tsx` - Text inputs with validation, icons, types
+- `TextareaDemo.tsx` - Multi-line inputs with auto-resize
+- `SelectDemo.tsx` - Dropdowns with search and validation
+- `CheckboxDemo.tsx` - Binary selections with custom colors
+- `SwitchDemo.tsx` - Toggle switches for settings
+- `DatePickerDemo.tsx` - Calendar date selection
 - `DateRangePickerDemo.tsx` - Date range selection
-- `DialogDemo.tsx` - Modal dialog examples
-- `InputDemo.tsx` - All input variations and use cases
-- `SectionDemo.tsx` - Layout sections with various configurations and nested examples
-- `SelectDemo.tsx` - Select dropdown demonstrations
-- `SwitchDemo.tsx` - Switch toggle examples with settings scenarios
+
+#### 🎯 Action & Navigation Demos
+- `ButtonDemo.tsx` - All button variants and states
+- `BadgeDemo.tsx` - Status indicators and labels
+- `DialogDemo.tsx` - Modal interactions
+- `TabsDemo.tsx` - Tab navigation patterns
+
+#### 🏗️ Layout & Structure Demos
+- `SectionDemo.tsx` - Page layout patterns
+- `CardDemo.tsx` - Content containers
+- `TableDemo.tsx` - Data presentation
+- `AccordionDemo.tsx` - Collapsible content
+
+### 🚀 Using Demos for Development
+
+```tsx
+// 1. Check the demo page for implementation patterns
+visit('/demo')
+
+// 2. Copy the pattern you need
+const MyForm = () => {
+  // Copy from InputDemo.tsx
+  return (
+    <Input 
+      label="Email" 
+      type="email" 
+      required 
+      error={errors.email}
+    />
+  )
+}
+
+// 3. Customize for your use case
+```
+
+## 🔧 Development Workflow
+
+### Starting a New Project
+
+1. **🎯 Define Requirements**
+   ```bash
+   # What are you building?
+   # - SaaS dashboard?
+   # - E-commerce site?
+   # - Corporate website?
+   # - Admin panel?
+   ```
+
+2. **🎨 Customize Design System**
+   ```css
+   /* app/globals.css - Update brand colors */
+   :root {
+     --primary: YOUR_BRAND_PRIMARY;
+     --secondary: YOUR_BRAND_SECONDARY;
+   }
+   ```
+
+3. **📄 Plan Your Pages**
+   ```bash
+   app/
+   ├── (auth)/login/page.tsx      # Authentication
+   ├── dashboard/page.tsx         # Main dashboard
+   ├── settings/page.tsx          # User settings
+   └── (marketing)/page.tsx       # Landing page
+   ```
+
+4. **🧩 Build with Components**
+   ```tsx
+   // Use existing components
+   import { Button, Input, Card } from '@/components/ui'
+   
+   // Compose complex UIs quickly
+   <Card>
+     <Input label="Search" />
+     <Button>Submit</Button>
+   </Card>
+   ```
+
+### Adding New Features
+
+1. **Check Existing Components**: Visit `/demo` first
+2. **Extend if Needed**: Add variants to existing components
+3. **Create New Components**: Follow the established patterns
+4. **Add Demo**: Always create a demo for new components
+5. **Update Documentation**: Keep CLAUDE.md updated
+
+### Code Quality Checklist
+
+- ✅ TypeScript strict mode compliance
+- ✅ ESLint passes without warnings
+- ✅ Components are responsive (mobile-first)
+- ✅ Accessibility testing with keyboard navigation
+- ✅ Error boundaries for error handling
+- ✅ Loading states for async operations
+- ✅ Proper form validation patterns
+
+## 🚀 Production Deployment Checklist
+
+### Pre-Deployment
+- ✅ `pnpm build` succeeds without errors
+- ✅ `pnpm lint` passes
+- ✅ `pnpm type-check` passes
+- ✅ All pages load correctly
+- ✅ Mobile responsiveness tested
+- ✅ Accessibility audit completed
+- ✅ Performance audit (Lighthouse score 90+)
+
+### Environment Setup
+```bash
+# Production environment variables
+NEXT_PUBLIC_APP_URL=https://yourdomain.com
+NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+DATABASE_URL=your_production_db_url
+```
+
+### Performance Optimization
+- **Images**: Use Next.js `Image` component
+- **Fonts**: Optimize with `next/font`
+- **Bundle**: Automatic code splitting enabled
+- **SEO**: Meta tags configured
+- **Analytics**: Add your analytics provider
+
+---
+
+## 💡 Quick Reference
+
+### Common Patterns
+```tsx
+// Form with validation
+<form className="space-y-4">
+  <Input label="Email" type="email" required error={errors.email} />
+  <Button type="submit" loading={isSubmitting}>Submit</Button>
+</form>
+
+// Data display
+<Card>
+  <CardHeader>
+    <CardTitle>Users</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <DataTable data={users} columns={columns} />
+  </CardContent>
+</Card>
+
+// Settings panel
+<Section title="Preferences">
+  <Switch label="Email notifications" />
+  <Switch label="Push notifications" />
+</Section>
+```
+
+### Essential Commands
+```bash
+pnpm dev              # Start development
+pnpm build            # Production build
+pnpm lint             # Check code quality
+visit /demo           # Explore components
+```
+
+**Remember**: This boilerplate is designed for speed without sacrificing quality. Every pattern and component has been battle-tested in production environments.
