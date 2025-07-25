@@ -323,14 +323,14 @@ export default function OrganizationsPage() {
     },
     {
       key: 'name',
-      title: '이용 (한글)',
+      title: '이름 (한글)',
       width: '120px',
       sortable: true,
       render: (value, row) => row.name,
     },
     {
       key: 'nameEn',
-      title: '이용 (영문)',
+      title: '이름 (영문)',
       width: '120px',
       sortable: true,
       render: (value, row) => row.nameEn,
@@ -361,12 +361,6 @@ export default function OrganizationsPage() {
       title: '업종',
       width: '100px',
       sortable: true,
-    },
-    {
-      key: 'registrationDate',
-      title: '담당기관 직원',
-      width: '120px',
-      render: (value, row) => row.industry,
     },
     {
       key: 'approved',
@@ -407,12 +401,12 @@ export default function OrganizationsPage() {
     },
     {
       key: 'actions',
-      title: '상세',
+      title: '삭제',
       width: '80px',
       align: 'center' as const,
       render: (value, row, index) => (
-        <Button variant="link" size="sm" className="text-blue-600">
-          상세
+        <Button variant="link" size="sm" className="flex text-center text-red-600">
+          삭제
         </Button>
       ),
     },
@@ -473,8 +467,8 @@ export default function OrganizationsPage() {
           </div>
         }
         footer={
-          <div className="flex items-center space-x-2">
-            <Typography size="xs" weight="semibold" align="right">
+          <div className="text-center">
+            <Typography size="xs" weight="normal" align="right">
               COPYRIGHT © 2025 HMM OCEAN SERVICE All rights Reserved
             </Typography>
           </div>
@@ -491,14 +485,6 @@ export default function OrganizationsPage() {
         {/* Page Content */}
         <div className="flex-1 overflow-auto p-6">
           <div className="space-y-6">
-            {/* Page Header */}
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">기관 목록</h1>
-              <p className="text-muted-foreground">
-                등록된 기관들을 조회하고 승인 상태를 관리할 수 있습니다.
-              </p>
-            </div>
-
             {/* Filters */}
             <div className="bg-card border-border rounded-lg border p-4">
               <div className="grid grid-cols-5 items-end gap-4">

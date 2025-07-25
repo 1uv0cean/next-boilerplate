@@ -3,10 +3,10 @@
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
-import { forwardRef, useState, createContext, useContext } from 'react';
+import { createContext, forwardRef, useContext, useState } from 'react';
 
 const sidebarVariants = cva(
-  'flex h-full flex-col border-r bg-background transition-all duration-300 ease-in-out',
+  'flex h-full flex-col border-r bg-background transition-all duration-300 ease-in-out overflow-hidden',
   {
     variants: {
       variant: {
@@ -29,7 +29,7 @@ const sidebarVariants = cva(
       size: 'md',
       position: 'left',
     },
-  }
+  },
 );
 
 const sidebarItemVariants = cva(
@@ -50,7 +50,7 @@ const sidebarItemVariants = cva(
       variant: 'default',
       active: false,
     },
-  }
+  },
 );
 
 export type BadgeVariant = 'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
@@ -111,17 +111,17 @@ const SidebarProvider = ({
 }) => {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [activeItem, setActiveItem] = useState<string | null>(defaultActiveItem || null);
-  
+
   // Auto-expand parent menus based on active item
   const getInitialExpandedItems = () => {
     const expandedSet = new Set<string>();
-    
+
     if (defaultActiveItem && items) {
       const findParentAndExpand = (itemList: SidebarItem[], targetId: string): boolean => {
         for (const item of itemList) {
           if (item.children) {
             // Check if target is in children
-            const hasTarget = item.children.some(child => child.id === targetId);
+            const hasTarget = item.children.some((child) => child.id === targetId);
             if (hasTarget) {
               expandedSet.add(item.id);
               return true;
@@ -135,17 +135,17 @@ const SidebarProvider = ({
         }
         return false;
       };
-      
+
       findParentAndExpand(items, defaultActiveItem);
     }
-    
+
     return expandedSet;
   };
-  
+
   const [expandedItems, setExpandedItems] = useState<Set<string>>(getInitialExpandedItems());
 
   const toggleExpanded = (id: string) => {
-    setExpandedItems(prev => {
+    setExpandedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
         newSet.delete(id);
@@ -229,23 +229,36 @@ const SidebarItem = ({
   const itemContent = (
     <>
       {item.icon && (
-        <span className={cn('shrink-0', collapsed && level === 0 && 'mx-auto')}>
-          {item.icon}
-        </span>
+        <span className={cn('shrink-0', collapsed && level === 0 && 'mx-auto')}>{item.icon}</span>
       )}
       {(!collapsed || level > 0) && (
         <>
-          <span className="flex-1 truncate">{item.label}</span>
+          <span
+            className={cn(
+              'flex-1 truncate whitespace-nowrap transition-opacity duration-300',
+              collapsed ? 'opacity-0' : 'opacity-100 delay-150',
+            )}
+          >
+            {item.label}
+          </span>
           {item.badge && (
-            <span className={cn(
-              "ml-auto inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-2 text-xs font-medium",
-              getBadgeStyles(item.badgeVariant)
-            )}>
+            <span
+              className={cn(
+                'ml-auto inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-2 text-xs font-medium transition-opacity duration-300',
+                collapsed ? 'opacity-0' : 'opacity-100 delay-150',
+                getBadgeStyles(item.badgeVariant),
+              )}
+            >
               {item.badge}
             </span>
           )}
           {hasChildren && (
-            <span className="ml-auto shrink-0">
+            <span
+              className={cn(
+                'ml-auto shrink-0 transition-opacity duration-300',
+                collapsed ? 'opacity-0' : 'opacity-100 delay-150',
+              )}
+            >
               {isExpanded ? (
                 <ChevronDown className="h-4 w-4" />
               ) : (
@@ -262,7 +275,8 @@ const SidebarItem = ({
     sidebarItemVariants({ active: isActive }),
     item.disabled && 'cursor-not-allowed opacity-50',
     level > 0 && 'ml-6 text-xs',
-    collapsed && level === 0 && 'justify-center px-2'
+    collapsed && level === 0 && 'justify-center px-2 overflow-hidden',
+    'transition-all duration-300 ease-in-out',
   );
 
   return (
@@ -289,12 +303,7 @@ const SidebarItem = ({
       {hasChildren && isExpanded && (!collapsed || level > 0) && (
         <div className="mt-1">
           {item.children!.map((child) => (
-            <SidebarItem
-              key={child.id}
-              item={child}
-              level={level + 1}
-              onItemClick={onItemClick}
-            />
+            <SidebarItem key={child.id} item={child} level={level + 1} onItemClick={onItemClick} />
           ))}
         </div>
       )}
@@ -321,7 +330,11 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     ref,
   ) => {
     return (
-      <SidebarProvider defaultCollapsed={defaultCollapsed} defaultActiveItem={defaultActiveItem} items={items}>
+      <SidebarProvider
+        defaultCollapsed={defaultCollapsed}
+        defaultActiveItem={defaultActiveItem}
+        items={items}
+      >
         <SidebarContent
           ref={ref}
           className={className}
@@ -337,7 +350,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         />
       </SidebarProvider>
     );
-  }
+  },
 );
 
 const SidebarContent = forwardRef<
@@ -364,19 +377,28 @@ const SidebarContent = forwardRef<
     const sidebarClasses = cn(
       sidebarVariants({ variant, size: collapsed ? 'sm' : size, position }),
       collapsed && 'w-16',
-      className
+      className,
     );
 
     return (
       <div ref={ref} className={sidebarClasses} {...props}>
         {/* Header */}
         {(header || collapsible) && (
-          <div className="flex items-center justify-between border-b border-border p-4">
-            {!collapsed && header && <div className="flex-1">{header}</div>}
+          <div className="border-border flex items-center justify-between overflow-hidden p-4">
+            {!collapsed && header && (
+              <div
+                className={cn(
+                  'flex-1 overflow-hidden whitespace-nowrap transition-opacity duration-300',
+                  collapsed ? 'opacity-0' : 'opacity-100 delay-150',
+                )}
+              >
+                {header}
+              </div>
+            )}
             {collapsible && (
               <button
                 onClick={() => setCollapsed(!collapsed)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-transparent hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                 aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
                 {collapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
@@ -393,14 +415,19 @@ const SidebarContent = forwardRef<
         </nav>
 
         {/* Footer */}
-        {footer && !collapsed && (
-          <div className="border-t border-border p-4">
-            {footer}
+        {footer && (
+          <div
+            className={cn(
+              'border-border border-t p-4 transition-all duration-300',
+              collapsed ? 'h-0 overflow-hidden border-0 p-0 opacity-0' : 'opacity-100 delay-50',
+            )}
+          >
+            {!collapsed && footer}
           </div>
         )}
       </div>
     );
-  }
+  },
 );
 
 Sidebar.displayName = 'Sidebar';
