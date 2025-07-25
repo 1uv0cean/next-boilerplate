@@ -28,7 +28,12 @@ export interface DataTableColumn<T = any> {
   filterable?: boolean;
   render?: (value: any, row: T, index: number) => React.ReactNode;
   width?: string;
+  minWidth?: string;
+  maxWidth?: string;
+  resizable?: boolean;
   align?: 'left' | 'center' | 'right';
+  headerAlign?: 'left' | 'center' | 'right';
+  cellAlign?: 'left' | 'center' | 'right';
 }
 
 export type FilterMode = 'search' | 'column' | 'both' | 'none';
@@ -87,6 +92,27 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
     const [sortDirection, setSortDirection] = useState<SortDirection>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [columnFilters, setColumnFilters] = useState<Record<string, string>>({});
+    const [columnWidths, setColumnWidths] = useState<Record<string, number>>(() => {
+      const initialWidths: Record<string, number> = {};
+      columns.forEach((column) => {
+        if (column.width) {
+          initialWidths[column.key] = parseInt(column.width.replace('px', ''));
+        }
+      });
+      return initialWidths;
+    });
+
+    // Calculate total table width and ensure it's larger than container to prevent auto-sizing
+    const totalTableWidth = useMemo(() => {
+      const calculatedWidth = columns.reduce((total, column) => {
+        const width =
+          columnWidths[column.key] || parseInt(column.width?.replace('px', '') || '150');
+        return total + width;
+      }, 0);
+      // Add extra width to prevent browser from auto-adjusting columns
+      return Math.max(calculatedWidth, 1200);
+    }, [columns, columnWidths]);
+    const [isResizing, setIsResizing] = useState<string | null>(null);
 
     // Filter data based on search query and column filters
     const filteredData = useMemo(() => {
@@ -199,6 +225,64 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       return null;
     };
 
+    // Column resizing handlers
+    const handleResizeStart = (columnKey: string, e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsResizing(columnKey);
+
+      const startX = e.clientX;
+      const currentColumn = columns.find((col) => col.key === columnKey);
+      const startWidth =
+        columnWidths[columnKey] || parseInt(currentColumn?.width?.replace('px', '') || '150');
+
+      // Get column constraints
+      const minWidth = parseInt(currentColumn?.minWidth?.replace('px', '') || '30');
+      const maxWidth = currentColumn?.maxWidth
+        ? parseInt(currentColumn.maxWidth.replace('px', ''))
+        : 500;
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const deltaX = e.clientX - startX;
+        const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + deltaX));
+        setColumnWidths((prev) => ({ ...prev, [columnKey]: newWidth }));
+      };
+
+      const handleMouseUp = () => {
+        setIsResizing(null);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      };
+
+      // Improve UX during resize
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    };
+
+    const getColumnWidth = (column: DataTableColumn) => {
+      if (columnWidths[column.key]) {
+        return `${columnWidths[column.key]}px`;
+      }
+      return column.width || '150px';
+    };
+
+    // Double-click to auto-resize column
+    const handleDoubleClick = (columnKey: string, e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Reset to original width or auto-fit content
+      const column = columns.find((col) => col.key === columnKey);
+      if (column) {
+        const originalWidth = parseInt(column.width?.replace('px', '') || '150');
+        setColumnWidths((prev) => ({ ...prev, [columnKey]: originalWidth }));
+      }
+    };
+
     const renderPagination = () => {
       if (displayMode !== 'pagination' || totalPages <= 1) return null;
 
@@ -216,11 +300,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       }
 
       return (
-        <div className="flex items-center justify-between">
-          <div className="text-muted-foreground text-sm">
-            Showing {(currentPage - 1) * pageSize + 1} to{' '}
-            {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
-          </div>
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
@@ -299,47 +379,122 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
         {/* Table */}
         <div
-          className={cn('rounded-md border', displayMode === 'scroll' && 'overflow-auto')}
-          style={displayMode === 'scroll' ? { maxHeight } : undefined}
+          className={cn('overflow-x-auto rounded-md border')}
+          style={displayMode === 'scroll' ? { maxHeight, overflowY: 'auto' } : undefined}
         >
-          <Table>
+          <Table style={{ tableLayout: 'fixed', width: `${totalTableWidth}px` }}>
             <TableHeader>
               <TableRow>
-                {columns.map((column) => (
-                  <TableHead
-                    key={column.key}
-                    style={{ width: column.width }}
-                    className={cn(
-                      column.align === 'center' && 'text-center',
-                      column.align === 'right' && 'text-right',
-                      column.sortable && 'hover:bg-muted/50 cursor-pointer select-none',
-                    )}
-                    onClick={() => column.sortable && handleSort(column.key)}
-                  >
-                    <div className="flex items-center gap-2">
-                      {column.title}
-                      {column.sortable && (
-                        <div className="flex flex-col">{getSortIcon(column.key)}</div>
+                {columns.map((column, index) => {
+                  // 헤더 정렬 결정: headerAlign > align > 'left' (기본값)
+                  const headerAlignment = column.headerAlign || column.align || 'left';
+                  const isLastColumn = index === columns.length - 1;
+
+                  return (
+                    <TableHead
+                      key={column.key}
+                      style={{
+                        width: getColumnWidth(column),
+                        minWidth: getColumnWidth(column),
+                        maxWidth: getColumnWidth(column),
+                      }}
+                      className={cn(
+                        'relative',
+                        column.sortable && 'hover:bg-muted/50 cursor-pointer select-none',
                       )}
-                    </div>
-                  </TableHead>
-                ))}
-              </TableRow>
-              {showColumnFilters && (
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableHead key={`filter-${column.key}`} className="p-2">
-                      {column.filterable && (
-                        <input
-                          type="text"
-                          placeholder={`Filter ${column.title.toLowerCase()}...`}
-                          value={columnFilters[column.key] || ''}
-                          onChange={(e) => handleColumnFilter(column.key, e.target.value)}
-                          className="border-input bg-background placeholder:text-muted-foreground focus:ring-ring w-full rounded border px-2 py-1 text-xs focus:ring-1 focus:outline-none"
+                      onClick={() => column.sortable && handleSort(column.key)}
+                    >
+                      <div
+                        className={cn(
+                          'flex items-center overflow-hidden',
+                          headerAlignment === 'center' && 'justify-center',
+                          headerAlignment === 'right' && 'justify-end gap-2',
+                          headerAlignment === 'left' && 'justify-start gap-2',
+                        )}
+                      >
+                        {headerAlignment === 'center' ? (
+                          <div className="relative flex w-full items-center justify-center">
+                            <span className="truncate text-center">{column.title}</span>
+                            {column.sortable && (
+                              <div className="absolute right-2 flex flex-col">
+                                {getSortIcon(column.key)}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <>
+                            <span
+                              className={cn(
+                                'truncate',
+                                headerAlignment === 'right' && 'text-right',
+                                headerAlignment === 'left' && 'flex-1',
+                              )}
+                            >
+                              {column.title}
+                            </span>
+                            {column.sortable && (
+                              <div className="flex flex-shrink-0 flex-col">
+                                {getSortIcon(column.key)}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+
+                      {/* Column Separator */}
+                      {!isLastColumn && (
+                        <div className="bg-border absolute top-1/2 right-0 h-4 w-px -translate-y-1/2" />
+                      )}
+
+                      {/* Column Resize Handle */}
+                      {column.resizable !== false && (
+                        <div
+                          className={cn(
+                            'hover:bg-primary/30 absolute top-1/2 -right-1 z-10 h-4 -translate-y-1/2 cursor-col-resize transition-all duration-150',
+                            'w-2',
+                            isResizing === column.key && 'bg-primary/50 w-3',
+                          )}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleResizeStart(column.key, e);
+                          }}
+                          onDoubleClick={(e) => {
+                            e.stopPropagation();
+                            handleDoubleClick(column.key, e);
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                          title="드래그하여 크기 조정 / 더블클릭으로 원래 크기로 복원"
                         />
                       )}
                     </TableHead>
-                  ))}
+                  );
+                })}
+              </TableRow>
+              {showColumnFilters && (
+                <TableRow>
+                  {columns.map((column, index) => {
+                    return (
+                      <TableHead
+                        key={`filter-${column.key}`}
+                        className={cn('p-2')}
+                        style={{
+                          width: getColumnWidth(column),
+                          minWidth: getColumnWidth(column),
+                          maxWidth: getColumnWidth(column),
+                        }}
+                      >
+                        {column.filterable && (
+                          <input
+                            type="text"
+                            placeholder={`Filter ${column.title.toLowerCase()}...`}
+                            value={columnFilters[column.key] || ''}
+                            onChange={(e) => handleColumnFilter(column.key, e.target.value)}
+                            className="border-input bg-background placeholder:text-muted-foreground focus:ring-ring w-full rounded border px-2 py-1 text-xs focus:ring-1 focus:outline-none"
+                          />
+                        )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
               )}
             </TableHeader>
@@ -360,19 +515,54 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                     className={cn(onRowClick && 'hover:bg-muted/50 cursor-pointer')}
                     onClick={() => onRowClick?.(row, index)}
                   >
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.key}
-                        className={cn(
-                          column.align === 'center' && 'text-center',
-                          column.align === 'right' && 'text-right',
-                        )}
-                      >
-                        {column.render
-                          ? column.render(row[column.key], row, index)
-                          : String(row[column.key] || '')}
-                      </TableCell>
-                    ))}
+                    {columns.map((column, colIndex) => {
+                      // 셀 정렬 결정: cellAlign > align > 'left' (기본값)
+                      const cellAlignment = column.cellAlign || column.align || 'left';
+
+                      return (
+                        <TableCell
+                          key={column.key}
+                          style={{
+                            width: getColumnWidth(column),
+                            minWidth: getColumnWidth(column),
+                            maxWidth: getColumnWidth(column),
+                          }}
+                          className={cn(
+                            'overflow-hidden',
+                            cellAlignment === 'center' && 'text-center',
+                            cellAlignment === 'right' && 'text-right',
+                            cellAlignment === 'left' && 'text-left',
+                          )}
+                        >
+                          {column.render ? (
+                            <div
+                              className={cn(
+                                'flex min-w-0 items-center',
+                                cellAlignment === 'center' && 'justify-center',
+                                cellAlignment === 'right' && 'justify-end',
+                                cellAlignment === 'left' && 'justify-start',
+                              )}
+                              title={String(row[column.key] || '')}
+                            >
+                              <div
+                                className={cn(
+                                  'min-w-0',
+                                  cellAlignment === 'center' && 'flex-shrink-0',
+                                  (cellAlignment === 'left' || cellAlignment === 'right') &&
+                                    'flex-1',
+                                )}
+                              >
+                                {column.render(row[column.key], row, index)}
+                              </div>
+                            </div>
+                          ) : (
+                            <span className="block truncate" title={String(row[column.key] || '')}>
+                              {String(row[column.key] || '')}
+                            </span>
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               )}

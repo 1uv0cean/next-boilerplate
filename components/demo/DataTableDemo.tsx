@@ -2,6 +2,21 @@
 
 import { DataTable, DataTableColumn } from '@/components/ui/DataTable';
 import { useState } from 'react';
+import {
+  IdBadge,
+  NameBadge,
+  EmailDisplay,
+  RoleBadge,
+  StatusBadge,
+  DateDisplay,
+  ProductDisplay,
+  PriceDisplay,
+  StockStatus,
+  RatingDisplay,
+  OrderIdDisplay,
+  CurrencyDisplay,
+  ItemsCount,
+} from './TableRenderComponents';
 
 interface DemoSectionProps {
   title: string;
@@ -92,42 +107,6 @@ const orders: Order[] = [
   { id: 'ORD-005', customer: 'Alex Chen', amount: 79.99, status: 'Cancelled', date: '2024-01-13', items: 1 },
 ];
 
-const getStatusColor = (status: string) => {
-  switch (status.toLowerCase()) {
-    case 'active':
-    case 'completed':
-      return 'bg-green-100 text-green-800';
-    case 'pending':
-    case 'processing':
-      return 'bg-yellow-100 text-yellow-800';
-    case 'inactive':
-    case 'cancelled':
-      return 'bg-red-100 text-red-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-};
-
-const getRatingStars = (rating: number) => {
-  const stars = [];
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 !== 0;
-
-  for (let i = 0; i < fullStars; i++) {
-    stars.push('★');
-  }
-  if (hasHalfStar) {
-    stars.push('☆');
-  }
-  return stars.join('');
-};
-
-const getStockStatus = (stock: number) => {
-  if (stock === 0) return { text: 'Out of Stock', color: 'bg-red-100 text-red-800' };
-  if (stock < 10) return { text: 'Low Stock', color: 'bg-orange-100 text-orange-800' };
-  if (stock < 50) return { text: 'In Stock', color: 'bg-yellow-100 text-yellow-800' };
-  return { text: 'Well Stocked', color: 'bg-green-100 text-green-800' };
-};
 
 export const DataTableDemo = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -141,59 +120,47 @@ export const DataTableDemo = () => {
       title: 'ID',
       sortable: true,
       width: '80px',
-      render: (value) => <span className="font-mono text-xs">#{value}</span>,
+      render: (value) => <IdBadge id={value} />,
     },
     {
       key: 'name',
       title: 'Name',
       sortable: true,
       filterable: true,
-      render: (value) => <span className="font-medium">{value}</span>,
+      render: (value) => <NameBadge name={value} />,
     },
     {
       key: 'email',
       title: 'Email',
       sortable: true,
       filterable: true,
-      render: (value) => <span className="text-muted-foreground">{value}</span>,
+      render: (value) => <EmailDisplay email={value} />,
     },
     {
       key: 'role',
       title: 'Role',
       sortable: true,
       filterable: true,
-      render: (value) => (
-        <span className={`px-2 py-1 rounded text-xs font-medium ${
-          value === 'Admin' ? 'bg-purple-100 text-purple-800' :
-          value === 'Moderator' ? 'bg-blue-100 text-blue-800' :
-          'bg-gray-100 text-gray-800'
-        }`}>
-          {value}
-        </span>
-      ),
+      render: (value) => <RoleBadge role={value} />,
     },
     {
       key: 'status',
       title: 'Status',
       sortable: true,
       filterable: true,
-      render: (value) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(value)}`}>
-          {value}
-        </span>
-      ),
+      render: (value) => <StatusBadge status={value} />,
     },
     {
       key: 'lastLogin',
       title: 'Last Login',
       sortable: true,
-      render: (value) => <span className="text-sm">{value}</span>,
+      render: (value) => <DateDisplay date={value} />,
     },
     {
       key: 'joinDate',
       title: 'Join Date',
       sortable: true,
-      render: (value) => <span className="text-sm">{value}</span>,
+      render: (value) => <DateDisplay date={value} />,
     },
   ];
 
@@ -204,16 +171,7 @@ export const DataTableDemo = () => {
       title: 'Product',
       sortable: true,
       filterable: true,
-      render: (value, row) => (
-        <div className="flex items-center gap-2">
-          <span className="font-medium">{value}</span>
-          {row.featured && (
-            <span className="px-1.5 py-0.5 bg-amber-100 text-amber-800 text-xs rounded font-medium">
-              Featured
-            </span>
-          )}
-        </div>
-      ),
+      render: (value, row) => <ProductDisplay name={value} featured={row.featured} />,
     },
     {
       key: 'category',
@@ -225,37 +183,25 @@ export const DataTableDemo = () => {
       key: 'price',
       title: 'Price',
       sortable: true,
-      align: 'right',
-      render: (value) => <span className="font-medium">${value}</span>,
+      headerAlign: 'right',
+      cellAlign: 'right',
+      render: (value) => <PriceDisplay price={value} />,
     },
     {
       key: 'stock',
       title: 'Stock',
       sortable: true,
-      align: 'center',
-      render: (value) => {
-        const status = getStockStatus(value);
-        return (
-          <div className="text-center">
-            <div className="font-medium">{value}</div>
-            <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${status.color}`}>
-              {status.text}
-            </span>
-          </div>
-        );
-      },
+      headerAlign: 'center',
+      cellAlign: 'center',
+      render: (value) => <StockStatus stock={value} />,
     },
     {
       key: 'rating',
       title: 'Rating',
       sortable: true,
-      align: 'center',
-      render: (value) => (
-        <div className="text-center">
-          <div className="text-yellow-500 text-sm">{getRatingStars(value)}</div>
-          <div className="text-xs text-muted-foreground">{value}/5</div>
-        </div>
-      ),
+      headerAlign: 'center',
+      cellAlign: 'center',
+      render: (value) => <RatingDisplay rating={value} />,
     },
   ];
 
@@ -266,45 +212,43 @@ export const DataTableDemo = () => {
       title: 'Order ID',
       sortable: true,
       filterable: true,
-      render: (value) => <span className="font-mono text-sm">{value}</span>,
+      render: (value) => <OrderIdDisplay orderId={value} />,
     },
     {
       key: 'customer',
       title: 'Customer',
       sortable: true,
       filterable: true,
-      render: (value) => <span className="font-medium">{value}</span>,
+      render: (value) => <NameBadge name={value} />,
     },
     {
       key: 'amount',
       title: 'Amount', 
       sortable: true,
-      align: 'right',
-      render: (value) => <span className="font-medium">${value.toFixed(2)}</span>,
+      headerAlign: 'right',
+      cellAlign: 'right',
+      render: (value) => <CurrencyDisplay amount={value} />,
     },
     {
       key: 'status',
       title: 'Status',
       sortable: true,
       filterable: true,
-      render: (value) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(value)}`}>
-          {value}
-        </span>
-      ),
+      render: (value) => <StatusBadge status={value} />,
     },
     {
       key: 'date',
       title: 'Date',
       sortable: true,
-      render: (value) => <span className="text-sm">{value}</span>,
+      render: (value) => <DateDisplay date={value} />,
     },
     {
       key: 'items',
       title: 'Items',
       sortable: true,
-      align: 'center',
-      render: (value) => <span className="font-medium">{value}</span>,
+      headerAlign: 'center',
+      cellAlign: 'center',
+      render: (value) => <ItemsCount count={value} />,
     },
   ];
 

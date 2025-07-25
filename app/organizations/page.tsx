@@ -1,13 +1,20 @@
 'use client';
 
+import {
+  AdminSelector,
+  ApprovalSwitch,
+  DeleteButton,
+  IdBadge,
+  StatusBadge,
+  TruncatedText,
+  WithdrawalSwitch,
+} from '@/components/organizations/TableComponents';
 import { Breadcrumb, BreadcrumbItem } from '@/components/ui/Breadcrumb';
-import { Button } from '@/components/ui/Button';
 import { DataTable, DataTableColumn } from '@/components/ui/DataTable';
 import { DateRange, DateRangePicker } from '@/components/ui/DateRangePicker';
 import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
+import { Select, SelectOption } from '@/components/ui/Select';
 import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
-import { Switch } from '@/components/ui/Switch';
 import { Typography } from '@/components/ui/Typography';
 import { BarChart, Building2, FileText, Settings, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -292,12 +299,54 @@ const managerOptions = [
   { value: 'manager3', label: '관리자3' },
 ];
 
+// Admin options for organization management
+const adminOptions: SelectOption[] = [
+  { value: 'manager1', label: '김관리 (manager1)' },
+  { value: 'manager2', label: '이담당 (manager2)' },
+  { value: 'manager3', label: '박책임 (manager3)' },
+  { value: 'admin1', label: '최운영 (admin1)' },
+  { value: 'admin2', label: '정시스템 (admin2)' },
+];
+
 export default function OrganizationsPage() {
   const pathname = usePathname();
   const [dateRange, setDateRange] = useState<DateRange>({ startDate: null, endDate: null });
   const [searchName, setSearchName] = useState('');
   const [approvalFilter, setApprovalFilter] = useState('all');
   const [managerFilter, setManagerFilter] = useState('all');
+  const [organizationData, setOrganizationData] = useState(mockOrganizations);
+
+  // Handle admin selection change
+  const handleAdminChange = (orgId: string, newAdminId: string) => {
+    setOrganizationData((prev) =>
+      prev.map((org) => (org.id === orgId ? { ...org, manager: newAdminId } : org)),
+    );
+    console.log(`Admin changed for ${orgId}: ${newAdminId}`);
+  };
+
+  // Handle approval toggle
+  const handleApprovalToggle = (orgId: string, checked: boolean) => {
+    setOrganizationData((prev) =>
+      prev.map((org) => (org.id === orgId ? { ...org, approved: checked } : org)),
+    );
+    console.log(`Toggle approval for ${orgId}: ${checked}`);
+  };
+
+  // Handle withdrawal toggle
+  const handleWithdrawalToggle = (orgId: string, checked: boolean) => {
+    setOrganizationData((prev) =>
+      prev.map((org) => (org.id === orgId ? { ...org, withdrawn: checked } : org)),
+    );
+    console.log(`Toggle withdrawal for ${orgId}: ${checked}`);
+  };
+
+  // Handle delete action
+  const handleDelete = (orgId: string) => {
+    if (confirm('정말로 이 기관을 삭제하시겠습니까?')) {
+      setOrganizationData((prev) => prev.filter((org) => org.id !== orgId));
+      console.log(`Deleted organization: ${orgId}`);
+    }
+  };
 
   // Determine active item based on current pathname
   const getActiveItemFromPath = () => {
@@ -320,82 +369,120 @@ export default function OrganizationsPage() {
       title: 'ID',
       width: '80px',
       sortable: true,
+      render: (value) => <IdBadge id={value} />,
     },
     {
       key: 'name',
       title: '이름 (한글)',
       width: '120px',
       sortable: true,
-      render: (value, row) => row.name,
+      render: (value, row) => (
+        <Typography weight="medium" className="truncate" title={row.name}>
+          {row.name}
+        </Typography>
+      ),
     },
     {
       key: 'nameEn',
       title: '이름 (영문)',
       width: '120px',
       sortable: true,
-      render: (value, row) => row.nameEn,
+      render: (value, row) => (
+        <Typography className="truncate" title={row.nameEn}>
+          {row.nameEn}
+        </Typography>
+      ),
     },
     {
       key: 'businessNumber',
       title: '사업자등록번호',
       width: '140px',
       sortable: true,
+      render: (value) => (
+        <Typography variant="code" size="sm" className="truncate" title={value}>
+          {value}
+        </Typography>
+      ),
     },
     {
       key: 'phone',
       title: '전화번호',
       width: '120px',
+      render: (value) => (
+        <Typography className="truncate" title={value}>
+          {value}
+        </Typography>
+      ),
     },
     {
       key: 'address',
       title: '주소',
       width: '200px',
-      render: (value) => (
-        <div className="max-w-[200px] truncate" title={value}>
-          {value}
-        </div>
-      ),
+      minWidth: '80px',
+      render: (value) => <TruncatedText text={value} />,
     },
     {
       key: 'industry',
       title: '업종',
       width: '100px',
       sortable: true,
-    },
-    {
-      key: 'approved',
-      title: '검토 완료',
-      width: '100px',
-      align: 'center' as const,
-      render: (value, row, index) => <div className="text-center">{value ? '승인' : '신청'}</div>,
-    },
-    {
-      key: 'withdrawn',
-      title: '승인',
-      width: '80px',
-      align: 'center' as const,
-      render: (value, row, index) => (
-        <Switch
-          checked={row.approved}
-          onCheckedChange={(checked) => {
-            // Handle approval toggle
-            console.log(`Toggle approval for ${row.id}:`, checked);
-          }}
-        />
+      render: (value) => (
+        <Typography className="truncate" title={value}>
+          {value}
+        </Typography>
       ),
     },
     {
       key: 'manager',
+      title: '관리자 선택',
+      width: '160px',
+      headerAlign: 'center' as const,
+      cellAlign: 'center' as const,
+      resizable: false,
+      render: (value, row, index) => (
+        <AdminSelector
+          value={row.manager}
+          options={adminOptions}
+          onChange={(newValue) => handleAdminChange(row.id, newValue)}
+          disabled={row.withdrawn}
+        />
+      ),
+    },
+    {
+      key: 'status',
+      title: '상태',
+      width: '100px',
+      headerAlign: 'center' as const,
+      cellAlign: 'center' as const,
+      render: (value, row, index) => (
+        <StatusBadge approved={row.approved} withdrawn={row.withdrawn} />
+      ),
+    },
+    {
+      key: 'approved',
+      title: '승인',
+      width: '80px',
+      headerAlign: 'center',
+      cellAlign: 'center',
+      render: (value, row, index) => (
+        <ApprovalSwitch
+          checked={row.approved}
+          onChange={(checked) => handleApprovalToggle(row.id, checked)}
+          disabled={row.withdrawn}
+        />
+      ),
+    },
+
+    {
+      key: 'withdrawn',
       title: '탈퇴',
       width: '80px',
-      align: 'center' as const,
+      headerAlign: 'center' as const,
+      cellAlign: 'center' as const,
       render: (value, row, index) => (
-        <Switch
+        <WithdrawalSwitch
           checked={row.withdrawn}
-          onCheckedChange={(checked) => {
-            // Handle withdrawal toggle
-            console.log(`Toggle withdrawal for ${row.id}:`, checked);
-          }}
+          onChange={(checked) => handleWithdrawalToggle(row.id, checked)}
         />
       ),
     },
@@ -403,17 +490,16 @@ export default function OrganizationsPage() {
       key: 'actions',
       title: '삭제',
       width: '80px',
-      align: 'center' as const,
+      headerAlign: 'center' as const,
+      cellAlign: 'center' as const,
       render: (value, row, index) => (
-        <Button variant="link" size="sm" className="flex text-center text-red-600">
-          삭제
-        </Button>
+        <DeleteButton onClick={() => handleDelete(row.id)} disabled={row.withdrawn} />
       ),
     },
   ];
 
   // Filter data based on current filters
-  const filteredData = mockOrganizations.filter((org) => {
+  const filteredData = organizationData.filter((org) => {
     // Name search filter
     if (
       searchName &&

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
 import { AlertCircle, Check, ChevronDown } from 'lucide-react';
 import { forwardRef, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const selectVariants = cva(
   'flex w-full rounded-md border border-input bg-background text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer',
@@ -80,6 +81,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [searchQuery, setSearchQuery] = useState('');
     const selectRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
     const hasError = !!error;
     const hasSuccess = success && !hasError;
@@ -103,6 +106,15 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
 
     const handleToggle = () => {
       if (!disabled && !loading) {
+        if (!isOpen && selectRef.current) {
+          // Calculate dropdown position
+          const rect = selectRef.current.getBoundingClientRect();
+          setDropdownPosition({
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX,
+            width: rect.width,
+          });
+        }
         setIsOpen(!isOpen);
       }
     };
@@ -114,7 +126,12 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
     // Close dropdown when clicking outside
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        if (
+          selectRef.current && 
+          !selectRef.current.contains(event.target as Node) &&
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
           setSearchQuery('');
         }
@@ -144,7 +161,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               leftIcon && 'pl-10',
               'items-center justify-between pr-3',
               isOpen && !disabled && 'ring-ring ring-2 ring-offset-2',
-              disabled && 'cursor-not-allowed opacity-50 bg-muted text-muted-foreground border-muted',
+              disabled &&
+                'bg-muted text-muted-foreground border-muted cursor-not-allowed opacity-50',
               className,
             )}
             onClick={handleToggle}
@@ -183,53 +201,68 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
               )}
             </div>
           </div>
-
           {leftIcon && (
             <div className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2">
               {leftIcon}
             </div>
           )}
-
-          {isOpen && !disabled && !loading && (
-            <div className="border-input bg-background absolute top-full z-50 mt-1 w-full rounded-md border shadow-lg">
-              {searchable && (
-                <div className="border-input border-b p-2">
-                  <input
-                    type="text"
-                    placeholder="Search options..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className="border-input focus:ring-ring w-full rounded border bg-transparent px-2 py-1 text-sm focus:ring-1 focus:outline-none"
-                    autoFocus
-                  />
-                </div>
-              )}
-
-              <div className="max-h-60 overflow-auto p-1">
-                {filteredOptions.length === 0 ? (
-                  <div className="text-muted-foreground px-2 py-1 text-sm">No options found</div>
-                ) : (
-                  filteredOptions.map((option) => (
-                    <div
-                      key={option.value}
-                      className={cn(
-                        'hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center rounded px-2 py-1 text-sm',
-                        option.disabled && 'cursor-not-allowed opacity-50',
-                        option.value === (value || internalValue) &&
-                          'bg-accent text-accent-foreground',
-                      )}
-                      onClick={() => !option.disabled && handleSelect(option.value)}
-                    >
-                      <span className="flex-1 truncate">{option.label}</span>
-                      {option.value === (value || internalValue) && (
-                        <Check className="ml-2 h-4 w-4" />
-                      )}
-                    </div>
-                  ))
+          {isOpen &&
+            !disabled &&
+            !loading &&
+            createPortal(
+              <div
+                ref={dropdownRef}
+                className="border-input bg-background fixed z-[9999] mt-1 rounded-md border shadow-lg"
+                style={{
+                  top: dropdownPosition.top,
+                  left: dropdownPosition.left,
+                  width: dropdownPosition.width,
+                }}
+              >
+                {searchable && (
+                  <div className="border-input border-b p-2">
+                    <input
+                      type="text"
+                      placeholder="Search options..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      className="border-input focus:ring-ring w-full rounded border bg-transparent px-2 py-1 text-sm focus:ring-1 focus:outline-none"
+                      autoFocus
+                    />
+                  </div>
                 )}
-              </div>
-            </div>
-          )}
+
+                <div className="max-h-60 overflow-auto p-1">
+                  {filteredOptions.length === 0 ? (
+                    <div className="text-muted-foreground px-2 py-1 text-sm">No options found</div>
+                  ) : (
+                    filteredOptions.map((option) => (
+                      <div
+                        key={option.value}
+                        className={cn(
+                          'hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center rounded px-2 py-1 text-sm',
+                          option.disabled && 'cursor-not-allowed opacity-50',
+                          option.value === (value || internalValue) &&
+                            'bg-accent text-accent-foreground',
+                        )}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          if (!option.disabled) {
+                            handleSelect(option.value);
+                          }
+                        }}
+                      >
+                        <span className="flex-1 truncate">{option.label}</span>
+                        {option.value === (value || internalValue) && (
+                          <Check className="ml-2 h-4 w-4" />
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>,
+              document.body,
+            )}
         </div>
 
         {(error || helperText) && (
