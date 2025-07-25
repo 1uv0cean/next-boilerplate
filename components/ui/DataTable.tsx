@@ -102,15 +102,15 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       return initialWidths;
     });
 
-    // Calculate total table width and ensure it's larger than container to prevent auto-sizing
+    // Calculate total table width - dynamic calculation that changes with column resizing
     const totalTableWidth = useMemo(() => {
       const calculatedWidth = columns.reduce((total, column) => {
         const width =
           columnWidths[column.key] || parseInt(column.width?.replace('px', '') || '150');
         return total + width;
       }, 0);
-      // Add extra width to prevent browser from auto-adjusting columns
-      return Math.max(calculatedWidth, 1200);
+      // Return exact calculated width to prevent other columns from moving
+      return calculatedWidth;
     }, [columns, columnWidths]);
     const [isResizing, setIsResizing] = useState<string | null>(null);
 
@@ -227,7 +227,6 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
     // Column resizing handlers
     const handleResizeStart = (columnKey: string, e: React.MouseEvent) => {
-      e.preventDefault();
       setIsResizing(columnKey);
 
       const startX = e.clientX;
@@ -272,7 +271,6 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
     // Double-click to auto-resize column
     const handleDoubleClick = (columnKey: string, e: React.MouseEvent) => {
-      e.preventDefault();
       e.stopPropagation();
 
       // Reset to original width or auto-fit content
@@ -380,9 +378,18 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
         {/* Table */}
         <div
           className={cn('overflow-x-auto rounded-md border')}
-          style={displayMode === 'scroll' ? { maxHeight, overflowY: 'auto' } : undefined}
+          style={{
+            ...(displayMode === 'scroll' ? { maxHeight, overflowY: 'auto' } : undefined),
+            minWidth: 'fit-content',
+          }}
         >
-          <Table style={{ tableLayout: 'fixed', width: `${totalTableWidth}px` }}>
+          <Table
+            style={{
+              tableLayout: 'fixed',
+              width: `${totalTableWidth}px`,
+              minWidth: `${totalTableWidth}px`,
+            }}
+          >
             <TableHeader>
               <TableRow>
                 {columns.map((column, index) => {
@@ -402,7 +409,14 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                         'relative',
                         column.sortable && 'hover:bg-muted/50 cursor-pointer select-none',
                       )}
-                      onClick={() => column.sortable && handleSort(column.key)}
+                      onClick={(e) => {
+                        // Only handle sort if click wasn't on resize handle
+                        const target = e.target as HTMLElement;
+                        const isResizeHandle = target.closest('[data-resize-handle="true"]');
+                        if (column.sortable && !isResizeHandle) {
+                          handleSort(column.key);
+                        }
+                      }}
                     >
                       <div
                         className={cn(
@@ -449,10 +463,10 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                       {/* Column Resize Handle */}
                       {column.resizable !== false && (
                         <div
+                          data-resize-handle="true"
                           className={cn(
-                            'hover:bg-primary/30 absolute top-1/2 -right-1 z-10 h-4 -translate-y-1/2 cursor-col-resize transition-all duration-150',
-                            'w-2',
-                            isResizing === column.key && 'bg-primary/50 w-3',
+                            'hover:bg-primary/30 absolute top-0 -right-2 z-20 flex h-full w-4 cursor-col-resize items-center justify-center transition-all duration-150',
+                            isResizing === column.key && 'bg-primary/50',
                           )}
                           onMouseDown={(e) => {
                             e.stopPropagation();
@@ -462,9 +476,13 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                             e.stopPropagation();
                             handleDoubleClick(column.key, e);
                           }}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
                           title="드래그하여 크기 조정 / 더블클릭으로 원래 크기로 복원"
-                        />
+                        >
+                          <div className="bg-border h-4 w-px" />
+                        </div>
                       )}
                     </TableHead>
                   );
@@ -528,7 +546,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                             maxWidth: getColumnWidth(column),
                           }}
                           className={cn(
-                            'overflow-hidden',
+                            'truncate overflow-hidden',
                             cellAlignment === 'center' && 'text-center',
                             cellAlignment === 'right' && 'text-right',
                             cellAlignment === 'left' && 'text-left',

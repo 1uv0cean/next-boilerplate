@@ -174,12 +174,9 @@ export const RatingDisplay = ({ rating }: RatingDisplayProps) => {
   };
 
   return (
-    <div className="space-y-1">
+    <div className="flex space-x-1">
       <Typography size="sm" customColor="#facc15">
         {getRatingStars(rating)}
-      </Typography>
-      <Typography size="xs" color="muted">
-        {rating}/5
       </Typography>
     </div>
   );
