@@ -1,16 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { Building2, Users, Filter, Search, ChevronDown, MoreHorizontal, Package, Settings, FileText, BarChart } from 'lucide-react';
-import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
 import { Breadcrumb, BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import { Button } from '@/components/ui/Button';
+import { DataTable, DataTableColumn } from '@/components/ui/DataTable';
+import { DateRange, DateRangePicker } from '@/components/ui/DateRangePicker';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
-import { DateRangePicker, DateRange } from '@/components/ui/DateRangePicker';
-import { DataTable, DataTableColumn } from '@/components/ui/DataTable';
+import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
 import { Switch } from '@/components/ui/Switch';
-import { Button } from '@/components/ui/Button';
+import { Typography } from '@/components/ui/Typography';
+import {
+  BarChart,
+  Building2,
+  FileText,
+  Filter,
+  MoreHorizontal,
+  Search,
+  Settings,
+  Users,
+} from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 // Mock data for organizations
 const mockOrganizations = [
@@ -328,7 +338,7 @@ export default function OrganizationsPage() {
       render: (value, row) => (
         <div>
           <div className="font-medium">{row.name}</div>
-          <div className="text-xs text-muted-foreground">{row.nameEn}</div>
+          <div className="text-muted-foreground text-xs">{row.nameEn}</div>
         </div>
       ),
     },
@@ -348,7 +358,7 @@ export default function OrganizationsPage() {
       title: '주소',
       width: '200px',
       render: (value) => (
-        <div className="truncate max-w-[200px]" title={value}>
+        <div className="max-w-[200px] truncate" title={value}>
           {value}
         </div>
       ),
@@ -404,7 +414,7 @@ export default function OrganizationsPage() {
       render: (value, row, index) => (
         <Select
           value={value}
-          options={managerOptions.filter(opt => opt.value !== 'all')}
+          options={managerOptions.filter((opt) => opt.value !== 'all')}
           onValueChange={(newValue) => {
             // Handle manager change
             console.log(`Change manager for ${row.id}:`, newValue);
@@ -429,44 +439,47 @@ export default function OrganizationsPage() {
   // Filter data based on current filters
   const filteredData = mockOrganizations.filter((org) => {
     // Name search filter
-    if (searchName && !org.name.toLowerCase().includes(searchName.toLowerCase()) && 
-        !org.nameEn.toLowerCase().includes(searchName.toLowerCase())) {
+    if (
+      searchName &&
+      !org.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      !org.nameEn.toLowerCase().includes(searchName.toLowerCase())
+    ) {
       return false;
     }
-    
+
     // Approval status filter
     if (approvalFilter !== 'all') {
       if (approvalFilter === 'approved' && !org.approved) return false;
       if (approvalFilter === 'pending' && org.approved) return false;
     }
-    
+
     // Manager filter
     if (managerFilter !== 'all' && org.manager !== managerFilter) {
       return false;
     }
-    
+
     // Date range filter
     if (dateRange.startDate || dateRange.endDate) {
       const registrationDate = new Date(org.registrationDate);
-      
+
       if (dateRange.startDate) {
         const startDate = new Date(dateRange.startDate);
         startDate.setHours(0, 0, 0, 0);
         if (registrationDate < startDate) return false;
       }
-      
+
       if (dateRange.endDate) {
         const endDate = new Date(dateRange.endDate);
         endDate.setHours(23, 59, 59, 999);
         if (registrationDate > endDate) return false;
       }
     }
-    
+
     return true;
   });
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="bg-background flex h-screen">
       {/* Sidebar */}
       <Sidebar
         items={sidebarItems}
@@ -477,12 +490,19 @@ export default function OrganizationsPage() {
             <span className="font-semibold">관리 시스템</span>
           </div>
         }
+        footer={
+          <div className="flex items-center space-x-2">
+            <Typography size="xs" weight="semibold" align="right">
+              COPYRIGHT © 2025 HMM OCEAN SERVICE All rights Reserved
+            </Typography>
+          </div>
+        }
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden">
         {/* Breadcrumbs */}
-        <div className="border-b border-border p-4">
+        <div className="border-border border-b p-4">
           <Breadcrumb items={breadcrumbItems} />
         </div>
 
@@ -498,13 +518,13 @@ export default function OrganizationsPage() {
             </div>
 
             {/* Filters */}
-            <div className="bg-card border border-border rounded-lg p-4">
-              <div className="flex items-center space-x-2 mb-4">
+            <div className="bg-card border-border rounded-lg border p-4">
+              <div className="mb-4 flex items-center space-x-2">
                 <Filter className="h-4 w-4" />
                 <h3 className="font-medium">필터</h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <DateRangePicker
                   label="가입일자"
                   value={dateRange}
@@ -536,7 +556,7 @@ export default function OrganizationsPage() {
                 />
               </div>
 
-              <div className="flex justify-end mt-4">
+              <div className="mt-4 flex justify-end">
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -552,12 +572,10 @@ export default function OrganizationsPage() {
             </div>
 
             {/* Data Table */}
-            <div className="bg-card border border-border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-4">
+            <div className="bg-card border-border rounded-lg border p-4">
+              <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-medium">기관 목록</h3>
-                <div className="text-sm text-muted-foreground">
-                  총 {filteredData.length}개 기관
-                </div>
+                <div className="text-muted-foreground text-sm">총 {filteredData.length}개 기관</div>
               </div>
 
               <DataTable
