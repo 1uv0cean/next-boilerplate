@@ -10,17 +10,20 @@ import { DataTableDemo } from '@/components/demo/DataTableDemo';
 import { DatePickerDemo } from '@/components/demo/DatePickerDemo';
 import { DateRangePickerDemo } from '@/components/demo/DateRangePickerDemo';
 import { DialogDemo } from '@/components/demo/DialogDemo';
+import { FileUploadDemo } from '@/components/demo/FileUploadDemo';
 import { InputDemo } from '@/components/demo/InputDemo';
+import { ProgressDemo } from '@/components/demo/ProgressDemo';
+import { RatingDemo } from '@/components/demo/RatingDemo';
 import { SelectDemo } from '@/components/demo/SelectDemo';
 import { SectionDemo } from '@/components/demo/SectionDemo';
 import { SidebarDemo } from '@/components/demo/SidebarDemo';
+import { StepperDemo } from '@/components/demo/StepperDemo';
 import { SwitchDemo } from '@/components/demo/SwitchDemo';
 import { TableDemo } from '@/components/demo/TableDemo';
 import { TextareaDemo } from '@/components/demo/TextareaDemo';
 import { ToastDemo } from '@/components/demo/ToastDemo';
 import { TopNavigatorDemo } from '@/components/demo/TopNavigatorDemo';
 import { TypographyDemo } from '@/components/demo/TypographyDemo';
-import { FileUploadDemo } from '@/components/demo/FileUploadDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { ToastProvider } from '@/components/ui/Toast';
 
@@ -38,9 +41,12 @@ const componentTabs = [
   { id: 'dialog', label: 'Dialog', component: DialogDemo },
   { id: 'fileupload', label: 'File Upload', component: FileUploadDemo },
   { id: 'input', label: 'Input', component: InputDemo },
+  { id: 'progress', label: 'Progress', component: ProgressDemo },
+  { id: 'rating', label: 'Rating', component: RatingDemo },
   { id: 'select', label: 'Select', component: SelectDemo },
   { id: 'section', label: 'Section', component: SectionDemo },
   { id: 'sidebar', label: 'Sidebar', component: SidebarDemo },
+  { id: 'stepper', label: 'Stepper', component: StepperDemo },
   { id: 'switch', label: 'Switch', component: SwitchDemo },
   { id: 'table', label: 'Table', component: TableDemo },
   { id: 'textarea', label: 'Textarea', component: TextareaDemo },
@@ -64,7 +70,7 @@ const DemoPage = () => {
           {/* Responsive Tab Navigation */}
           <div className="w-full">
             <div className="mx-auto max-w-6xl">
-              <TabsList className="bg-muted/50 grid h-auto grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-3 lg:grid-cols-6">
+              <TabsList className="bg-muted/50 grid h-auto grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
                 {componentTabs.map(({ id, label }) => (
                   <TabsTrigger
                     key={id}

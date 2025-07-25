@@ -120,3 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes progress-indeterminate {
+    0% {
+      left: -33%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+  
+  .animate-progress-indeterminate {
+    animation: progress-indeterminate 2s infinite linear;
+  }
+}
