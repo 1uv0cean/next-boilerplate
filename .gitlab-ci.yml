@@ -33,7 +33,7 @@ deploy-to-ec2:
   script:
     - scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa next-app.tar.gz ubuntu@$EC2_HOST:~/app/next/
     - |
-      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$EC2_HOST <<EOF
+      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@$EC2_HOST <<'EOF'
       mkdir -p ~/app/next
       cd ~/app/next
       tar -xzf next-app.tar.gz
@@ -41,10 +41,13 @@ deploy-to-ec2:
 
       corepack enable
       corepack prepare pnpm@latest --activate
+      export PNPM_HOME="$HOME/.local/share/pnpm"
+      export PATH="$PNPM_HOME:$PATH"
+
       pnpm install --frozen-lockfile
 
       pm2 delete next-app || true
-      pm2 start "pnpm start -- --port 3001" --name next-app
+      pm2 start "$PNPM_HOME/pnpm" --name next-app -- start --port 3001
       pm2 save
       EOF
   only:
