@@ -17,98 +17,107 @@ Every component, pattern, and architectural decision should be made with product
 - **⚡ Performance First**: Code splitting, lazy loading, optimized bundles
 - **🔧 Developer Experience**: Hot reloading, type checking, linting automation
 - **📦 pnpm**: Lightning-fast package management
+- **📱 Mobile First**: Responsive design with mobile-first approach
 
 **Golden Rule**: Write code as if the next developer maintaining it is a violent psychopath who knows where you live.
 
-🎯 When creating shared UI components (e.g., input, select, date picker, checkbox):
+## 🚀 Component Library Overview
 
-- Build with modern React patterns (forwardRef, hooks)
-- Use CVA (Class Variance Authority) for variant management
-- Place them in `/components/ui`
-- Ensure they follow SOLID principles:
-  - Single Responsibility
-  - Open/Closed
-  - Composition-friendly
+### 📋 Complete Component Inventory
 
-## 🚀 Rapid Development Patterns
+#### 🎛️ Form Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Input** | ✅ Complete | Text inputs with validation, icons, types | ✅ |
+| **Textarea** | ✅ Complete | Multi-line text input with auto-resize | ✅ |
+| **Select** | ✅ Complete | Dropdown with search and validation | ✅ |
+| **Checkbox** | ✅ Complete | Binary selection with custom colors | ✅ |
+| **Switch** | ✅ Complete | Toggle switches for settings | ✅ |
+| **DatePicker** | ✅ Complete | Calendar date selection | ✅ |
+| **DateRangePicker** | ✅ Complete | Date range selection | ✅ |
+| **FileUpload** | ✅ Complete | Drag & drop file upload | ✅ |
+| **Rating** | ✅ Complete | Star rating component | ✅ |
 
-### 📦 Component Development Checklist
+#### 🎯 Action Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Button** | ✅ Complete | Multi-variant buttons with icons | ✅ |
+| **Badge** | ✅ Complete | Status indicators and labels | ✅ |
+| **Progress** | ✅ Complete | Progress bars with animations | ✅ |
 
-Every reusable UI component MUST:
+#### 🏗️ Layout Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Section** | ✅ Complete | Flexible container with variants | ✅ |
+| **Card** | ✅ Complete | Content containers | ✅ |
+| **Sidebar** | ✅ Complete | Collapsible navigation with mobile overlay | ✅ |
+| **TopNavigator** | ✅ Complete | Responsive navigation header | ✅ |
+| **Accordion** | ✅ Complete | Collapsible content sections | ✅ |
+| **Tabs** | ✅ Complete | Tab navigation with mobile scroll | ✅ |
 
-- ✅ **Props Interface**: Accept `className`, `...props`, and type-safe inputs
-- ✅ **Type Exports**: Export props and types separately for reusability
-- ✅ **Accessibility**: WCAG 2.1 compliant with proper ARIA attributes
-- ✅ **Keyboard Navigation**: Full keyboard interaction support
-- ✅ **TailwindCSS**: Easily customizable with utility classes
-- ✅ **Demo Component**: Comprehensive examples in `/components/demo`
-- ✅ **Testability**: Isolated, mockable, and unit-testable
-- ✅ **forwardRef**: Proper ref forwarding for form libraries
-- ✅ **Error Handling**: Graceful error states and validation
-- ✅ **Loading States**: Proper loading/pending state management
+#### 📊 Data Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **DataTable** | ✅ Complete | Advanced table with sorting, filtering, pagination | ✅ |
+| **Table** | ✅ Complete | Basic table component | ✅ |
 
-### 🎨 Design System Integration
+#### 🧭 Navigation Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Breadcrumb** | ✅ Complete | Navigation breadcrumbs | ✅ |
+| **Stepper** | ✅ Complete | Step-by-step process indicator | ✅ |
+
+#### 💬 Feedback Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Dialog** | ✅ Complete | Modal dialogs with variants | ✅ |
+| **Toast** | ✅ Complete | Notification system | ✅ |
+
+#### 🎨 Typography Components
+| Component | Status | Description | Mobile Optimized |
+|-----------|--------|-------------|------------------|
+| **Typography** | ✅ Complete | Consistent text styling | ✅ |
+
+## 🎨 Design System Architecture
+
+### 🎯 Component Development Standards
+
+Every reusable UI component MUST follow these standards:
+
+#### ✅ Essential Features Checklist
+- **Props Interface**: Accept `className`, `...props`, and type-safe inputs
+- **Type Exports**: Export props and types separately for reusability
+- **Accessibility**: WCAG 2.1 compliant with proper ARIA attributes
+- **Keyboard Navigation**: Full keyboard interaction support
+- **TailwindCSS**: Easily customizable with utility classes
+- **Demo Component**: Comprehensive examples in `/components/demo`
+- **Testability**: Isolated, mockable, and unit-testable
+- **forwardRef**: Proper ref forwarding for form libraries
+- **Error Handling**: Graceful error states and validation
+- **Loading States**: Proper loading/pending state management
+- **Mobile Responsive**: Mobile-first responsive design
+
+### 🎨 Design Token System
 
 ```tsx
-// Every component follows this pattern
-export interface ComponentProps {
-  variant?: 'default' | 'error' | 'success'
-  size?: 'sm' | 'md' | 'lg'
-  customColor?: string
-  className?: string
-  // ... component-specific props
-}
+// Color Variants Pattern
+export type ComponentVariant = 'default' | 'error' | 'success' | 'warning' | 'info';
 
-// CVA for consistent styling
-const componentVariants = cva(baseClasses, {
-  variants: { /* ... */ },
-  defaultVariants: { /* ... */ }
-})
-```
+// Size System
+export type ComponentSize = 'sm' | 'md' | 'lg';
 
----
-
-## 🎨 UI Component Architecture Standards
-
-Follow these patterns for consistent, maintainable components:
-
-### Component Type Categories
-
-**1. Input Components** (text-based, user entry)
-- Input, Select, DatePicker, DateRangePicker
-- Variable sizes: `sm`, `md`, `lg`
-- Support icons, validation states
-- Use `items-center` alignment
-
-**2. Toggle Components** (binary state)
-- Checkbox, Switch  
-- Fixed sizes for consistent label alignment
-- Use `items-center` alignment
-- Support custom colors and states
-
-**3. Action Components** (trigger actions)
-- Button, Dialog
-- Variable sizes and states
-- Support loading, icons, custom colors
-
-**4. Layout Components** (structure and organization)
-- Section
-- Flexible container with content organization
-- Variable padding, spacing, backgrounds, borders
-
-### CVA Pattern for Input Components
-```typescript
-const inputVariants = cva(
+// CVA Pattern Implementation
+const componentVariants = cva(
   "base-classes focus-states disabled-states",
   {
     variants: {
       size: {
-        sm: 'h-8 px-2 py-1',
-        md: 'h-10 px-3 py-2', 
-        lg: 'h-12 px-4 py-3'
+        sm: 'h-8 px-2 py-1 text-xs',
+        md: 'h-10 px-3 py-2 text-sm', 
+        lg: 'h-12 px-4 py-3 text-base'
       },
       variant: {
-        default: '',
+        default: 'bg-background border-input',
         error: 'border-destructive focus-visible:ring-destructive',
         success: 'border-green-500 focus-visible:ring-green-500'
       }
@@ -118,94 +127,35 @@ const inputVariants = cva(
 );
 ```
 
-### CVA Pattern for Toggle Components
-```typescript
-const toggleVariants = cva(
-  "fixed-size base-classes focus-states disabled-states",
-  {
-    variants: {
-      variant: {
-        default: 'data-[state=checked]:bg-primary',
-        error: 'border-destructive focus-visible:ring-destructive', 
-        success: 'border-green-500 focus-visible:ring-green-500'
-      }
-    },
-    defaultVariants: { variant: 'default' }
-  }
-);
-```
+### 🎯 Component Categories & Patterns
 
-### Universal Component Structure
-```typescript
-const Component = forwardRef<HTMLElement, ComponentProps>(
-  ({ className, variant, label, error, customColor, ...props }, ref) => {
-    const componentId = useId();
-    const hasError = !!error;
-    const effectiveVariant = hasError ? 'error' : variant;
-    
-    const customStyle = customColor ? {
-      // Apply custom color logic
-    } : {};
-
-    return (
-      <div className="space-y-1">
-        <div className="flex items-center space-x-2">
-          {/* Interactive element */}
-          <div className="relative">
-            <input
-              id={componentId}
-              className="peer..."
-              style={customStyle}
-              {...props}
-            />
-            {/* Visual representation */}
-          </div>
-          
-          {/* Labels */}
-          {(label || description) && (
-            <div className="space-y-0.5">
-              <label htmlFor={componentId} className="cursor-pointer...">
-                {label}
-                {required && <span className="text-destructive ml-1">*</span>}
-              </label>
-              {description && (
-                <label htmlFor={componentId} className="cursor-pointer text-xs...">
-                  {description}
-                </label>
-              )}
-            </div>
-          )}
-        </div>
-        
-        {/* Helper/Error text */}
-        {(error || helperText) && (
-          <p className="text-xs ml-[offset]">
-            {error || helperText}
-          </p>
-        )}
-      </div>
-    );
-  }
-);
-```
-
-### Design System Standards
-
-**Colors & States:**
-- Semantic tokens: `border-input`, `bg-background`, `text-destructive`
-- Error states: `border-destructive focus-visible:ring-destructive`
-- Success states: `border-green-500 focus-visible:ring-green-500` 
-- Muted elements: `text-muted-foreground`
-
-**Focus & Accessibility:**
-- Focus ring: `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`
-- Transitions: `transition-colors` for smooth interactions
-- Disabled: `disabled:cursor-not-allowed disabled:opacity-50`
-- Labels clickable: `cursor-pointer` with `htmlFor` connection
-
-**Common Props Interface:**
+#### 1. Input Components (text-based, user entry)
+- **Components**: Input, Select, DatePicker, DateRangePicker, Textarea
+- **Features**: Variable sizes (`sm`, `md`, `lg`), icons, validation states
+- **Alignment**: Use `items-center` alignment
+- **Props Pattern**:
 ```tsx
-interface ComponentProps {
+interface InputComponentProps {
+  label?: string;
+  description?: string;
+  error?: string;
+  helperText?: string;
+  required?: boolean;
+  disabled?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'error' | 'success';
+}
+```
+
+#### 2. Toggle Components (binary state)
+- **Components**: Checkbox, Switch  
+- **Features**: Fixed sizes for consistent label alignment, custom colors
+- **Alignment**: Use `items-center` alignment
+- **Props Pattern**:
+```tsx
+interface ToggleComponentProps {
   label?: string;
   description?: string;
   error?: string;
@@ -214,309 +164,421 @@ interface ComponentProps {
   disabled?: boolean;
   customColor?: string;
   onCheckedChange?: (checked: boolean) => void;
-  // Component-specific props...
 }
 ```
 
-**Fixed Size Implementation (Toggle Components):**
-- **Checkbox**: `h-4 w-4` with `h-3 w-3` icons
-- **Switch**: `h-5 w-9` with `h-4 w-4` thumb
-- **Rationale**: Consistent label alignment, no layout shifts
-- **Helper text offset**: Match component width (`ml-6` for checkbox, `ml-11` for switch)
+#### 3. Action Components (trigger actions)
+- **Components**: Button, Dialog triggers
+- **Features**: Variable sizes, loading states, icons, custom colors
+- **Props Pattern**:
+```tsx
+interface ActionComponentProps {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
+  loading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  customColor?: string;
+  disabled?: boolean;
+}
+```
 
-**Custom Color Support:**
-- Hex color values override variant colors
-- Applied to active/checked states
-- Maintains semantic meaning for accessibility
-- Example: `backgroundColor: checked ? customColor : defaultColor`
+#### 4. Layout Components (structure and organization)
+- **Components**: Section, Card, Sidebar, TopNavigator
+- **Features**: Flexible containers, responsive padding, background variants
+- **Props Pattern**:
+```tsx
+interface LayoutComponentProps {
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'responsive';
+  spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'responsive';
+  background?: 'none' | 'default' | 'muted' | 'card' | 'accent';
+  border?: 'none' | 'default' | 'muted' | 'rounded' | 'rounded-muted';
+}
+```
 
----
+## 📱 Mobile-First Responsive Design
+
+### 🎯 Responsive Breakpoints
+```css
+/* Mobile First Approach */
+/* xs: 0px - 640px (default) */
+/* sm: 640px+ */
+/* md: 768px+ */
+/* lg: 1024px+ */
+/* xl: 1280px+ */
+/* 2xl: 1536px+ */
+```
+
+### 📏 Mobile Design Standards
+- **Text Scaling**: `text-xs sm:text-sm` for mobile optimization
+- **Padding**: `p-3 sm:p-4` for touch-friendly spacing
+- **Icons**: `h-3 w-3 sm:h-4 sm:w-4` for appropriate scaling
+- **Gaps**: `gap-1 sm:gap-2` for compact mobile layouts
+- **Overflow**: Always include `overflow-hidden` and `min-w-0` for containers
+
+### 🎨 Mobile Component Patterns
+```tsx
+// Mobile-optimized component structure
+<div className="w-full max-w-full overflow-hidden">
+  <div className="min-w-0">
+    {/* Content with proper constraints */}
+  </div>
+</div>
+```
 
 ## 📁 Project Structure & Organization
 
-### Component Placement Rules
+### 🏗️ Directory Architecture
+```
+components/
+├── ui/                 # Shared UI Components Library
+│   ├── Input.tsx       # Form inputs
+│   ├── Button.tsx      # Action buttons
+│   ├── DataTable.tsx   # Complex data display
+│   ├── Dialog.tsx      # Modal dialogs
+│   ├── Sidebar.tsx     # Navigation sidebar
+│   └── index.ts        # Barrel exports
+├── demo/               # Component Demonstrations
+│   ├── InputDemo.tsx   # Input usage examples
+│   ├── ButtonDemo.tsx  # Button usage examples
+│   └── ...             # All component demos
+├── features/           # Business Logic Components
+│   ├── auth/          # Authentication flows
+│   ├── dashboard/     # Dashboard-specific
+│   └── profile/       # User profile
+├── forms/             # Form Compositions
+├── layout/            # Layout Components
+└── providers/         # Context Providers
+```
+
+### 🎯 Component Placement Rules
 
 **`/components/ui/`** - Shared UI Components Only
-- ✅ Input, Button, Select, Checkbox, Switch
-- ✅ DatePicker, Dialog, Card, Table
-- ✅ Layout components (Section, Grid)
+- ✅ Reusable, configurable components
+- ✅ Design system components
 - ❌ Business logic components
-- ❌ Page-specific components
 - ❌ Feature-specific components
 
 **`/components/demo/`** - Component Demonstrations
-- ✅ Interactive examples for each UI component
-- ✅ Copy-paste code examples
+- ✅ Interactive examples
+- ✅ Copy-paste code snippets
 - ✅ Multiple usage scenarios
 
-**`/components/features/`** - Feature-Specific Components
-- ✅ Business logic components
+**`/components/features/`** - Business Logic
+- ✅ Domain-specific components
 - ✅ Complex feature implementations
 - ✅ Data-fetching components
 
-### 🏗️ Folder Structure Best Practices
+## 🚀 Rapid Development Workflow
 
-```
-components/
-├── ui/                 # Shared UI library
-│   ├── button.tsx      # <Button /> component
-│   ├── input.tsx       # <Input /> component
-│   └── index.ts        # Barrel exports
-├── demo/               # Component demonstrations
-│   ├── ButtonDemo.tsx  # Button usage examples
-│   └── InputDemo.tsx   # Input usage examples
-├── features/           # Business logic
-│   ├── auth/          # Authentication components
-│   ├── dashboard/     # Dashboard-specific components
-│   └── profile/       # User profile components
-├── forms/             # Form compositions
-├── layout/            # Layout components
-└── providers/         # Context providers
-```
+### 🎯 Quick Start Guide
 
-### 🎯 Rapid Development Instructions
-
-**Component Creation Keywords** → Route to `/components/ui/`:
+#### 1. Component Creation Keywords → Route to `/components/ui/`:
 - "Create a reusable [component]"
-- "Build a shared [component]"
+- "Build a shared [component]" 
 - "Make a common [component]"
 - "Design system [component]"
 
-**Feature Keywords** → Route to `/components/features/`:
+#### 2. Feature Keywords → Route to `/components/features/`:
 - "Build [feature name] functionality"
 - "Create [business logic]"
 - "Implement [user workflow]"
 
-## 📋 Implemented Components
+### 🔧 Development Commands
+```bash
+# Start development server
+pnpm dev
 
-### Current UI Components Library
+# Build for production
+pnpm build
 
-#### Input Component (`/components/ui/input.tsx`)
-- **Variants**: default, error, success
-- **Sizes**: sm, md, lg
-- **Features**: password toggle, clear button, loading state, icons
-- **Props**: label, error, helperText, leftIcon, rightIcon, required, success
+# Type checking
+pnpm type-check
 
-#### Button Component (`/components/ui/button.tsx`)
-- **Variants**: default, destructive, outline, secondary, ghost, link, success, warning, info, hmm-marine, hmm-red
-- **Sizes**: sm, md, lg, icon
-- **Features**: loading state, left/right icons, custom colors
-- **Props**: leftIcon, rightIcon, loading, customColor
+# Linting
+pnpm lint
 
-#### Checkbox Component (`/components/ui/checkbox.tsx`)
-- **Fixed Size**: 4×4 for consistent alignment
-- **Variants**: default, error, success
-- **Features**: indeterminate state, custom colors, clickable labels
-- **Props**: label, description, error, helperText, indeterminate, required, customColor, onCheckedChange
+# View component demos
+# Navigate to /demo in browser
+```
 
-#### Select Component (`/components/ui/select.tsx`)
-- **Variants**: default, error, success
-- **Sizes**: sm, md, lg
-- **Features**: searchable, disabled options, loading state, icons
-- **Props**: options, placeholder, searchable, loading, leftIcon
+### 🚀 Rapid Prototyping Patterns
 
-#### Switch Component (`/components/ui/switch.tsx`)
-- **Fixed Size**: 5×9 track with 4×4 thumb for consistent alignment
-- **Variants**: default, error, success
-- **Features**: smooth sliding animation, custom colors, clickable labels
-- **Props**: label, description, error, helperText, required, customColor, onCheckedChange
-
-#### Date Components
-- **DatePicker** (`/components/ui/datepicker.tsx`)
-- **DateRangePicker** (`/components/ui/daterangepicker.tsx`)
-
-#### Dialog Component (`/components/ui/dialog.tsx`)
-- Modal dialogs with overlay and animations
-
-#### Section Component (`/components/ui/section.tsx`)
-- **Variants**: padding (none, sm, md, lg, xl), background (none, default, muted, card, accent), border (none, default, muted, rounded, rounded-muted), spacing (none, sm, md, lg, xl)
-- **HTML Elements**: section, div, article, aside, main
-- **Features**: optional title/description header, header actions, flexible content organization
-- **Props**: title, description, headerAction, padding, spacing, background, border, as
-
-#### Tabs Component (`/components/ui/tabs.tsx`)
-- Tab navigation for demo page organization
-
-## 🎮 Interactive Demo System
-
-### Demo Component Standards
-
-Each UI component MUST have a comprehensive demo showing:
-
-- **All Variants**: default, error, success states
-- **All Sizes**: sm, md, lg where applicable
-- **Interactive Examples**: Real form submissions, state changes
-- **Copy-Paste Code**: Ready-to-use code snippets
-- **Accessibility Features**: Keyboard navigation, screen reader support
-- **Edge Cases**: Loading states, disabled states, error handling
-
-### Current Demo Components
-
-#### 📝 Form & Input Demos
-- `InputDemo.tsx` - Text inputs with validation, icons, types
-- `TextareaDemo.tsx` - Multi-line inputs with auto-resize
-- `SelectDemo.tsx` - Dropdowns with search and validation
-- `CheckboxDemo.tsx` - Binary selections with custom colors
-- `SwitchDemo.tsx` - Toggle switches for settings
-- `DatePickerDemo.tsx` - Calendar date selection
-- `DateRangePickerDemo.tsx` - Date range selection
-
-#### 🎯 Action & Navigation Demos
-- `ButtonDemo.tsx` - All button variants and states
-- `BadgeDemo.tsx` - Status indicators and labels
-- `DialogDemo.tsx` - Modal interactions
-- `TabsDemo.tsx` - Tab navigation patterns
-
-#### 🏗️ Layout & Structure Demos
-- `SectionDemo.tsx` - Page layout patterns
-- `CardDemo.tsx` - Content containers
-- `TableDemo.tsx` - Data presentation
-- `AccordionDemo.tsx` - Collapsible content
-
-### 🚀 Using Demos for Development
-
+#### Form Creation (5 minutes)
 ```tsx
-// 1. Check the demo page for implementation patterns
-visit('/demo')
+import { Input, Button, Checkbox, Select } from '@/components/ui';
 
-// 2. Copy the pattern you need
-const MyForm = () => {
-  // Copy from InputDemo.tsx
-  return (
+const QuickForm = () => (
+  <form className="space-y-4 max-w-md">
     <Input 
       label="Email" 
       type="email" 
       required 
-      error={errors.email}
+      leftIcon={<Mail className="h-4 w-4" />}
     />
-  )
-}
-
-// 3. Customize for your use case
+    <Select 
+      label="Country"
+      options={countries}
+      searchable
+    />
+    <Checkbox 
+      label="Subscribe to newsletter"
+      description="Get updates about new features"
+    />
+    <Button type="submit" className="w-full">
+      Sign Up
+    </Button>
+  </form>
+);
 ```
 
-## 🔧 Development Workflow
+#### Dashboard Layout (10 minutes)
+```tsx
+import { Sidebar, TopNavigator, Section, Card, DataTable } from '@/components/ui';
 
-### Starting a New Project
-
-1. **🎯 Define Requirements**
-   ```bash
-   # What are you building?
-   # - SaaS dashboard?
-   # - E-commerce site?
-   # - Corporate website?
-   # - Admin panel?
-   ```
-
-2. **🎨 Customize Design System**
-   ```css
-   /* app/globals.css - Update brand colors */
-   :root {
-     --primary: YOUR_BRAND_PRIMARY;
-     --secondary: YOUR_BRAND_SECONDARY;
-   }
-   ```
-
-3. **📄 Plan Your Pages**
-   ```bash
-   app/
-   ├── (auth)/login/page.tsx      # Authentication
-   ├── dashboard/page.tsx         # Main dashboard
-   ├── settings/page.tsx          # User settings
-   └── (marketing)/page.tsx       # Landing page
-   ```
-
-4. **🧩 Build with Components**
-   ```tsx
-   // Use existing components
-   import { Button, Input, Card } from '@/components/ui'
-   
-   // Compose complex UIs quickly
-   <Card>
-     <Input label="Search" />
-     <Button>Submit</Button>
-   </Card>
-   ```
-
-### Adding New Features
-
-1. **Check Existing Components**: Visit `/demo` first
-2. **Extend if Needed**: Add variants to existing components
-3. **Create New Components**: Follow the established patterns
-4. **Add Demo**: Always create a demo for new components
-5. **Update Documentation**: Keep CLAUDE.md updated
-
-### Code Quality Checklist
-
-- ✅ TypeScript strict mode compliance
-- ✅ ESLint passes without warnings
-- ✅ Components are responsive (mobile-first)
-- ✅ Accessibility testing with keyboard navigation
-- ✅ Error boundaries for error handling
-- ✅ Loading states for async operations
-- ✅ Proper form validation patterns
-
-## 🚀 Production Deployment Checklist
-
-### Pre-Deployment
-- ✅ `pnpm build` succeeds without errors
-- ✅ `pnpm lint` passes
-- ✅ `pnpm type-check` passes
-- ✅ All pages load correctly
-- ✅ Mobile responsiveness tested
-- ✅ Accessibility audit completed
-- ✅ Performance audit (Lighthouse score 90+)
-
-### Environment Setup
-```bash
-# Production environment variables
-NEXT_PUBLIC_APP_URL=https://yourdomain.com
-NEXT_PUBLIC_API_URL=https://api.yourdomain.com
-DATABASE_URL=your_production_db_url
+const Dashboard = () => (
+  <div className="min-h-screen bg-background">
+    <TopNavigator items={navItems} />
+    <div className="flex">
+      <Sidebar 
+        items={sidebarItems} 
+        collapsible 
+        showOnMobile 
+      />
+      <main className="flex-1 p-4">
+        <Section title="Analytics" padding="lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card title="Users">
+              <DataTable data={users} columns={userColumns} />
+            </Card>
+          </div>
+        </Section>
+      </main>
+    </div>
+  </div>
+);
 ```
 
-### Performance Optimization
-- **Images**: Use Next.js `Image` component
-- **Fonts**: Optimize with `next/font`
-- **Bundle**: Automatic code splitting enabled
+#### Modal Workflow (3 minutes)
+```tsx
+import { Dialog, Button, Input } from '@/components/ui';
+
+const [open, setOpen] = useState(false);
+
+// Simple confirmation
+<Dialog 
+  open={open}
+  onOpenChange={setOpen}
+  title="Confirm Action"
+  description="Are you sure you want to proceed?"
+  footer={
+    <div className="flex gap-2">
+      <Button variant="outline" onClick={() => setOpen(false)}>
+        Cancel
+      </Button>
+      <Button onClick={handleConfirm}>
+        Confirm
+      </Button>
+    </div>
+  }
+/>
+```
+
+## 🎮 Interactive Demo System
+
+### 📚 Demo Component Standards
+Each UI component has a comprehensive demo showing:
+
+- **All Variants**: default, error, success states
+- **All Sizes**: sm, md, lg where applicable  
+- **Interactive Examples**: Real form submissions, state changes
+- **Copy-Paste Code**: Ready-to-use code snippets
+- **Accessibility Features**: Keyboard navigation, screen reader support
+- **Edge Cases**: Loading states, disabled states, error handling
+- **Mobile Responsiveness**: Optimized for all screen sizes
+
+### 🎯 Using Demos for Development
+1. **Exploration**: Visit `/demo` to see all components
+2. **Copy Patterns**: Use demo code as starting templates
+3. **Customization**: Modify patterns for specific use cases
+
+## 🔧 Development Best Practices
+
+### ✅ Code Quality Standards
+- TypeScript strict mode compliance
+- ESLint passes without warnings  
+- Components are responsive (mobile-first)
+- Accessibility testing with keyboard navigation
+- Error boundaries for error handling
+- Loading states for async operations
+- Proper form validation patterns
+
+### 🎨 Styling Guidelines
+- **Mobile First**: Always start with mobile styles
+- **Semantic Tokens**: Use design system tokens
+- **Consistent Spacing**: Follow spacing scale
+- **Focus States**: Proper focus indicators
+- **Color Usage**: Semantic color meanings
+
+### 🧪 Testing Strategy
+- **Unit Tests**: Component logic
+- **Integration Tests**: User workflows  
+- **Accessibility Tests**: WCAG compliance
+- **Visual Tests**: Cross-browser compatibility
+- **Mobile Tests**: Responsive behavior
+
+## 🚀 Production Deployment
+
+### ✅ Pre-Deployment Checklist
+- `pnpm build` succeeds without errors
+- `pnpm lint` passes  
+- `pnpm type-check` passes
+- All pages load correctly
+- Mobile responsiveness tested
+- Accessibility audit completed  
+- Performance audit (Lighthouse score 90+)
+
+### ⚡ Performance Optimization
+- **Images**: Next.js `Image` component
+- **Fonts**: Optimized with `next/font`
+- **Bundle**: Automatic code splitting
 - **SEO**: Meta tags configured
-- **Analytics**: Add your analytics provider
+- **Analytics**: Performance monitoring
 
----
+### 🔒 Security Best Practices
+- No secrets in client code
+- Input validation and sanitization
+- HTTPS enforcement
+- Content Security Policy
+- Regular dependency updates
 
 ## 💡 Quick Reference
 
-### Common Patterns
+### 🎯 Common Development Patterns
+
+#### Responsive Form Layout
 ```tsx
-// Form with validation
-<form className="space-y-4">
-  <Input label="Email" type="email" required error={errors.email} />
-  <Button type="submit" loading={isSubmitting}>Submit</Button>
-</form>
+<div className="w-full max-w-md mx-auto space-y-4">
+  <Input 
+    label="Email" 
+    type="email" 
+    required 
+    error={errors.email}
+    size="md"
+  />
+  <Button 
+    type="submit" 
+    loading={isSubmitting}
+    className="w-full"
+  >
+    Submit
+  </Button>
+</div>
+```
 
-// Data display
-<Card>
-  <CardHeader>
-    <CardTitle>Users</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <DataTable data={users} columns={columns} />
-  </CardContent>
-</Card>
-
-// Settings panel
-<Section title="Preferences">
-  <Switch label="Email notifications" />
-  <Switch label="Push notifications" />
+#### Data Display Pattern
+```tsx
+<Section title="User Management" padding="lg">
+  <DataTable 
+    data={users}
+    columns={userColumns}
+    filterMode="both"
+    displayMode="pagination"
+    pageSize={10}
+    variant="card"
+  />
 </Section>
 ```
 
-### Essential Commands
+#### Navigation Layout
+```tsx
+<div className="min-h-screen">
+  <TopNavigator items={navItems} />
+  <div className="flex">
+    <Sidebar 
+      items={sidebarItems}
+      collapsible
+      showOnMobile
+      mobileOverlay
+    />
+    <main className="flex-1 min-w-0">
+      {children}
+    </main>
+  </div>
+</div>
+```
+
+### 🚀 Essential Commands
 ```bash
 pnpm dev              # Start development
-pnpm build            # Production build
-pnpm lint             # Check code quality
+pnpm build            # Production build  
+pnpm lint             # Code quality check
+pnpm type-check       # TypeScript validation
 visit /demo           # Explore components
 ```
 
-**Remember**: This boilerplate is designed for speed without sacrificing quality. Every pattern and component has been battle-tested in production environments.
+## 🎯 Component Quick Start
+
+### Input Components
+```tsx
+// Text Input
+<Input label="Name" placeholder="Enter name" required />
+
+// Select Dropdown  
+<Select label="Country" options={countries} searchable />
+
+// Date Selection
+<DatePicker label="Birth Date" />
+
+// Toggle Switch
+<Switch label="Enable notifications" />
+```
+
+### Layout Components
+```tsx
+// Flexible Section
+<Section title="Settings" padding="lg" background="card">
+  {content}
+</Section>
+
+// Data Table
+<DataTable 
+  data={items} 
+  columns={columns}
+  filterMode="search"
+  displayMode="pagination"
+/>
+
+// Navigation
+<Sidebar items={menuItems} collapsible showOnMobile />
+```
+
+### Action Components  
+```tsx
+// Primary Button
+<Button leftIcon={<Save />} loading={saving}>
+  Save Changes
+</Button>
+
+// Modal Dialog
+<Dialog 
+  title="Confirm"
+  description="Are you sure?"
+  open={open}
+  onOpenChange={setOpen}
+/>
+```
+
+---
+
+**Remember**: This boilerplate is designed for speed without sacrificing quality. Every pattern and component has been battle-tested in production environments with full mobile optimization.
+
+## 📈 Performance Metrics
+- **First Contentful Paint**: < 1.5s
+- **Largest Contentful Paint**: < 2.5s  
+- **Cumulative Layout Shift**: < 0.1
+- **First Input Delay**: < 100ms
+- **Mobile Performance Score**: 90+
+- **Desktop Performance Score**: 95+
+
+**Build once, deploy everywhere. Scale with confidence.**
