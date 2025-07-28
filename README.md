@@ -420,64 +420,6 @@ pnpm dev
 # Submit a pull request
 ```
 
-## 📋 Roadmap
-
-### 🎯 Current (v1.0)
-
-- ✅ 25+ Production-ready components
-- ✅ Mobile-first responsive design
-- ✅ Interactive demo system
-- ✅ TypeScript strict mode
-- ✅ Accessibility compliance
-
-### 🚀 Coming Soon (v1.1)
-
-- 🔄 Dark mode support
-- 🔄 More layout components
-- 🔄 Advanced form validation
-- 🔄 Animation library integration
-- 🔄 Component testing suite
-
-### 🌟 Future (v2.0)
-
-- 🔮 AI-powered component generation
-- 🔮 Advanced data visualization
-- 🔮 Internationalization support
-- 🔮 Component marketplace
-- 🔮 Visual component builder
-
-## 🏷️ Tech Stack
-
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS 3.4
-- **UI Components**: Custom-built (25+ components)
-- **Variant Management**: CVA (Class Variance Authority)
-- **Icons**: Lucide React
-- **Package Manager**: pnpm
-- **Code Quality**: ESLint, Prettier
-- **Deployment**: Vercel ready
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-## 🌟 Why Choose This Boilerplate?
-
-### ⚡ **Speed**: Go from idea to production-ready app in hours, not weeks
-
-### 🎨 **Quality**: Enterprise-grade components tested in production
-
-### 📱 **Mobile**: True mobile-first design, not desktop-first adapted
-
-### 🔧 **DX**: Amazing developer experience with TypeScript and hot reload
-
-### 🚀 **Scale**: Built to handle enterprise-level applications
-
-### 📚 **Learn**: Comprehensive documentation and examples
-
----
-
 <div align="center">
 
 **Built with ❤️ for developers who value speed and quality**
