@@ -173,7 +173,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
 
       // Empty cells for days before the first day of the month
       for (let i = 0; i < firstDay; i++) {
-        days.push(<div key={`empty-${i}`} className="h-8 w-8" />);
+        days.push(<div key={`empty-${i}`} className="h-8 w-full" />);
       }
 
       // Days of the month
@@ -189,7 +189,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             type="button"
             onClick={() => !isDisabled && handleDateSelect(date)}
             className={cn(
-              'hover:bg-accent hover:text-accent-foreground focus:ring-ring h-8 w-8 rounded text-sm focus:ring-1 focus:outline-none',
+              'hover:bg-accent hover:text-accent-foreground focus:ring-ring h-8 w-full rounded text-xs sm:text-sm focus:ring-1 focus:outline-none',
               isSelected && 'bg-primary text-primary-foreground hover:bg-primary/90',
               isToday && !isSelected && 'text-primary font-semibold',
               isDisabled && 'cursor-not-allowed opacity-50 hover:bg-transparent hover:text-current',
@@ -258,7 +258,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
           )}
 
           {isOpen && !disabled && (
-            <div className="border-input bg-background absolute top-full z-50 mt-1 w-80 rounded-md border p-3 shadow-lg">
+            <div className="border-input bg-background absolute top-full z-50 mt-1 w-full sm:w-80 max-w-[calc(100vw-2rem)] left-0 sm:left-auto sm:right-auto rounded-md border p-3 shadow-lg">
               {/* Calendar Header */}
               <div className="mb-4 flex items-center justify-between">
                 <button
@@ -286,11 +286,11 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               </div>
 
               {/* Days of week header */}
-              <div className="mb-2 grid grid-cols-7">
+              <div className="mb-2 grid grid-cols-7 gap-1">
                 {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
                   <div
                     key={day}
-                    className="text-muted-foreground flex h-8 w-8 items-center justify-center text-xs font-medium"
+                    className="text-muted-foreground flex h-8 w-full items-center justify-center text-[10px] sm:text-xs font-medium"
                   >
                     {day}
                   </div>

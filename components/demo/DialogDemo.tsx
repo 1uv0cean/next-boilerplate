@@ -24,9 +24,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -39,9 +39,9 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
-      <div className="flex flex-wrap gap-3">{children}</div>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+      <div className="flex flex-wrap gap-2 sm:gap-3">{children}</div>
     </div>
   );
 };
@@ -97,9 +97,9 @@ export const DialogDemo = () => {
   };
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Basic Dialog">
             <Button onClick={() => openDialog('basic')}>Open Basic Dialog</Button>
             <Dialog
@@ -146,7 +146,7 @@ export const DialogDemo = () => {
               }
             >
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                   <div>
                     <label className="text-sm font-medium">Language</label>
                     <select className="border-input mt-1 w-full rounded-md border px-3 py-2 text-sm">
@@ -177,7 +177,7 @@ export const DialogDemo = () => {
       </DemoSection>
 
       <DemoSection title="Variant Types">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="State Variants">
             <Button
               variant="destructive"
@@ -305,7 +305,7 @@ export const DialogDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Different Sizes">
             <Button size="sm" onClick={() => openDialog('small')}>
               Small Dialog
@@ -355,7 +355,7 @@ export const DialogDemo = () => {
               }
             >
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                   <div className="space-y-2">
                     <h4 className="font-medium">Left Section</h4>
                     <p className="text-muted-foreground text-sm">
@@ -398,7 +398,7 @@ export const DialogDemo = () => {
               }
             >
               <div className="h-full space-y-6">
-                <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="grid h-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
                   <div className="space-y-4">
                     <h4 className="font-medium">Navigation</h4>
                     <div className="space-y-2">
@@ -422,7 +422,7 @@ export const DialogDemo = () => {
                       Fullscreen dialogs are perfect for complex forms, detailed views, or when you
                       need maximum screen real estate.
                     </p>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
                       <Input placeholder="Full name" />
                       <Input placeholder="Email address" />
                       <Input placeholder="Phone number" />
@@ -441,7 +441,7 @@ export const DialogDemo = () => {
       </DemoSection>
 
       <DemoSection title="Simple Alert & Confirm">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Alert Dialogs">
             <Button onClick={() => openDialog('alert')}>Show Alert</Button>
             <AlertDialog
@@ -482,7 +482,7 @@ export const DialogDemo = () => {
       </DemoSection>
 
       <DemoSection title="Business Use Cases">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="User Profile">
             <Button leftIcon={<User className="h-4 w-4" />} onClick={() => openDialog('profile')}>
               Edit Profile

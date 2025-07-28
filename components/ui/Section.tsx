@@ -10,17 +10,19 @@ const sectionVariants = cva(
     variants: {
       padding: {
         none: 'p-0',
-        sm: 'p-4',
-        md: 'p-6',
-        lg: 'p-8',
-        xl: 'p-12',
+        sm: 'p-3 sm:p-4',
+        md: 'p-4 sm:p-6',
+        lg: 'p-5 sm:p-8',
+        xl: 'p-6 sm:p-12',
+        responsive: 'p-4 md:p-6 lg:p-8 xl:p-12',
       },
       spacing: {
         none: 'space-y-0',
-        sm: 'space-y-2',
-        md: 'space-y-4',
-        lg: 'space-y-6',
-        xl: 'space-y-8',
+        sm: 'space-y-1 sm:space-y-2',
+        md: 'space-y-2 sm:space-y-4',
+        lg: 'space-y-4 sm:space-y-6',
+        xl: 'space-y-6 sm:space-y-8',
+        responsive: 'space-y-2 md:space-y-4 lg:space-y-6 xl:space-y-8',
       },
       background: {
         none: 'bg-transparent',
@@ -83,21 +85,21 @@ const Section = forwardRef<HTMLElement, SectionProps>(
         {...props}
       >
         {hasHeader && (
-          <div className="flex items-start justify-between mb-4">
-            <div className="space-y-1">
+          <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:items-start sm:justify-between mb-4">
+            <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
               {title && (
-                <h2 className="text-lg font-semibold leading-none tracking-tight">
+                <h2 className="text-base sm:text-lg font-semibold leading-none tracking-tight">
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {description}
                 </p>
               )}
             </div>
             {headerAction && (
-              <div className="flex-shrink-0 ml-4">
+              <div className="flex-shrink-0 w-full sm:w-auto sm:ml-4">
                 {headerAction}
               </div>
             )}

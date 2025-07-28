@@ -26,8 +26,8 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section className={`space-y-3 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-3 sm:p-6 shadow-sm ${className}`}>
+      <h3 className="text-base sm:text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
       {children}
     </section>
   );
@@ -40,9 +40,9 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
-      <div className="space-y-4">{children}</div>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+      <div className="space-y-3 sm:space-y-4">{children}</div>
     </div>
   );
 };
@@ -253,9 +253,9 @@ export const DataTableDemo = () => {
   ];
 
   return (
-    <div className="max-w-7xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Filter Modes">
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           <DemoItem label="Search Only">
             <DataTable
               data={users}
@@ -266,9 +266,9 @@ export const DataTableDemo = () => {
               onSearch={(query) => setSearchQuery(query)}
             />
             {selectedUser && (
-              <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-                <h5 className="font-medium mb-2">Selected User:</h5>
-                <p className="text-sm text-muted-foreground">
+              <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-muted/50 rounded-lg">
+                <h5 className="font-medium mb-1 sm:mb-2 text-sm sm:text-base">Selected User:</h5>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {selectedUser.name} ({selectedUser.email}) - {selectedUser.role}
                 </p>
               </div>
@@ -298,7 +298,7 @@ export const DataTableDemo = () => {
       </DemoSection>
 
       <DemoSection title="Display Modes">
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           <DemoItem label="Pagination Mode (Default)">
             <DataTable
               data={products}
@@ -333,7 +333,7 @@ export const DataTableDemo = () => {
       </DemoSection>
 
       <DemoSection title="Layout Variants">
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           <DemoItem label="Card Layout with Scroll">
             <DataTable
               data={users}
@@ -358,11 +358,14 @@ export const DataTableDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Features">
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           <DemoItem label="Event Callbacks">
             <div className="space-y-4">
-              <div className="text-sm text-muted-foreground">
-                Current search: "{searchQuery}" | Active filters: {Object.keys(filters).length}
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                <div className="flex flex-col sm:flex-row sm:gap-4">
+                  <span>Search: "{searchQuery}"</span>
+                  <span>Filters: {Object.keys(filters).length}</span>
+                </div>
               </div>
               <DataTable
                 data={products}
@@ -380,7 +383,7 @@ export const DataTableDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           <DemoItem label="Loading State">
             <DataTable
               data={[]}

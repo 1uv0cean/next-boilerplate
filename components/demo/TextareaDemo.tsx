@@ -12,9 +12,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -27,7 +27,7 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 sm:space-y-3">
       <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div className="space-y-4">{children}</div>
     </div>
@@ -48,9 +48,9 @@ export const TextareaDemo = () => {
   };
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Default Textarea">
             <div className="space-y-4">
               <Textarea
@@ -80,7 +80,7 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Small Size">
             <Textarea
               size="sm"
@@ -111,7 +111,7 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Error State">
             <Textarea
               label="Message"
@@ -150,7 +150,7 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="Character Limits">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="With Character Count">
             <Textarea
               label="Tweet Message"
@@ -177,7 +177,7 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="Resize Options">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="No Resize">
             <Textarea
               label="Fixed Size"
@@ -210,9 +210,9 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Colors">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Brand Colors">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:gap-4 md:grid-cols-2">
               <Textarea
                 label="Brand Primary"
                 placeholder="Brand themed textarea..."
@@ -231,7 +231,7 @@ export const TextareaDemo = () => {
       </DemoSection>
 
       <DemoSection title="Real-World Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Contact Form">
             <Textarea
               label="Message"

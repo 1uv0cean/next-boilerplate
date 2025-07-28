@@ -15,8 +15,8 @@ const tableVariants = cva(
       },
       size: {
         sm: 'text-xs',
-        md: 'text-sm',
-        lg: 'text-base',
+        md: 'text-xs sm:text-sm',
+        lg: 'text-sm sm:text-base',
       },
     },
     defaultVariants: {
@@ -31,9 +31,9 @@ const tableHeaderVariants = cva(
   {
     variants: {
       size: {
-        sm: 'h-8 px-2 py-1',
-        md: 'h-10 px-4 py-2',
-        lg: 'h-12 px-6 py-3',
+        sm: 'h-8 px-1 py-1 sm:px-2',
+        md: 'h-10 px-2 py-2 sm:px-4',
+        lg: 'h-12 px-3 py-3 sm:px-6',
       },
     },
     defaultVariants: {
@@ -47,9 +47,9 @@ const tableCellVariants = cva(
   {
     variants: {
       size: {
-        sm: 'p-2',
-        md: 'px-4 py-2',
-        lg: 'px-6 py-3',
+        sm: 'p-1 sm:p-2',
+        md: 'px-2 py-2 sm:px-4',
+        lg: 'px-3 py-3 sm:px-6',
       },
     },
     defaultVariants: {
@@ -81,10 +81,14 @@ export interface TableProps
 
 const Table = forwardRef<HTMLTableElement, TableProps>(
   ({ className, variant, size, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
+    <div className="relative w-full min-w-0 overflow-auto">
       <table
         ref={ref}
-        className={cn(tableVariants({ variant, size }), className)}
+        className={cn(
+          tableVariants({ variant, size }),
+          'w-full min-w-full', // Ensure table takes full width and doesn't shrink
+          className
+        )}
         {...props}
       />
     </div>

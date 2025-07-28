@@ -13,9 +13,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -28,8 +28,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div className="space-y-4">{children}</div>
     </div>
   );
@@ -112,7 +112,7 @@ export const ToastDemo = () => {
   };
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-800">
           <strong>Note:</strong> Toasts will appear in the top-right corner (or bottom-right on mobile). 
@@ -121,7 +121,7 @@ export const ToastDemo = () => {
       </div>
 
       <DemoSection title="Basic Toast Types">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Standard Variants">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <Button onClick={showSuccessToast} variant="outline">
@@ -145,7 +145,7 @@ export const ToastDemo = () => {
       </DemoSection>
 
       <DemoSection title="Toast Durations">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Duration Control">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Button onClick={showCustomDurationToast} variant="outline">
@@ -163,7 +163,7 @@ export const ToastDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Features">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Action Buttons">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button onClick={showActionToast} variant="outline">
@@ -178,7 +178,7 @@ export const ToastDemo = () => {
       </DemoSection>
 
       <DemoSection title="Content Variations">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Different Content Types">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Button onClick={showMinimalToast} variant="outline">
@@ -196,7 +196,7 @@ export const ToastDemo = () => {
       </DemoSection>
 
       <DemoSection title="Real-World Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Common Use Cases">
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -261,7 +261,7 @@ export const ToastDemo = () => {
       </DemoSection>
 
       <DemoSection title="Stress Test">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Multiple Toasts">
             <div className="space-y-4">
               <Button 

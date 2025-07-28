@@ -3,27 +3,28 @@
 import { Sidebar, SidebarItem } from '@/components/ui/Sidebar';
 import { useToast } from '@/components/ui/Toast';
 import {
-  Home,
-  Users,
-  Settings,
-  FileText,
   BarChart3,
-  ShoppingCart,
-  Package,
-  Star,
   Bell,
-  Search,
-  Mail,
   Calendar,
-  Folder,
-  Image,
-  Music,
-  Video,
   Download,
+  FileText,
+  Folder,
+  Home,
+  Image,
+  LogOut,
+  Mail,
+  Music,
+  Package,
+  Search,
+  Settings,
+  ShoppingCart,
+  Star,
   Trash,
   User,
-  LogOut,
+  Users,
+  Video,
 } from 'lucide-react';
+import { useState } from 'react';
 
 interface DemoSectionProps {
   title: string;
@@ -34,9 +35,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-3 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-3 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-base sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -50,7 +51,7 @@ interface DemoItemProps {
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
     <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div className="space-y-4">{children}</div>
     </div>
   );
@@ -58,6 +59,7 @@ const DemoItem = ({ label, children }: DemoItemProps) => {
 
 export const SidebarDemo = () => {
   const { toast } = useToast();
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   // Basic sidebar items
   const basicItems: SidebarItem[] = [
@@ -310,23 +312,23 @@ export const SidebarDemo = () => {
 
   const headerContent = (
     <div className="flex items-center gap-3">
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+      <div className="bg-primary text-primary-foreground flex h-8 w-8 items-center justify-center rounded-lg">
         <Package className="h-4 w-4" />
       </div>
       <div>
-        <div className="font-semibold text-sm">My App</div>
-        <div className="text-xs text-muted-foreground">Dashboard</div>
+        <div className="text-sm font-semibold">My App</div>
+        <div className="text-muted-foreground text-xs">Dashboard</div>
       </div>
     </div>
   );
 
   const footerContent = (
     <div className="space-y-2">
-      <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer">
+      <div className="hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm">
         <User className="h-4 w-4" />
         <span className="flex-1">Profile</span>
       </div>
-      <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer text-red-600">
+      <div className="hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm text-red-600">
         <LogOut className="h-4 w-4" />
         <span className="flex-1">Logout</span>
       </div>
@@ -334,26 +336,26 @@ export const SidebarDemo = () => {
   );
 
   return (
-    <div className="max-w-6xl space-y-8">
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <p className="text-sm text-blue-800">
-          <strong>Note:</strong> These sidebars are interactive demos. Click on menu items to see toast notifications.
-          Try the collapse/expand functionality on collapsible sidebars.
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
+      <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 sm:p-4">
+        <p className="text-xs sm:text-sm text-blue-800">
+          <strong>Note:</strong> These sidebars are interactive demos. Click on menu items to see
+          toast notifications. Try the collapse/expand functionality on collapsible sidebars.
         </p>
       </div>
 
       <DemoSection title="Basic Examples">
         <div className="space-y-8">
           <DemoItem label="Simple Sidebar">
-            <div className="h-96 border rounded-lg overflow-hidden">
+            <div className="h-96 overflow-hidden rounded-lg border">
               <Sidebar items={basicItems} defaultActiveItem="dashboard" />
             </div>
           </DemoItem>
 
           <DemoItem label="Collapsible Sidebar">
-            <div className="h-96 border rounded-lg overflow-hidden">
-              <Sidebar 
-                items={basicItems} 
+            <div className="h-96 overflow-hidden rounded-lg border">
+              <Sidebar
+                items={basicItems}
                 collapsible={true}
                 defaultCollapsed={false}
                 defaultActiveItem="users"
@@ -367,9 +369,9 @@ export const SidebarDemo = () => {
       <DemoSection title="Variants">
         <div className="space-y-8">
           <DemoItem label="Ghost Variant">
-            <div className="h-80 border rounded-lg overflow-hidden">
-              <Sidebar 
-                items={basicItems.slice(0, 3)} 
+            <div className="h-80 overflow-hidden rounded-lg border">
+              <Sidebar
+                items={basicItems.slice(0, 3)}
                 variant="ghost"
                 defaultActiveItem="analytics"
               />
@@ -377,9 +379,9 @@ export const SidebarDemo = () => {
           </DemoItem>
 
           <DemoItem label="Elevated Variant">
-            <div className="h-80 border rounded-lg overflow-hidden bg-gray-50">
-              <Sidebar 
-                items={basicItems.slice(0, 3)} 
+            <div className="h-80 overflow-hidden rounded-lg border bg-gray-50">
+              <Sidebar
+                items={basicItems.slice(0, 3)}
                 variant="elevated"
                 defaultActiveItem="users"
               />
@@ -391,19 +393,15 @@ export const SidebarDemo = () => {
       <DemoSection title="Sizes">
         <div className="space-y-8">
           <DemoItem label="Small Size">
-            <div className="h-80 border rounded-lg overflow-hidden">
-              <Sidebar 
-                items={basicItems.slice(0, 3)} 
-                size="sm"
-                defaultActiveItem="dashboard"
-              />
+            <div className="h-80 overflow-hidden rounded-lg border">
+              <Sidebar items={basicItems.slice(0, 3)} size="sm" defaultActiveItem="dashboard" />
             </div>
           </DemoItem>
 
           <DemoItem label="Large Size">
-            <div className="h-80 border rounded-lg overflow-hidden">
-              <Sidebar 
-                items={basicItems} 
+            <div className="h-80 overflow-hidden rounded-lg border">
+              <Sidebar
+                items={basicItems}
                 size="lg"
                 defaultActiveItem="settings"
                 header={headerContent}
@@ -416,41 +414,51 @@ export const SidebarDemo = () => {
       <DemoSection title="Badge Colors">
         <div className="space-y-8">
           <DemoItem label="Different Badge Variants">
-            <div className="h-96 border rounded-lg overflow-hidden">
-              <Sidebar 
+            <div className="h-96 overflow-hidden rounded-lg border">
+              <Sidebar
                 items={badgeItems}
                 defaultActiveItem="notifications"
-                header={
-                  <div className="text-lg font-semibold">Badge Examples</div>
-                }
+                header={<div className="text-lg font-semibold">Badge Examples</div>}
               />
             </div>
           </DemoItem>
 
           <DemoItem label="Badge Color Legend">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-muted/30 rounded-lg">
+            <div className="bg-muted/30 grid grid-cols-2 gap-4 rounded-lg p-4 md:grid-cols-3">
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">3</span>
+                <span className="bg-primary text-primary-foreground inline-flex h-5 w-5 items-center justify-center rounded-full text-xs">
+                  3
+                </span>
                 <span className="text-sm">default</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-xs">3</span>
+                <span className="bg-secondary text-secondary-foreground inline-flex h-5 w-5 items-center justify-center rounded-full text-xs">
+                  3
+                </span>
                 <span className="text-sm">secondary</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-white text-xs">3</span>
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-500 text-xs text-white">
+                  3
+                </span>
                 <span className="text-sm">success</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500 text-white text-xs">3</span>
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500 text-xs text-white">
+                  3
+                </span>
                 <span className="text-sm">warning</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-xs">3</span>
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  3
+                </span>
                 <span className="text-sm">error</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-white text-xs">3</span>
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
+                  3
+                </span>
                 <span className="text-sm">info</span>
               </div>
             </div>
@@ -461,8 +469,8 @@ export const SidebarDemo = () => {
       <DemoSection title="Nested Navigation">
         <div className="space-y-8">
           <DemoItem label="Multi-level Menu">
-            <div className="h-[500px] border rounded-lg overflow-hidden">
-              <Sidebar 
+            <div className="h-[500px] overflow-hidden rounded-lg border">
+              <Sidebar
                 items={nestedItems}
                 collapsible={true}
                 defaultActiveItem="products"
@@ -473,8 +481,8 @@ export const SidebarDemo = () => {
           </DemoItem>
 
           <DemoItem label="Collapsed with Nested Items">
-            <div className="h-[500px] border rounded-lg overflow-hidden">
-              <Sidebar 
+            <div className="h-[500px] overflow-hidden rounded-lg border">
+              <Sidebar
                 items={nestedItems}
                 collapsible={true}
                 defaultCollapsed={true}
@@ -486,11 +494,62 @@ export const SidebarDemo = () => {
         </div>
       </DemoSection>
 
+      <DemoSection title="Mobile Responsive Features">
+        <div className="space-y-8">
+          <DemoItem label="Mobile Sidebar with Overlay">
+            <div className="rounded-lg bg-gray-50 p-4">
+              <p className="mb-4 text-sm text-gray-600">
+                On mobile devices (768px), the sidebar becomes an overlay. Try resizing your browser
+                or viewing on mobile.
+              </p>
+              <button
+                onClick={() => setShowMobileSidebar(true)}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 transition-colors"
+              >
+                Open Mobile Sidebar
+              </button>
+              {showMobileSidebar && (
+                <Sidebar
+                  items={basicItems}
+                  showOnMobile={true}
+                  mobileOverlay={true}
+                  onMobileClose={() => setShowMobileSidebar(false)}
+                  defaultActiveItem="dashboard"
+                  header={headerContent}
+                  footer={footerContent}
+                />
+              )}
+            </div>
+          </DemoItem>
+
+          <DemoItem label="Responsive Layout Demo">
+            <div className="overflow-hidden rounded-lg border bg-gray-100">
+              <div className="border-b bg-gray-200 p-2 text-xs text-gray-500">
+                Resize browser to see responsive behavior (hidden on desktop, overlay on mobile)
+              </div>
+              <div className="relative h-80">
+                <Sidebar
+                  items={basicItems.slice(0, 4)}
+                  className="md:hidden" // Show only on mobile
+                  showOnMobile={true}
+                  mobileOverlay={false}
+                  defaultActiveItem="users"
+                  header={<div className="text-sm font-semibold">Mobile Nav</div>}
+                />
+                <div className="hidden md:flex md:h-full md:items-center md:justify-center md:text-gray-500">
+                  Desktop view - sidebar is hidden. Resize to mobile size to see it.
+                </div>
+              </div>
+            </div>
+          </DemoItem>
+        </div>
+      </DemoSection>
+
       <DemoSection title="Real-World Examples">
         <div className="space-y-8">
           <DemoItem label="Application Sidebar">
-            <div className="h-[600px] border rounded-lg overflow-hidden">
-              <Sidebar 
+            <div className="h-[600px] overflow-hidden rounded-lg border">
+              <Sidebar
                 items={appItems}
                 collapsible={true}
                 defaultActiveItem="notifications"
@@ -498,17 +557,17 @@ export const SidebarDemo = () => {
                   <div className="flex items-center gap-2">
                     <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600" />
                     <div>
-                      <div className="font-semibold text-sm">WorkSpace</div>
-                      <div className="text-xs text-muted-foreground">Personal</div>
+                      <div className="text-sm font-semibold">WorkSpace</div>
+                      <div className="text-muted-foreground text-xs">Personal</div>
                     </div>
                   </div>
                 }
                 footer={
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-gray-300" />
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium truncate">John Doe</div>
-                      <div className="text-xs text-muted-foreground truncate">john@example.com</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium">John Doe</div>
+                      <div className="text-muted-foreground truncate text-xs">john@example.com</div>
                     </div>
                   </div>
                 }
@@ -517,8 +576,8 @@ export const SidebarDemo = () => {
           </DemoItem>
 
           <DemoItem label="Admin Dashboard">
-            <div className="h-[500px] border rounded-lg overflow-hidden">
-              <Sidebar 
+            <div className="h-[500px] overflow-hidden rounded-lg border">
+              <Sidebar
                 items={[
                   {
                     id: 'overview',
@@ -577,9 +636,7 @@ export const SidebarDemo = () => {
                 variant="elevated"
                 collapsible={true}
                 defaultActiveItem="all-users"
-                header={
-                  <div className="text-lg font-bold text-primary">Admin Panel</div>
-                }
+                header={<div className="text-primary text-lg font-bold">Admin Panel</div>}
               />
             </div>
           </DemoItem>

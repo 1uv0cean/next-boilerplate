@@ -12,8 +12,8 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}>
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
       {children}
     </section>
   );
@@ -26,8 +26,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
       <div>{children}</div>
     </div>
   );
@@ -62,9 +62,9 @@ export const DateRangePickerDemo = () => {
   lastMonth.setMonth(today.getMonth() - 1);
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Basic DateRange">
             <DateRangePicker
               placeholder="Select date range"
@@ -85,7 +85,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           <DemoItem label="Small">
             <DateRangePicker
               size="sm"
@@ -108,7 +108,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="State Variants">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Error State">
             <DateRangePicker
               variant="error"
@@ -133,7 +133,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="With Icons">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Calendar Icon">
             <DateRangePicker
               label="Event Period"
@@ -154,7 +154,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Date Constraints">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Future Dates Only">
             <DateRangePicker
               label="Reservation Period"
@@ -176,7 +176,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Disabled">
             <DateRangePicker
               label="Disabled Range"
@@ -199,7 +199,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Business Use Cases">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Employee Vacation Request">
             <div className="space-y-4">
               <DateRangePicker
@@ -244,9 +244,9 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Shipping & Logistics">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Booking Window">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <DateRangePicker
                 label="Booking Period"
                 placeholder="Select booking window"
@@ -272,7 +272,7 @@ export const DateRangePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Complex Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Multi-constraint Booking">
             <div className="space-y-4">
               <DateRangePicker

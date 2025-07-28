@@ -19,8 +19,8 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}>
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
       {children}
     </section>
   );
@@ -33,8 +33,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
       <div className="space-y-4">{children}</div>
     </div>
   );
@@ -225,9 +225,9 @@ export const AccordionDemo = () => {
   const [multipleValue, setMultipleValue] = useState<string[]>(['faq-1', 'faq-3']);
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Single Selection (Default)">
             <Accordion items={basicItems} />
           </DemoItem>
@@ -242,7 +242,7 @@ export const AccordionDemo = () => {
       </DemoSection>
 
       <DemoSection title="Variant Types">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Default Variant">
             <Accordion 
               items={basicItems.slice(0, 2)} 
@@ -267,7 +267,7 @@ export const AccordionDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Features">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Rich Content">
             <Accordion 
               items={featureItems}
@@ -285,10 +285,10 @@ export const AccordionDemo = () => {
       </DemoSection>
 
       <DemoSection title="Controlled Components">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Controlled Single Selection">
             <div className="space-y-4">
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setSingleValue('item-1')}
                   className="px-3 py-1 bg-secondary text-secondary-foreground rounded text-sm"
@@ -318,7 +318,7 @@ export const AccordionDemo = () => {
           
           <DemoItem label="Controlled Multiple Selection">
             <div className="space-y-4">
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setMultipleValue(['faq-1', 'faq-2', 'faq-3'])}
                   className="px-3 py-1 bg-primary text-primary-foreground rounded text-sm"
@@ -344,7 +344,7 @@ export const AccordionDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Colors">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Custom Border Colors">
             <div className="space-y-4">
               <Accordion 
@@ -362,7 +362,7 @@ export const AccordionDemo = () => {
       </DemoSection>
 
       <DemoSection title="Real-World Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="FAQ Section">
             <Accordion 
               items={[
@@ -395,7 +395,7 @@ export const AccordionDemo = () => {
                   title: 'Technical Specifications',
                   content: (
                     <div className="space-y-2">
-                      <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
                         <div><strong>Processor:</strong> Intel Core i7</div>
                         <div><strong>Memory:</strong> 16GB DDR4</div>
                         <div><strong>Storage:</strong> 512GB SSD</div>

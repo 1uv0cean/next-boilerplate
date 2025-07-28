@@ -5,12 +5,12 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { ChevronRight, Home, MoreHorizontal } from 'lucide-react';
 import { forwardRef } from 'react';
 
-const breadcrumbVariants = cva('flex items-center space-x-1 text-sm text-muted-foreground', {
+const breadcrumbVariants = cva('flex items-center space-x-0.5 sm:space-x-1 text-sm text-muted-foreground', {
   variants: {
     size: {
-      sm: 'text-xs',
-      md: 'text-sm',
-      lg: 'text-base',
+      sm: 'text-[10px] sm:text-xs',
+      md: 'text-xs sm:text-sm',
+      lg: 'text-sm sm:text-base',
     },
     variant: {
       default: '',
@@ -25,7 +25,7 @@ const breadcrumbVariants = cva('flex items-center space-x-1 text-sm text-muted-f
 });
 
 const breadcrumbItemVariants = cva(
-  'inline-flex items-center gap-1.5 transition-colors hover:text-foreground',
+  'inline-flex items-center gap-1 sm:gap-1.5 transition-colors hover:text-foreground',
   {
     variants: {
       active: {
@@ -80,10 +80,10 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       size,
       variant,
       items,
-      separator = <ChevronRight className="h-4 w-4" />,
+      separator = <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />,
       showHome = true,
       maxItems,
-      homeIcon = <Home className="h-4 w-4" />,
+      homeIcon = <Home className="h-3 w-3 sm:h-4 sm:w-4" />,
       homeHref = '/',
       onHomeClick,
       ...props
@@ -95,7 +95,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       maxItems && items.length > maxItems
         ? [
             ...items.slice(0, 1),
-            { label: '...', icon: <MoreHorizontal className="h-4 w-4" /> },
+            { label: '...', icon: <MoreHorizontal className="h-3 w-3 sm:h-4 sm:w-4" /> },
             ...items.slice(items.length - (maxItems - 2)),
           ]
         : items;
@@ -120,7 +120,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       const content = (
         <>
           {item.icon && <span className="shrink-0">{item.icon}</span>}
-          <span className="truncate">{item.label}</span>
+          <span className="truncate max-w-[80px] sm:max-w-none">{item.label}</span>
         </>
       );
 
@@ -179,10 +179,10 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       <nav
         ref={ref}
         aria-label="Breadcrumb"
-        className={cn(breadcrumbVariants({ size, variant }), className)}
+        className={cn(breadcrumbVariants({ size, variant }), 'w-full min-w-0', className)}
         {...props}
       >
-        <ol className="flex items-center gap-1.5 overflow-hidden">
+        <ol className="flex items-center gap-0.5 sm:gap-1.5 overflow-hidden min-w-0 flex-1">
           {/* Home link */}
           {showHome && (
             <>
@@ -223,7 +223,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
           {processedItems.map((item, index) => {
             const isLast = index === processedItems.length - 1;
             return (
-              <li key={index} className="flex items-center gap-1.5">
+              <li key={index} className="flex items-center gap-0.5 sm:gap-1.5 min-w-0">
                 {renderBreadcrumbItem(item, index, isLast)}
                 {!isLast && renderSeparator(index)}
               </li>

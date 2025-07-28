@@ -24,9 +24,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -39,8 +39,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div className="space-y-4">{children}</div>
     </div>
   );
@@ -155,9 +155,9 @@ export const BreadcrumbDemo = () => {
   ];
 
   return (
-    <div className="max-w-4xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Simple Breadcrumb">
             <Breadcrumb items={basicItems} />
           </DemoItem>
@@ -177,7 +177,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Small Size">
             <Breadcrumb items={basicItems.slice(0, 3)} size="sm" />
           </DemoItem>
@@ -193,7 +193,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Style Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Default Style">
             <Breadcrumb items={basicItems.slice(0, 3)} variant="default" />
           </DemoItem>
@@ -209,7 +209,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="With Icons">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Icon Breadcrumbs">
             <Breadcrumb items={iconItems} />
           </DemoItem>
@@ -221,7 +221,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Features">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Clickable Items">
             <Breadcrumb items={clickableItems} />
           </DemoItem>
@@ -242,7 +242,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Separators">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Slash Separator">
             <Breadcrumb 
               items={basicItems.slice(0, 3)} 
@@ -267,7 +267,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Long Breadcrumbs">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Full Length">
             <Breadcrumb items={longItems} />
           </DemoItem>
@@ -283,7 +283,7 @@ export const BreadcrumbDemo = () => {
       </DemoSection>
 
       <DemoSection title="Real-World Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="E-commerce Navigation">
             <div className="space-y-3">
               <Breadcrumb items={ecommerceItems} />

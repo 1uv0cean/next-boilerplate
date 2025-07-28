@@ -39,14 +39,16 @@ interface TabsListProps {
 
 export const TabsList = ({ children, className }: TabsListProps) => {
   return (
-    <div
-      className={cn(
-        'bg-muted text-muted-foreground inline-flex h-10 items-center justify-center rounded-md p-1',
-        className,
-      )}
-      role="tablist"
-    >
-      {children}
+    <div className="w-full overflow-x-auto scrollbar-none">
+      <div
+        className={cn(
+          'bg-muted text-muted-foreground inline-flex h-auto items-center justify-start sm:justify-center rounded-md p-1 min-w-full sm:min-w-0 gap-1',
+          className,
+        )}
+        role="tablist"
+      >
+        {children}
+      </div>
     </div>
   );
 };
@@ -64,7 +66,7 @@ export const TabsTrigger = ({ value, children, className }: TabsTriggerProps) =>
   return (
     <button
       className={cn(
-        'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center rounded-sm px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+        'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center rounded-sm px-3 py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 flex-shrink-0',
         isActive
           ? 'bg-background text-foreground shadow-sm'
           : 'text-muted-foreground hover:text-foreground',

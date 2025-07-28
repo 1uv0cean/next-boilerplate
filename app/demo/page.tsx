@@ -58,10 +58,10 @@ const componentTabs = [
 const DemoPage = () => {
   return (
     <ToastProvider>
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold tracking-tight">Component Library</h1>
-          <p className="text-muted-foreground text-lg">
+      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8 text-center">
+          <h1 className="mb-2 text-2xl sm:text-4xl font-bold tracking-tight">Component Library</h1>
+          <p className="text-muted-foreground text-sm sm:text-lg">
             Explore our comprehensive collection of UI components
           </p>
         </div>
@@ -70,12 +70,12 @@ const DemoPage = () => {
           {/* Responsive Tab Navigation */}
           <div className="w-full">
             <div className="mx-auto max-w-6xl">
-              <TabsList className="bg-muted/50 grid h-auto grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+              <TabsList className="bg-muted/50 grid h-auto grid-cols-2 gap-0.5 sm:gap-1 rounded-xl p-0.5 sm:p-1 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
                 {componentTabs.map(({ id, label }) => (
                   <TabsTrigger
                     key={id}
                     value={id}
-                    className="data-[state=active]:bg-background rounded-lg px-2 py-2 text-sm font-medium whitespace-nowrap transition-all data-[state=active]:shadow-sm"
+                    className="data-[state=active]:bg-background rounded-md sm:rounded-lg px-2 py-1.5 sm:py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-all data-[state=active]:shadow-sm"
                   >
                     {label}
                   </TabsTrigger>
@@ -88,10 +88,12 @@ const DemoPage = () => {
             <TabsContent
               key={id}
               value={id}
-              className="from-background to-muted/20 rounded-2xl border bg-gradient-to-br p-6 shadow-sm md:p-8"
+              className="from-background to-muted/20 rounded-xl sm:rounded-2xl border bg-gradient-to-br p-4 sm:p-6 shadow-sm md:p-8"
             >
-              <div className="mx-auto flex max-w-6xl justify-center">
-                <Component />
+              <div className="mx-auto w-full max-w-6xl overflow-hidden">
+                <div className="w-full min-w-0">
+                  <Component />
+                </div>
               </div>
             </TabsContent>
           ))}

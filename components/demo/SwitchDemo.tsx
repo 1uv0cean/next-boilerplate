@@ -12,9 +12,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -27,8 +27,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div className="flex flex-col gap-3">{children}</div>
     </div>
   );
@@ -97,9 +97,9 @@ export const SwitchDemo = () => {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Simple Switch">
             <Switch checked={simple1} onCheckedChange={setSimple1} />
             <Switch checked={simple2} onCheckedChange={setSimple2} />
@@ -125,7 +125,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Variant Types">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="All Variants">
             <Switch
               variant="default"
@@ -170,7 +170,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive States">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Disabled States">
             <Switch disabled label="Disabled off" />
             <Switch disabled checked label="Disabled on" />
@@ -184,7 +184,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Settings Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Account Settings">
             <Switch
               label="Email notifications"
@@ -240,7 +240,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Required Fields">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Required Switches">
             <Switch
               label="I agree to the terms of service"
@@ -273,7 +273,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Colors">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Hex Colors">
             <Switch
               customColor="#ff6b35"
@@ -355,7 +355,7 @@ export const SwitchDemo = () => {
       </DemoSection>
 
       <DemoSection title="Advanced Features">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="App Features">
             <div className="space-y-4 rounded-lg border p-4">
               <h5 className="font-medium">Application Settings</h5>

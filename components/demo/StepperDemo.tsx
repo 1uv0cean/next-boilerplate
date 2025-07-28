@@ -135,9 +135,9 @@ export const StepperDemo = () => {
   };
 
   return (
-    <div className="max-w-7xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Horizontal Stepper">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Vessel Inspection Process">
             <div className="space-y-4">
               <Stepper
@@ -153,7 +153,7 @@ export const StepperDemo = () => {
           </DemoItem>
 
           <DemoItem label="Interactive Navigation">
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <Stepper
                 steps={interactiveSteps}
                 orientation="horizontal"
@@ -214,7 +214,7 @@ export const StepperDemo = () => {
       </DemoSection>
 
       <DemoSection title="Vertical Stepper">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Detailed Process Flow">
             <div className="max-w-md">
               <Stepper
@@ -242,7 +242,7 @@ export const StepperDemo = () => {
       </DemoSection>
 
       <DemoSection title="Different Sizes">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Small Size">
             <Stepper
               steps={simpleSteps}
@@ -273,7 +273,7 @@ export const StepperDemo = () => {
         <div className="space-y-6">
           <DemoItem label="Complete Vessel Inspection Flow">
             <div className="p-6 border rounded-lg bg-gray-50">
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="text-center">
                   <h3 className="text-lg font-semibold text-gray-900">MV Ocean Explorer</h3>
                   <p className="text-sm text-gray-600">Annual Safety Inspection</p>

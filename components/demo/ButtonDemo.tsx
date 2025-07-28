@@ -26,8 +26,8 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}>
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
       {children}
     </section>
   );
@@ -40,9 +40,9 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
-      <div className="flex flex-wrap gap-3">{children}</div>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+      <div className="flex flex-wrap gap-2 sm:gap-3">{children}</div>
     </div>
   );
 };
@@ -56,9 +56,9 @@ export const ButtonDemo = () => {
   };
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Primary Button">
             <Button>Click me</Button>
             <Button leftIcon={<Plus className="h-4 w-4" />}>
@@ -79,7 +79,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Variant Types">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="All Variants">
             <Button variant="default">Default</Button>
             <Button variant="secondary">Secondary</Button>
@@ -124,7 +124,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Text Buttons">
             <Button size="sm">Small</Button>
             <Button size="md">Medium</Button>
@@ -158,7 +158,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive States">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Loading States">
             <Button loading>Loading...</Button>
             <Button variant="secondary" loading>
@@ -186,7 +186,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Icon Combinations">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Left Icons">
             <Button leftIcon={<Plus className="h-4 w-4" />}>
               Add New
@@ -220,7 +220,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Action Groups">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Primary Actions">
             <Button leftIcon={<Plus className="h-4 w-4" />}>
               Create New
@@ -257,7 +257,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Colors">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Hex Colors">
             <Button customColor="#ff6b35">Orange</Button>
             <Button customColor="#7b68ee">Purple</Button>
@@ -281,7 +281,7 @@ export const ButtonDemo = () => {
       </DemoSection>
 
       <DemoSection title="Complex Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="HMM Business Actions">
             <Button variant="hmm-marine" size="lg" leftIcon={<Save className="h-5 w-5" />}>
               Complete Booking

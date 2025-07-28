@@ -23,11 +23,17 @@ const sidebarVariants = cva(
         left: 'left-0',
         right: 'right-0',
       },
+      mobile: {
+        drawer: 'fixed inset-y-0 z-50 md:relative md:translate-x-0',
+        overlay: 'fixed inset-y-0 z-50',
+        hidden: 'hidden md:flex',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'md',
       position: 'left',
+      mobile: 'hidden',
     },
   },
 );
@@ -74,6 +80,10 @@ export interface SidebarContextType {
   setActiveItem: (id: string | null) => void;
   expandedItems: Set<string>;
   toggleExpanded: (id: string) => void;
+  // Mobile context
+  showOnMobile: boolean;
+  setShowOnMobile: (show: boolean) => void;
+  mobileOverlay: boolean;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -96,6 +106,10 @@ export interface SidebarProps
   header?: React.ReactNode;
   footer?: React.ReactNode;
   onItemClick?: (item: SidebarItem) => void;
+  // Mobile props
+  showOnMobile?: boolean;
+  onMobileClose?: () => void;
+  mobileOverlay?: boolean;
 }
 
 const SidebarProvider = ({
@@ -103,14 +117,19 @@ const SidebarProvider = ({
   defaultCollapsed = false,
   defaultActiveItem,
   items,
+  showOnMobile = false,
+  mobileOverlay = true,
 }: {
   children: React.ReactNode;
   defaultCollapsed?: boolean;
   defaultActiveItem?: string;
   items?: SidebarItem[];
+  showOnMobile?: boolean;
+  mobileOverlay?: boolean;
 }) => {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [activeItem, setActiveItem] = useState<string | null>(defaultActiveItem || null);
+  const [showOnMobileState, setShowOnMobile] = useState(showOnMobile);
 
   // Auto-expand parent menus based on active item
   const getInitialExpandedItems = () => {
@@ -165,6 +184,9 @@ const SidebarProvider = ({
         setActiveItem,
         expandedItems,
         toggleExpanded,
+        showOnMobile: showOnMobileState,
+        setShowOnMobile,
+        mobileOverlay,
       }}
     >
       {children}
@@ -325,6 +347,9 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
       header,
       footer,
       onItemClick,
+      showOnMobile = false,
+      onMobileClose,
+      mobileOverlay = true,
       ...props
     },
     ref,
@@ -334,6 +359,8 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         defaultCollapsed={defaultCollapsed}
         defaultActiveItem={defaultActiveItem}
         items={items}
+        showOnMobile={showOnMobile}
+        mobileOverlay={mobileOverlay}
       >
         <SidebarContent
           ref={ref}
@@ -346,6 +373,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           header={header}
           footer={footer}
           onItemClick={onItemClick}
+          onMobileClose={onMobileClose}
           {...props}
         />
       </SidebarProvider>
@@ -368,23 +396,66 @@ const SidebarContent = forwardRef<
       header,
       footer,
       onItemClick,
+      onMobileClose,
       ...props
     },
     ref,
   ) => {
-    const { collapsed, setCollapsed } = useSidebar();
+    const { collapsed, setCollapsed, showOnMobile, setShowOnMobile, mobileOverlay } = useSidebar();
 
     const sidebarClasses = cn(
-      sidebarVariants({ variant, size: collapsed ? 'sm' : size, position }),
+      sidebarVariants({ 
+        variant, 
+        size: collapsed ? 'sm' : size, 
+        position,
+        mobile: showOnMobile ? (mobileOverlay ? 'overlay' : 'drawer') : 'hidden'
+      }),
       collapsed && 'w-16',
+      // Mobile-specific classes
+      showOnMobile && mobileOverlay && position === 'left' && '-translate-x-full md:translate-x-0',
+      showOnMobile && mobileOverlay && position === 'right' && 'translate-x-full md:translate-x-0',
+      showOnMobile && mobileOverlay && 'data-[state=open]:translate-x-0',
       className,
     );
 
+    // Close on mobile when clicking outside
+    const handleOverlayClick = () => {
+      if (showOnMobile && mobileOverlay) {
+        setShowOnMobile(false);
+        onMobileClose?.();
+      }
+    };
+
+    // Close on item click on mobile
+    const handleItemClick = (item: SidebarItem) => {
+      onItemClick?.(item);
+      // Close mobile sidebar when clicking on an item
+      if (showOnMobile) {
+        setShowOnMobile(false);
+        onMobileClose?.();
+      }
+    };
+
     return (
-      <div ref={ref} className={sidebarClasses} {...props}>
+      <>
+        {/* Mobile Overlay */}
+        {showOnMobile && mobileOverlay && (
+          <div 
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+            onClick={handleOverlayClick}
+          />
+        )}
+        
+        {/* Sidebar */}
+        <div 
+          ref={ref} 
+          className={sidebarClasses} 
+          data-state={showOnMobile ? 'open' : 'closed'}
+          {...props}
+        >
         {/* Header */}
         {(header || collapsible) && (
-          <div className="border-border flex items-center justify-between overflow-hidden p-4">
+          <div className="border-border flex items-center justify-between overflow-hidden p-3 sm:p-4">
             {!collapsed && header && (
               <div
                 className={cn(
@@ -398,7 +469,7 @@ const SidebarContent = forwardRef<
             {collapsible && (
               <button
                 onClick={() => setCollapsed(!collapsed)}
-                className="hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none transition-colors"
                 aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               >
                 {collapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
@@ -408,9 +479,9 @@ const SidebarContent = forwardRef<
         )}
 
         {/* Navigation Items */}
-        <nav className="flex-1 space-y-1 p-4 pt-2">
+        <nav className="flex-1 space-y-1 p-3 sm:p-4 pt-2 overflow-y-auto">
           {items.map((item) => (
-            <SidebarItem key={item.id} item={item} onItemClick={onItemClick} />
+            <SidebarItem key={item.id} item={item} onItemClick={handleItemClick} />
           ))}
         </nav>
 
@@ -425,7 +496,8 @@ const SidebarContent = forwardRef<
             {!collapsed && footer}
           </div>
         )}
-      </div>
+        </div>
+      </>
     );
   },
 );

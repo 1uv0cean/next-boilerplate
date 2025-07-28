@@ -7,9 +7,9 @@ import { Section } from '@/components/ui/Section';
 
 export const SectionDemo = () => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Basic Sections */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Basic Sections</h3>
 
         <Section title="Simple Section" description="A basic section with title and description">
@@ -34,7 +34,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* Padding Variants */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Padding Variants</h3>
 
         <Section title="No Padding" padding="none" border="rounded">
@@ -59,7 +59,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* Background Variants */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Background Variants</h3>
 
         <Section title="Default Background" background="default" border="rounded">
@@ -80,7 +80,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* Border Variants */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Border Variants</h3>
 
         <Section title="Default Border" border="default">
@@ -101,7 +101,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* Spacing Variants */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Content Spacing</h3>
 
         <Section title="No Spacing" spacing="none" border="rounded">
@@ -130,7 +130,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* HTML Element Variants */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">HTML Element Types</h3>
 
         <Section as="article" title="Article Section" border="rounded">
@@ -153,7 +153,7 @@ export const SectionDemo = () => {
       </div>
 
       {/* Complex Example - Settings Form */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <h3 className="text-lg font-medium">Complex Example - Settings Form</h3>
 
         <Section

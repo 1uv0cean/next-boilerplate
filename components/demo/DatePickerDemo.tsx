@@ -13,9 +13,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -28,8 +28,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
       <div>{children}</div>
     </div>
   );
@@ -62,9 +62,9 @@ export const DatePickerDemo = () => {
   lastMonth.setMonth(today.getMonth() - 1);
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-2">
           <DemoItem label="Basic DatePicker">
             <DatePicker
               placeholder="Select date"
@@ -85,7 +85,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-3">
           <DemoItem label="Small">
             <DatePicker size="sm" placeholder="Small date picker" />
           </DemoItem>
@@ -99,7 +99,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="State Variants">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-2">
           <DemoItem label="Error State">
             <DatePicker
               variant="error"
@@ -124,7 +124,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="With Icons">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-2">
           <DemoItem label="Calendar Icon">
             <DatePicker
               label="Schedule Date"
@@ -145,7 +145,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Date Constraints">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-2">
           <DemoItem label="Future Dates Only">
             <DatePicker
               label="Appointment Date"
@@ -167,7 +167,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-8 md:grid-cols-2">
           <DemoItem label="Disabled">
             <DatePicker label="Disabled Date" placeholder="Cannot select date" disabled />
           </DemoItem>
@@ -183,9 +183,9 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Business Use Cases">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Shipping Schedule">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
               <DatePicker
                 label="Departure Date"
                 placeholder="Select departure date"
@@ -212,7 +212,7 @@ export const DatePickerDemo = () => {
       </DemoSection>
 
       <DemoSection title="Complex Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Booking Form">
             <div className="space-y-4">
               <DatePicker

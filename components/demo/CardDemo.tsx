@@ -44,9 +44,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -59,9 +59,9 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
-      <div className="space-y-4">{children}</div>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold tracking-wide text-gray-700 uppercase">{label}</h4>
+      <div className="space-y-3 sm:space-y-4">{children}</div>
     </div>
   );
 };
@@ -70,11 +70,11 @@ export const CardDemo = () => {
   const { toast } = useToast();
 
   return (
-    <div className="max-w-6xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Simple Card">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Card Title</CardTitle>
@@ -114,9 +114,9 @@ export const CardDemo = () => {
       </DemoSection>
 
       <DemoSection title="Variants">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Style Variants">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <Card variant="default">
                 <CardHeader>
                   <CardTitle size="sm">Default</CardTitle>
@@ -158,9 +158,9 @@ export const CardDemo = () => {
       </DemoSection>
 
       <DemoSection title="Sizes">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Different Sizes">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               <Card size="sm">
                 <CardHeader size="sm">
                   <CardTitle size="sm">Small Card</CardTitle>
@@ -205,9 +205,9 @@ export const CardDemo = () => {
       </DemoSection>
 
       <DemoSection title="Hover Effects">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Interactive Cards">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               <Card hover="lift">
                 <CardHeader>
                   <CardTitle size="sm">Lift Effect</CardTitle>
@@ -240,9 +240,9 @@ export const CardDemo = () => {
       </DemoSection>
 
       <DemoSection title="Custom Colors">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Themed Cards">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Card customColor="#3b82f6" variant="outlined">
                 <CardHeader>
                   <CardTitle>Blue Theme</CardTitle>
@@ -278,9 +278,9 @@ export const CardDemo = () => {
       </DemoSection>
 
       <DemoSection title="Shipping Management Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Fleet Status Cards">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Card hover="lift" className="overflow-hidden">
                 <div className="aspect-video bg-gradient-to-br from-blue-500 to-cyan-600 relative flex items-center justify-center">
                   <Ship className="h-16 w-16 text-white/80" />
@@ -398,7 +398,7 @@ export const CardDemo = () => {
           </DemoItem>
 
           <DemoItem label="Fleet Dashboard Statistics">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle size="sm">Fleet Revenue</CardTitle>
@@ -454,7 +454,7 @@ export const CardDemo = () => {
           </DemoItem>
 
           <DemoItem label="Operational Metrics">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle size="sm">Fuel Consumption</CardTitle>
@@ -524,7 +524,7 @@ export const CardDemo = () => {
           </DemoItem>
 
           <DemoItem label="Alert & Notification Cards">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <Card hover="glow" variant="outlined" customColor="#ef4444">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
@@ -588,7 +588,7 @@ export const CardDemo = () => {
           </DemoItem>
 
           <DemoItem label="Port Operations Cards">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <Card hover="lift">
                 <div className="aspect-video bg-gradient-to-br from-blue-500 to-cyan-600 rounded-t-lg relative flex items-center justify-center">
                   <Anchor className="h-12 w-12 text-white/80" />

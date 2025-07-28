@@ -102,9 +102,9 @@ export const ProgressDemo = () => {
   };
 
   return (
-    <div className="max-w-7xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Progress">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Simple Progress Bar">
             <div className="space-y-4">
               <Progress
@@ -170,7 +170,7 @@ export const ProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Progress">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="File Upload Simulation">
             <div className="space-y-4">
               <Progress
@@ -228,7 +228,7 @@ export const ProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Multi-Step Progress">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Inspection Process Steps">
             <div className="space-y-4">
               <Progress
@@ -273,9 +273,9 @@ export const ProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Specialized Use Cases">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Vessel Inspection Dashboard">
-            <div className="p-6 border rounded-lg bg-gray-50 space-y-6">
+            <div className="p-4 sm:p-6 border rounded-lg bg-gray-50 space-y-4 sm:space-y-6">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900">MV Ocean Explorer</h3>
                 <p className="text-sm text-gray-600">Inspection Progress Overview</p>
@@ -358,7 +358,7 @@ export const ProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Advanced Features">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Striped and Animated">
             <div className="space-y-4">
               <Progress

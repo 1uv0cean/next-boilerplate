@@ -65,9 +65,9 @@ export const RatingDemo = () => {
   const [lifeJackets, setLifeJackets] = useState<number | boolean | null>(null);
 
   return (
-    <div className="max-w-7xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Star Rating">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Basic Star Rating">
             <div className="space-y-4">
               <Rating
@@ -109,7 +109,7 @@ export const RatingDemo = () => {
       </DemoSection>
 
       <DemoSection title="Numeric Rating">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="1-10 Scale">
             <Rating
               type="numeric"
@@ -156,7 +156,7 @@ export const RatingDemo = () => {
       </DemoSection>
 
       <DemoSection title="Yes/No Rating">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Binary Choice">
             <Rating
               type="yesno"
@@ -181,7 +181,7 @@ export const RatingDemo = () => {
       </DemoSection>
 
       <DemoSection title="Scale Rating (Vessel Inspection)">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Vessel Condition (0-2 Scale)">
             <Rating
               type="scale"
@@ -222,7 +222,7 @@ export const RatingDemo = () => {
       </DemoSection>
 
       <DemoSection title="Interactive Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Inspection Form Example">
             <div className="grid grid-cols-1 gap-6 rounded-lg border bg-gray-50 p-4 md:grid-cols-2">
               <div className="space-y-4">

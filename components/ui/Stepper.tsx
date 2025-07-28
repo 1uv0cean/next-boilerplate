@@ -6,7 +6,7 @@ import { AlertCircle, Check, ChevronRight, Clock } from 'lucide-react';
 import { forwardRef } from 'react';
 import { Typography } from './Typography';
 
-const stepperVariants = cva('flex items-center w-full', {
+const stepperVariants = cva('flex items-center w-full min-w-0 overflow-x-auto', {
   variants: {
     orientation: {
       horizontal: 'flex-row',
@@ -47,7 +47,7 @@ export interface StepperProps
 }
 
 const getStepIcon = (step: Step, size: 'sm' | 'md' | 'lg' | null) => {
-  const iconSize = size === 'sm' ? 'h-4 w-4' : size === 'lg' ? 'h-6 w-6' : 'h-5 w-5';
+  const iconSize = size === 'sm' ? 'h-3 w-3 sm:h-4 sm:w-4' : size === 'lg' ? 'h-5 w-5 sm:h-6 sm:w-6' : 'h-4 w-4 sm:h-5 sm:w-5';
 
   if (step.icon) {
     return <div className={iconSize}>{step.icon}</div>;
@@ -99,11 +99,11 @@ const getStepColors = (step: Step, allowNavigation: boolean, isClickable: boolea
 const getStepSize = (size: 'sm' | 'md' | 'lg' | null) => {
   switch (size) {
     case 'sm':
-      return 'h-8 w-8';
+      return 'h-7 w-7 sm:h-8 sm:w-8';
     case 'lg':
-      return 'h-12 w-12';
+      return 'h-10 w-10 sm:h-12 sm:w-12';
     default:
-      return 'h-10 w-10';
+      return 'h-8 w-8 sm:h-10 sm:w-10';
   }
 };
 
@@ -170,11 +170,11 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
                   </div>
 
                   {/* Connector Line */}
-                  {!isLast && showConnector && <div className="my-2 h-12 w-px bg-gray-300" />}
+                  {!isLast && showConnector && <div className="my-1 sm:my-2 h-8 sm:h-12 w-px bg-gray-300" />}
                 </div>
 
                 {/* Step Text */}
-                <div className="ml-4 flex-1 pb-8">
+                <div className="ml-3 sm:ml-4 flex-1 pb-6 sm:pb-8">
                   <div
                     className={cn('group', isClickable && 'cursor-pointer')}
                     onClick={() => handleStepClick(step, index)}
@@ -210,13 +210,13 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
 
     // Horizontal orientation
     return (
-      <div ref={ref} className={cn(stepperVariants({ orientation, size }), className)} {...props}>
+      <div ref={ref} className={cn(stepperVariants({ orientation, size }), 'min-w-0', className)} {...props}>
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1;
           const isClickable = isStepClickable(step);
 
           return (
-            <div key={step.id} className="flex flex-1 items-center">
+            <div key={step.id} className="flex flex-1 min-w-0 items-center">
               {/* Step Content */}
               <div className="flex flex-1 flex-col items-center">
                 {/* Step Circle */}
@@ -240,7 +240,7 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
 
                 {/* Step Text */}
                 <div
-                  className={cn('group mt-2 max-w-32 text-center', isClickable && 'cursor-pointer')}
+                  className={cn('group mt-1 sm:mt-2 max-w-20 sm:max-w-32 text-center', isClickable && 'cursor-pointer')}
                   onClick={() => handleStepClick(step, index)}
                 >
                   <Typography
@@ -255,14 +255,14 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
                     )}
                   >
                     {step.title}
-                    {step.optional && <span className="ml-1 text-xs text-gray-500">(Opt.)</span>}
+                    {step.optional && <span className="ml-1 text-[10px] sm:text-xs text-gray-500">(Opt.)</span>}
                   </Typography>
 
                   {showDescription && step.description && (
                     <Typography
                       variant="small"
                       color="muted"
-                      className="mt-1 text-xs leading-tight"
+                      className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs leading-tight"
                     >
                       {step.description}
                     </Typography>
@@ -272,8 +272,8 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
 
               {/* Connector Arrow */}
               {!isLast && showConnector && (
-                <div className="flex items-center px-2">
-                  <ChevronRight className="h-4 w-4 text-gray-400" />
+                <div className="flex items-center px-1 sm:px-2">
+                  <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                 </div>
               )}
             </div>

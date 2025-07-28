@@ -12,8 +12,8 @@ interface DemoSectionProps {
 
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
-    <section className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}>
-      <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
+    <section className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}>
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 border-b border-gray-100 pb-2">{title}</h3>
       {children}
     </section>
   );
@@ -26,8 +26,8 @@ interface DemoItemProps {
 
 const DemoItem = ({ label, children }: DemoItemProps) => {
   return (
-    <div className="space-y-3">
-      <h4 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
+    <div className="space-y-2 sm:space-y-3">
+      <h4 className="text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wide">{label}</h4>
       <div>{children}</div>
     </div>
   );
@@ -96,9 +96,9 @@ export const SelectDemo = () => {
   ];
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full max-w-full space-y-4 sm:space-y-8 overflow-hidden">
       <DemoSection title="Basic Examples">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Basic Select">
             <Select
               placeholder="Choose an option"
@@ -121,7 +121,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="Size Variants">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           <DemoItem label="Small">
             <Select
               size="sm"
@@ -147,7 +147,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="State Variants">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Error State">
             <Select
               variant="error"
@@ -174,7 +174,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="Special Features">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Searchable Select">
             <Select
               label="City"
@@ -199,7 +199,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="Icons">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Location Icon">
             <Select
               placeholder="Select location"
@@ -218,7 +218,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="States">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           <DemoItem label="Loading">
             <Select
               placeholder="Loading options..."
@@ -237,7 +237,7 @@ export const SelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="Complex Examples">
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           <DemoItem label="Advanced Country Selector">
             <Select
               label="Country/Region"

@@ -14,9 +14,9 @@ interface DemoSectionProps {
 const DemoSection = ({ title, children, className = '' }: DemoSectionProps) => {
   return (
     <section
-      className={`space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm ${className}`}
+      className={`space-y-4 sm:space-y-6 rounded-lg border border-gray-200 bg-white p-4 sm:p-6 shadow-sm ${className}`}
     >
-      <h3 className="border-b border-gray-100 pb-2 text-xl font-semibold text-gray-900">{title}</h3>
+      <h3 className="border-b border-gray-100 pb-2 text-lg sm:text-xl font-semibold text-gray-900">{title}</h3>
       {children}
     </section>
   );
@@ -80,7 +80,7 @@ export const TopNavigatorDemo = () => {
   );
 
   return (
-    <div className="max-w-full space-y-8">
+    <div className="max-w-full space-y-6 sm:space-y-8">
       <DemoSection title="Default Top Navigator">
         <div className="space-y-4">
           <TopNavigator />

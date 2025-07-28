@@ -109,8 +109,8 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
           columnWidths[column.key] || parseInt(column.width?.replace('px', '') || '150');
         return total + width;
       }, 0);
-      // Return exact calculated width to prevent other columns from moving
-      return calculatedWidth;
+      // Return minimum width but ensure it doesn't exceed container
+      return Math.max(calculatedWidth, 320); // Minimum 320px for mobile readability
     }, [columns, columnWidths]);
     const [isResizing, setIsResizing] = useState<string | null>(null);
 
@@ -235,10 +235,10 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
         columnWidths[columnKey] || parseInt(currentColumn?.width?.replace('px', '') || '150');
 
       // Get column constraints
-      const minWidth = parseInt(currentColumn?.minWidth?.replace('px', '') || '30');
+      const minWidth = parseInt(currentColumn?.minWidth?.replace('px', '') || '80'); // Increased minimum
       const maxWidth = currentColumn?.maxWidth
         ? parseInt(currentColumn.maxWidth.replace('px', ''))
-        : 500;
+        : 300; // Reduced maximum for mobile
 
       const handleMouseMove = (e: MouseEvent) => {
         const deltaX = e.clientX - startX;
@@ -264,9 +264,10 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
 
     const getColumnWidth = (column: DataTableColumn) => {
       if (columnWidths[column.key]) {
-        return `${columnWidths[column.key]}px`;
+        return `${Math.max(columnWidths[column.key], 80)}px`; // Minimum 80px per column
       }
-      return column.width || '150px';
+      const defaultWidth = parseInt(column.width?.replace('px', '') || '150');
+      return `${Math.max(defaultWidth, 80)}px`; // Minimum 80px per column
     };
 
     // Double-click to auto-resize column
@@ -285,7 +286,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       if (displayMode !== 'pagination' || totalPages <= 1) return null;
 
       const pages = [];
-      const maxVisiblePages = 5;
+      const maxVisiblePages = 3; // Show fewer pages on mobile
       let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
       let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
@@ -298,36 +299,43 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
       }
 
       return (
-        <div className="flex items-center justify-end">
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentPage === 1}
-              className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </button>
-            {pages.map((page) => (
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {/* Mobile: Info and pagination */}
+          <div className="text-sm text-muted-foreground">
+            Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} results
+          </div>
+          
+          <div className="flex items-center justify-center sm:justify-end">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={cn(
-                  'ring-offset-background focus-visible:ring-ring inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
-                  currentPage === page
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'border-input bg-background hover:bg-accent hover:text-accent-foreground border',
-                )}
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
-                {page}
+                <ArrowLeft className="h-4 w-4" />
               </button>
-            ))}
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-              disabled={currentPage === totalPages}
-              className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
-            >
-              <ArrowRight className="h-4 w-4" />
-            </button>
+              {pages.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={cn(
+                    'ring-offset-background focus-visible:ring-ring inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+                    currentPage === page
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'border-input bg-background hover:bg-accent hover:text-accent-foreground border',
+                  )}
+                >
+                  {page}
+                </button>
+              ))}
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="ring-offset-background focus-visible:ring-ring border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-8 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -348,12 +356,12 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
     }
 
     return (
-      <div className={cn(dataTableVariants({ variant }), className)} ref={ref} {...props}>
+      <div className={cn(dataTableVariants({ variant }), 'w-full min-w-0', className)} ref={ref} {...props}>
         {/* Search and Filters */}
         {hasFiltering && (
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {showSearch && (
-              <div className="relative max-w-sm">
+              <div className="relative w-full sm:max-w-sm">
                 <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <input
                   type="text"
@@ -376,18 +384,27 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
         )}
 
         {/* Table */}
-        <div
-          className={cn('overflow-x-auto rounded-md border')}
-          style={{
-            ...(displayMode === 'scroll' ? { maxHeight, overflowY: 'auto' } : undefined),
-            minWidth: 'fit-content',
-          }}
-        >
+        <div className="w-full min-w-0 overflow-hidden rounded-md border">
+          <div
+            className={cn('overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100')}
+            style={{
+              ...(displayMode === 'scroll' ? { maxHeight, overflowY: 'auto' } : undefined),
+            }}
+          >
+          {/* Mobile Table Notice */}
+          <div className="md:hidden bg-muted/50 border-b border-border px-3 py-2">
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <svg className="h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4" />
+              </svg>
+              <span className="truncate">Swipe to see all columns</span>
+            </p>
+          </div>
           <Table
             style={{
               tableLayout: 'fixed',
               width: `${totalTableWidth}px`,
-              minWidth: `${totalTableWidth}px`,
+              minWidth: `${Math.min(totalTableWidth, 320)}px`, // Ensure minimum width for mobile
             }}
           >
             <TableHeader>
@@ -420,15 +437,15 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                     >
                       <div
                         className={cn(
-                          'flex items-center overflow-hidden',
+                          'flex items-center overflow-hidden text-xs sm:text-sm',
                           headerAlignment === 'center' && 'justify-center',
-                          headerAlignment === 'right' && 'justify-end gap-2',
-                          headerAlignment === 'left' && 'justify-start gap-2',
+                          headerAlignment === 'right' && 'justify-end gap-1 sm:gap-2',
+                          headerAlignment === 'left' && 'justify-start gap-1 sm:gap-2',
                         )}
                       >
                         {headerAlignment === 'center' ? (
                           <div className="relative flex w-full items-center justify-center">
-                            <span className="truncate text-center">{column.title}</span>
+                            <span className="truncate text-center text-[11px] sm:text-sm font-medium">{column.title}</span>
                             {column.sortable && (
                               <div className="absolute right-2 flex flex-col">
                                 {getSortIcon(column.key)}
@@ -439,7 +456,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                           <>
                             <span
                               className={cn(
-                                'truncate',
+                                'truncate text-[11px] sm:text-sm font-medium',
                                 headerAlignment === 'right' && 'text-right',
                                 headerAlignment === 'left' && 'flex-1',
                               )}
@@ -546,7 +563,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                             maxWidth: getColumnWidth(column),
                           }}
                           className={cn(
-                            'truncate overflow-hidden',
+                            'truncate overflow-hidden text-xs sm:text-sm',
                             cellAlignment === 'center' && 'text-center',
                             cellAlignment === 'right' && 'text-right',
                             cellAlignment === 'left' && 'text-left',
@@ -574,7 +591,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
                               </div>
                             </div>
                           ) : (
-                            <span className="block truncate" title={String(row[column.key] || '')}>
+                            <span className="block truncate text-[11px] sm:text-sm" title={String(row[column.key] || '')}>
                               {String(row[column.key] || '')}
                             </span>
                           )}
@@ -586,6 +603,7 @@ const DataTable = forwardRef<HTMLDivElement, DataTableProps>(
               )}
             </TableBody>
           </Table>
+          </div>
         </div>
 
         {/* Pagination */}

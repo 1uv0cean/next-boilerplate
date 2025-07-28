@@ -19,7 +19,7 @@ const accordionVariants = cva('border border-input rounded-lg', {
 });
 
 const accordionHeaderVariants = cva(
-  'flex w-full items-center justify-between p-4 text-left font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full items-center justify-between p-3 sm:p-4 text-left font-medium transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 gap-2',
   {
     variants: {
       variant: {
@@ -148,7 +148,7 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
               aria-controls={`accordion-content-${item.id}`}
               type="button"
             >
-              <span className="text-sm font-medium">{item.title}</span>
+              <span className="text-sm font-medium flex-1 mr-2">{item.title}</span>
               <ChevronDown
                 className={cn(
                   'h-4 w-4 shrink-0 transition-transform duration-200',
@@ -166,7 +166,7 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
               aria-hidden={!isOpen}
             >
               <div className="border-t border-border">
-                <div className={cn('p-4', isLast && 'pb-4')}>
+                <div className={cn('p-3 sm:p-4', isLast && 'pb-3 sm:pb-4')}>
                   <div className="text-muted-foreground text-sm">{item.content}</div>
                 </div>
               </div>

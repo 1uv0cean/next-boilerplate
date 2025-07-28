@@ -35,15 +35,15 @@ const HomePage = () => {
     <div className="min-h-screen bg-white">
       <TopNavigator items={navItems} />
 
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 py-12 sm:py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <Typography variant="h1" className="mb-4 text-4xl">
+          <Typography variant="h1" className="mb-3 sm:mb-4 text-3xl sm:text-4xl">
             Next.js Boilerplate
           </Typography>
-          <Typography variant="muted" className="mb-8 text-lg">
+          <Typography variant="muted" className="mb-6 sm:mb-8 text-base sm:text-lg">
             A modern React component library with TypeScript support
           </Typography>
-          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="flex flex-col justify-center gap-2 sm:gap-3 sm:flex-row">
             <Button asChild>
               <Link href="/demo">View Components</Link>
             </Button>

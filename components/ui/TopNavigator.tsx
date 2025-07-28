@@ -27,9 +27,9 @@ const topNavigatorVariants = cva(
         outline: 'border-2 border-border rounded-lg',
       },
       size: {
-        sm: 'h-12 px-4',
-        md: 'h-16 px-6',
-        lg: 'h-20 px-8',
+        sm: 'h-12 px-3 sm:px-4',
+        md: 'h-14 sm:h-16 px-4 sm:px-6',
+        lg: 'h-16 sm:h-20 px-4 sm:px-8',
       },
     },
     defaultVariants: {
@@ -40,7 +40,7 @@ const topNavigatorVariants = cva(
 );
 
 const navItemVariants = cva(
-  'inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors rounded-md cursor-pointer',
+  'inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors rounded-md cursor-pointer select-none',
   {
     variants: {
       variant: {
@@ -172,7 +172,7 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
       const [primaryText, secondaryText] = logoText.split(' ');
 
       return (
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold">
+        <Link href="/" className="flex items-center gap-2 text-base sm:text-lg font-bold">
           <span className="text-primary">{primaryText}</span>
           {secondaryText && <span className="text-muted-foreground">{secondaryText}</span>}
         </Link>
@@ -294,7 +294,7 @@ const TopNavigator = forwardRef<HTMLDivElement, TopNavigatorProps>(
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="bg-background border-border absolute top-full right-0 left-0 z-50 border-b shadow-lg md:hidden">
-            <div className="space-y-2 p-4">
+            <div className="space-y-1 p-3 sm:p-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
               {items.map((item, index) => renderNavItem(item, index, true))}
 
               {showActions && (

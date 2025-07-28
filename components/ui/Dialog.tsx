@@ -13,7 +13,7 @@ const dialogVariants = cva('fixed inset-0 z-50 flex items-center justify-center 
       md: '',
       lg: '',
       xl: '',
-      full: '',
+      full: 'p-0',
     },
   },
   defaultVariants: {
@@ -33,10 +33,10 @@ const dialogContentVariants = cva(
         info: 'border-blue-500/20',
       },
       size: {
-        sm: 'max-w-md w-full',
-        md: 'max-w-lg w-full',
-        lg: 'max-w-2xl w-full',
-        xl: 'max-w-4xl w-full',
+        sm: 'max-w-[calc(100%-2rem)] sm:max-w-md w-full',
+        md: 'max-w-[calc(100%-2rem)] sm:max-w-lg w-full',
+        lg: 'max-w-[calc(100%-2rem)] sm:max-w-2xl w-full',
+        xl: 'max-w-[calc(100%-2rem)] sm:max-w-4xl w-full',
         full: 'w-full h-full max-w-none',
       },
     },
@@ -160,17 +160,17 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         <div ref={ref} className={cn(dialogContentVariants({ variant, size }), 'relative z-10')}>
           {/* Header */}
           {(title || description || showCloseButton) && (
-            <div className="border-border flex items-start justify-between border-b p-6">
+            <div className="border-border flex items-start justify-between border-b p-4 sm:p-6 gap-3">
               <div className="flex items-start space-x-3">
                 {getVariantIcon()}
-                <div className="mt-[-5px] min-w-0 flex-1">
+                <div className="min-w-0 flex-1">
                   {title && (
-                    <h2 id="dialog-title" className="text-foreground mb-1 text-lg font-semibold">
+                    <h2 id="dialog-title" className="text-foreground mb-1 text-base sm:text-lg font-semibold leading-tight">
                       {title}
                     </h2>
                   )}
                   {description && (
-                    <p id="dialog-description" className="text-muted-foreground text-sm">
+                    <p id="dialog-description" className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
                       {description}
                     </p>
                   )}
@@ -191,10 +191,10 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           )}
 
           {/* Body */}
-          {children && <div className="flex-1 overflow-auto p-6">{children}</div>}
+          {children && <div className="flex-1 overflow-auto p-4 sm:p-6">{children}</div>}
 
           {/* Footer */}
-          {footer && <div className="border-border border-t p-6">{footer}</div>}
+          {footer && <div className="border-border border-t p-4 sm:p-6">{footer}</div>}
         </div>
       </div>
     );
@@ -257,7 +257,7 @@ const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
     <div
       ref={ref}
       className={cn(
-        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:space-x-2',
+        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2',
         className,
       )}
       {...props}
@@ -299,12 +299,12 @@ const AlertDialog = ({
       {...props}
       variant={variant}
       footer={
-        <div className="flex justify-end space-x-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end sm:space-x-2 sm:space-y-0">
           {cancelText && (
             <button
               type="button"
               onClick={handleCancel}
-              className="text-muted-foreground border-input hover:bg-accent hover:text-accent-foreground focus:ring-ring rounded-md border bg-transparent px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer"
+              className="text-muted-foreground border-input hover:bg-accent hover:text-accent-foreground focus:ring-ring rounded-md border bg-transparent px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer w-full sm:w-auto"
             >
               {cancelText}
             </button>
@@ -313,7 +313,7 @@ const AlertDialog = ({
             type="button"
             onClick={handleConfirm}
             className={cn(
-              'focus:ring-ring rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer',
+              'focus:ring-ring rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer w-full sm:w-auto',
               variant === 'destructive'
                 ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
                 : variant === 'success'
@@ -363,11 +363,11 @@ const ConfirmDialog = ({
       {...props}
       variant={variant}
       footer={
-        <div className="flex justify-end space-x-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end sm:space-x-2 sm:space-y-0">
           <button
             type="button"
             onClick={handleCancel}
-            className="text-muted-foreground border-input hover:bg-accent hover:text-accent-foreground focus:ring-ring rounded-md border bg-transparent px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer"
+            className="text-muted-foreground border-input hover:bg-accent hover:text-accent-foreground focus:ring-ring rounded-md border bg-transparent px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer w-full sm:w-auto"
           >
             {cancelText}
           </button>
@@ -375,7 +375,7 @@ const ConfirmDialog = ({
             type="button"
             onClick={handleConfirm}
             className={cn(
-              'focus:ring-ring rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer',
+              'focus:ring-ring rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none cursor-pointer w-full sm:w-auto',
               variant === 'destructive'
                 ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
                 : variant === 'success'
